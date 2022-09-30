@@ -31,7 +31,8 @@ PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
 
-Particle* particula;
+std::vector<Particle*> particles;
+
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -57,8 +58,9 @@ void initPhysics(bool interactive)
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 
-	particula = new Particle(Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 1, 0), 0.99f);
-	}
+	Particle* particula = new Particle(Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 01, 0), 0.99f);
+	particles.push_back(particula);
+}
 
 
 // Function to configure what happens in each step of physics
@@ -71,7 +73,9 @@ void stepPhysics(bool interactive, double t)
 	gScene->simulate(t);
 	gScene->fetchResults(true);
 
-	particula->integrate(t);
+	for (int i = 0; i < particles.size(); i++) {
+		particles[i]->integrate(t);
+	}
 }
 
 // Function to clean data
@@ -84,15 +88,17 @@ void cleanupPhysics(bool interactive)
 	gScene->release();
 	gDispatcher->release();
 	// -----------------------------------------------------
-	gPhysics->release();	
+	gPhysics->release();
 	PxPvdTransport* transport = gPvd->getTransport();
 	gPvd->release();
 	transport->release();
-	
+
 	gFoundation->release();
 
-	delete particula;
+	for (int i = 0; i < particles.size(); i++) {
+		delete particles[i];
 	}
+}
 
 // Function called when a key is pressed
 void keyPress(unsigned char key, const PxTransform& camera)
