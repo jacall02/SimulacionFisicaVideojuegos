@@ -9,6 +9,8 @@ public:
 	Particle(Vector3 pos, Vector3 vel, Vector3 ac, double damp);
 	~Particle();
 
+	void setParticle();
+
 	void integrate(double t);
 
 	void setMass(double m) { inverse_mass = m; };

@@ -108,7 +108,29 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	//case ' ':	break;
 	case '1':
 	{
-		Proyectile* particula = new Proyectile(Proyectile::PISTOL, camera.p, GetCamera()->getDir());
+		Proyectile* particula = new Proyectile(Proyectile::PISTOL, 
+			camera.p + GetCamera()->getDir() * 10, GetCamera()->getDir());
+		particles.push_back(particula);
+		break;					 
+	}							 
+	case '2':
+	{
+		Proyectile* particula = new Proyectile(Proyectile::ARTILLERY, 
+			camera.p + GetCamera()->getDir() * 10, GetCamera()->getDir());
+		particles.push_back(particula);
+		break;					 
+	}							 
+	case '3':
+	{
+		Proyectile* particula = new Proyectile(Proyectile::FIREBALL, 
+			camera.p + GetCamera()->getDir() * 10, GetCamera()->getDir());
+		particles.push_back(particula);
+		break;					 
+	}							 
+	case '4':
+	{
+		Proyectile* particula = new Proyectile(Proyectile::LASER,
+			camera.p + GetCamera()->getDir() * 10, GetCamera()->getDir());
 		particles.push_back(particula);
 		break;					 
 	}							 

@@ -4,12 +4,16 @@ Particle::Particle(Vector3 pos, Vector3 vel, Vector3 ac, double damping) :
 	vel(vel), ac(ac), damping(damping)
 {
 	pose = physx::PxTransform(pos.x, pos.y, pos.z);
-	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(3)), &pose, Vector4(1, 0, 0, 1));
+	setParticle();
 }
 
 Particle::~Particle()
 {
-	//DeregisterRenderItem(renderItem);
+	DeregisterRenderItem(renderItem);
+}
+
+void Particle::setParticle() {
+	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(3)), &pose, Vector4(1, 0, 0, 1));
 }
 
 void Particle::integrate(double t)
@@ -55,4 +59,5 @@ Proyectile::Proyectile(ShotType currentShotType, Vector3 pos, Vector3 dir)
 		setDamping(0.99f);
 		break;
 	}
+	setParticle();
 }
