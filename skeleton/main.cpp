@@ -31,7 +31,7 @@ PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
 
-std::vector<Particle*> particles;
+std::vector<Proyectile*> particles;
 
 
 // Initialize physics engine
@@ -57,9 +57,6 @@ void initPhysics(bool interactive)
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
-
-	Particle* particula = new Particle(Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 01, 0), 0.99f);
-	particles.push_back(particula);
 }
 
 
@@ -109,14 +106,16 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	{
 	//case 'B': break;
 	//case ' ':	break;
-	case ' ':
+	case '1':
 	{
-		break;
-	}
-	default:
-		break;
-	}
-}
+		Proyectile* particula = new Proyectile(Proyectile::PISTOL, camera.p, GetCamera()->getDir());
+		particles.push_back(particula);
+		break;					 
+	}							 
+	default:					 
+		break;					 
+	}							 
+}								 
 
 void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 {

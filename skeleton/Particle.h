@@ -12,10 +12,16 @@ public:
 	void integrate(double t);
 
 	void setMass(double m) { inverse_mass = m; };
-	void setVelocity(double x, double y, double z) { vel = Vector3(x, y, z); };
-	void setAcceleration(double x, double y, double z) { ac = Vector3(x, y, z); };
+	void setVelocity(Vector3 v) { vel = v; };
+	void setAcceleration(Vector3 a) { ac = a; };
 	void setDamping(double d) { damping = d; };
-	void setPosition(double x, double y, double z) { pose.p = Vector3(x, y, z); };
+	void setPosition(Vector3 p) { pose.p = p; };
+
+	double getMass() { return inverse_mass; };
+	Vector3 getVelocity() { return vel; };
+	Vector3 getAcceleration() { return ac; };
+	double getDamping(){ return damping; };
+	physx::PxTransform getPosition() { return pose; };
 
 private: 
 	Vector3 vel;
@@ -28,7 +34,9 @@ private:
 
 class Proyectile : public Particle
 {
-	enum ShotType{ PISTOL, ARTILLERY, FIREBALL, LASER};
 public:
+	enum ShotType{ PISTOL, ARTILLERY, FIREBALL, LASER};
 	Proyectile(ShotType currentShotType, Vector3 pos, Vector3 dir);
+private:
+	ShotType type;
 };
