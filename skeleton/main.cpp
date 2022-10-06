@@ -72,6 +72,13 @@ void stepPhysics(bool interactive, double t)
 
 	for (int i = 0; i < particles.size(); i++) {
 		particles[i]->integrate(t);
+		int time = particles[i]->getTime();
+		if (time > 10000) {
+			auto p = particles[i];
+			delete p;
+			particles.erase(particles.begin() + i);
+			i--;
+		}
 	}
 }
 

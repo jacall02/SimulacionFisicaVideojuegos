@@ -61,3 +61,31 @@ Proyectile::Proyectile(ShotType currentShotType, Vector3 pos, Vector3 dir)
 	}
 	setParticle();
 }
+
+void Proyectile::setParticle() {
+	physx::PxShape* forma;
+	Vector4 color;
+	switch (type)
+	{
+	case Proyectile::PISTOL:
+		forma = CreateShape(physx::PxSphereGeometry(2));
+		color = Vector4(0.5, 0, 1, 1);
+		break;
+	case Proyectile::ARTILLERY:
+		forma = CreateShape(physx::PxSphereGeometry(4));
+		color = Vector4(0.2, 0.2, 0.2, 1);
+		break;
+	case Proyectile::FIREBALL:
+		forma = CreateShape(physx::PxSphereGeometry(3));
+		color = Vector4(1, 0.4, 0, 1);
+		break;
+	case Proyectile::LASER:
+		forma = CreateShape(physx::PxSphereGeometry(1));
+		color = Vector4(1, 0, 0, 1);
+		break;
+	default:
+		break;
+	}
+	renderItem = new RenderItem(forma, &pose, color);
+	time = glutGet(GLUT_ELAPSED_TIME);
+}

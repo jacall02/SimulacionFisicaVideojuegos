@@ -25,13 +25,18 @@ public:
 	double getDamping(){ return damping; };
 	physx::PxTransform getPosition() { return pose; };
 
+	int getTime() { return (glutGet(GLUT_ELAPSED_TIME) - time); };
+
 private: 
 	Vector3 vel;
 	Vector3 ac;
 	double damping;
 	double inverse_mass;
-	physx::PxTransform pose; //A render item le pasaremos la dirección de esta pose, para que se actualice automáticamente
+
+protected:
 	RenderItem* renderItem;
+	physx::PxTransform pose; //A render item le pasaremos la dirección de esta pose, para que se actualice automáticamente
+	int time;
 };
 
 class Proyectile : public Particle
@@ -39,6 +44,7 @@ class Proyectile : public Particle
 public:
 	enum ShotType{ PISTOL, ARTILLERY, FIREBALL, LASER};
 	Proyectile(ShotType currentShotType, Vector3 pos, Vector3 dir);
+	void setParticle();
 private:
 	ShotType type;
 };
