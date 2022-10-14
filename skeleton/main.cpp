@@ -9,6 +9,7 @@
 #include "callbacks.hpp"
 
 #include "Particle.h"
+#include "ParticleSystem.h"
 
 #include <iostream>
 
@@ -32,6 +33,7 @@ PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
 
 std::vector<Proyectile*> particles;
+ParticleSystem* fuente;
 
 
 // Initialize physics engine
@@ -57,6 +59,8 @@ void initPhysics(bool interactive)
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
+
+	fuente = new ParticleSystem();
 }
 
 

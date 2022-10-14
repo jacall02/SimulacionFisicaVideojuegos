@@ -89,3 +89,7 @@ void Proyectile::setParticle() {
 	renderItem = new RenderItem(forma, &pose, color);
 	time = glutGet(GLUT_ELAPSED_TIME);
 }
+
+Firework::Firework()
+{
+}

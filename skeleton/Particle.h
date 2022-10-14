@@ -48,3 +48,15 @@ public:
 private:
 	ShotType type;
 };
+
+class Firework : public Particle
+{
+public:
+	Firework();
+	int update(double t);
+	virtual Particle* clone() const;
+	list<Particle*> explode();
+
+private:
+	list<shared_ptr Particle> _gens;
+};
