@@ -2,6 +2,7 @@
 
 ParticleGenerator::ParticleGenerator()
 {
+	_num_particles = 100;
 }
 
 ParticleGenerator::~ParticleGenerator()
@@ -27,5 +28,14 @@ UniformParticleGenerator::UniformParticleGenerator()
 
 list<Particle*> UniformParticleGenerator::generateParticles()
 {
-    return list<Particle*>();
+	list<Particle*> lista;
+
+	for (int i = 0; i < _num_particles; i++)
+	{
+		Particle* particula = new Particle({ 0, 0, 0}, {0, 1, 1}, {0, 1, 0}, 0.99f);
+		lista.push_back(particula);
+	}
+
+
+    return lista;
 }

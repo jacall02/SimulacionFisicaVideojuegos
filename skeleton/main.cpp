@@ -36,6 +36,7 @@ std::vector<Proyectile*> particles;
 ParticleSystem* fuente;
 
 
+
 // Initialize physics engine
 void initPhysics(bool interactive)
 {
@@ -61,6 +62,7 @@ void initPhysics(bool interactive)
 	gScene = gPhysics->createScene(sceneDesc);
 
 	fuente = new ParticleSystem();
+	fuente->getParticleGenerator("a")->generateParticles();
 }
 
 

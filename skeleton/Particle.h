@@ -1,6 +1,9 @@
 #pragma once
 #include "core.hpp"
 #include "RenderUtils.hpp"
+#include <list>
+
+using namespace std;
 
 class Particle
 {
@@ -22,7 +25,7 @@ public:
 	double getMass() { return inverse_mass; };
 	Vector3 getVelocity() { return vel; };
 	Vector3 getAcceleration() { return ac; };
-	double getDamping(){ return damping; };
+	double getDamping() { return damping; };
 	physx::PxTransform getPosition() { return pose; };
 
 	int getTime() { return (glutGet(GLUT_ELAPSED_TIME) - time); };
@@ -58,5 +61,5 @@ public:
 	list<Particle*> explode();
 
 private:
-	list<shared_ptr Particle> _gens;
+	//list<shared_ptr Particle> _gens;
 };

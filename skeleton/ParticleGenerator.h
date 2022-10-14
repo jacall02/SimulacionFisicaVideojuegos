@@ -3,6 +3,8 @@
 
 #include <list>
 #include <string>
+#include <random>
+
 
 using namespace std;
 
@@ -12,8 +14,12 @@ private:
 	string _name;
 	Vector3 _mean_pos, _mean_vel;
 	double _generation_probability;
-	int _num_particles;
 	Particle* _model;
+protected:
+	int _num_particles;
+	//default_random_engine;
+	//uniform_real_distribution<>;
+	//normal_distribution<>  //gausiana   mt1999
 
 public:
 	ParticleGenerator();
