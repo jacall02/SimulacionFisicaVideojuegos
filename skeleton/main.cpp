@@ -32,7 +32,7 @@ PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
 
-std::vector<Proyectile*> particles;
+std::vector<Particle*> particles;
 ParticleSystem* fuente;
 
 
@@ -62,7 +62,13 @@ void initPhysics(bool interactive)
 	gScene = gPhysics->createScene(sceneDesc);
 
 	fuente = new ParticleSystem();
-	fuente->getParticleGenerator("a")->generateParticles();
+	auto nuevasParticulas = fuente->getParticleGenerator("a")->generateParticles();
+
+	while (!nuevasParticulas.empty())
+	{
+		particles.push_back(nuevasParticulas.front());
+		nuevasParticulas.pop_front();
+	}
 }
 
 
