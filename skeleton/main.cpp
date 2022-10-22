@@ -33,7 +33,8 @@ PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
 
 std::vector<Particle*> particles;
-ParticleSystem* fuente;
+ParticleSystem* sistemaParticulas;
+ParticleSystem* sistemaFuegosArtificiales;
 
 
 
@@ -61,14 +62,7 @@ void initPhysics(bool interactive)
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 
-	fuente = new ParticleSystem();
-	auto nuevasParticulas = fuente->getParticleGenerator("a")->generateParticles();
-
-	while (!nuevasParticulas.empty())
-	{
-		particles.push_back(nuevasParticulas.front());
-		nuevasParticulas.pop_front();
-	}
+	sistemaParticulas = new ParticleSystem();
 }
 
 
@@ -84,14 +78,16 @@ void stepPhysics(bool interactive, double t)
 
 	for (int i = 0; i < particles.size(); i++) {
 		particles[i]->integrate(t);
-		int time = particles[i]->getTime();
-		if (time > 10000) {
+		if(particles[i]->getLife() < 0){
 			auto p = particles[i];
 			delete p;
 			particles.erase(particles.begin() + i);
 			i--;
 		}
 	}
+
+	sistemaParticulas->update(t);
+
 }
 
 // Function to clean data

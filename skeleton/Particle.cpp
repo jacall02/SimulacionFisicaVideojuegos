@@ -1,7 +1,7 @@
 #include "Particle.h"
 
-Particle::Particle(Vector3 pos, Vector3 vel, Vector3 ac, double damping) : 
-	vel(vel), ac(ac), damping(damping)
+Particle::Particle(Vector3 pos, Vector3 vel, Vector3 ac, double damping, int life) :
+	vel(vel), ac(ac), damping(damping), life(life)
 {
 	pose = physx::PxTransform(pos.x, pos.y, pos.z);
 	setParticle();
@@ -21,6 +21,8 @@ void Particle::integrate(double t)
 	pose = physx::PxTransform(pose.p.x + vel.x * t, pose.p.y + vel.y * t, pose.p.z + vel.z * t);
 	vel += ac * t;
 	vel *= powf(damping, t);
+
+	life -= t;
 }
 
 Proyectile::Proyectile(ShotType currentShotType, Vector3 pos, Vector3 dir)
@@ -87,10 +89,9 @@ void Proyectile::setParticle() {
 		break;
 	}
 	renderItem = new RenderItem(forma, &pose, color);
-	time = glutGet(GLUT_ELAPSED_TIME);
 }
 
-Firework::Firework()
+Firework::Firework(Vector3 pos, Vector3 vel, Vector3 ac, double damp, int time)
 {
 }
 

@@ -17,9 +17,6 @@ private:
 	Particle* _model;
 protected:
 	int _num_particles;
-	//default_random_engine;
-	//uniform_real_distribution<>;
-	//normal_distribution<>  //gausiana   mt1999
 
 public:
 	ParticleGenerator();
@@ -46,5 +43,6 @@ private:
 public:
 	UniformParticleGenerator();
 	virtual list<Particle*> generateParticles();
+	list<Firework*> generateParticles1();
 };
 

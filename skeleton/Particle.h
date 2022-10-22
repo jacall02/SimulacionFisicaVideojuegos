@@ -8,8 +8,10 @@ using namespace std;
 class Particle
 {
 public:
+	enum ParticleType { WATER, MIST };
+
 	Particle() {};
-	Particle(Vector3 pos, Vector3 vel, Vector3 ac, double damp);
+	Particle(Vector3 pos, Vector3 vel, Vector3 ac, double damp, int time = 10);
 	~Particle();
 
 	void setParticle();
@@ -28,7 +30,7 @@ public:
 	double getDamping() { return damping; };
 	physx::PxTransform getPosition() { return pose; };
 
-	int getTime() { return (glutGet(GLUT_ELAPSED_TIME) - time); };
+	float getLife() { return life; };
 
 private: 
 	Vector3 vel;
@@ -39,7 +41,7 @@ private:
 protected:
 	RenderItem* renderItem;
 	physx::PxTransform pose; //A render item le pasaremos la dirección de esta pose, para que se actualice automáticamente
-	int time;
+	float life;
 };
 
 class Proyectile : public Particle
@@ -55,7 +57,8 @@ private:
 class Firework : public Particle
 {
 public:
-	Firework();
+	enum FireworkType { NORMAL };
+	Firework(Vector3 pos, Vector3 vel, Vector3 ac, double damp, int time = 10);
 	int update(double t);
 	virtual Particle* clone() const;
 	list<Particle*> explode();

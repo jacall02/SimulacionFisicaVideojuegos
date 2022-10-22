@@ -15,11 +15,19 @@ private:
 	vector<Firework*> _fireworks_pool;
 	ParticleGenerator* _firework_gen;
 
+	std::vector<Particle*> particles;
+	std::vector<Firework*> fuegosArtificiales;
+
 public:
+	enum Generator { FUENTE, NUBE, FUEGOS_ARTIFICIALES };
+
 	ParticleSystem();
 	~ParticleSystem();
 	void update(double t);
-	ParticleGenerator* getParticleGenerator(string name);
+	ParticleGenerator* getParticleGenerator(Generator name);
 	void generateFireworkSystem();
+	void shootFirework();
+	void onParticleDeath();
+
 };
 
