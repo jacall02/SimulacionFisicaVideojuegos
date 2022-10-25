@@ -3,7 +3,7 @@
 UniformParticleGenerator* fuente;
 GaussianParticleGenerator* nube;
 
-UniformParticleGenerator* fuegosArtificiales;
+UniformParticleGenerator* generadorFuegos;
 
 ParticleSystem::ParticleSystem()
 {
@@ -47,7 +47,7 @@ ParticleGenerator* ParticleSystem::getParticleGenerator(Generator name)
 		return nube;
 		break;
 	case ParticleSystem::FUEGOS_ARTIFICIALES:
-		return fuegosArtificiales;
+		return generadorFuegos;
 		break;
 	default:
 		break;
@@ -56,7 +56,7 @@ ParticleGenerator* ParticleSystem::getParticleGenerator(Generator name)
 
 void ParticleSystem::generateFireworkSystem()
 {
-	fuegosArtificiales = new UniformParticleGenerator();
+	generadorFuegos = new UniformParticleGenerator();
 }
 
 void ParticleSystem::shootFirework()
