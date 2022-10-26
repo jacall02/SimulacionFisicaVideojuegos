@@ -11,12 +11,8 @@ class ParticleSystem
 {
 private:
 	list<Particle*> _particles;
-	list<ParticleGenerator*> _particle_generators;
-	vector<Firework*> _fireworks_pool;
-	ParticleGenerator* _firework_gen;
 
 	std::vector<Particle*> particles;
-	std::vector<Firework*> fuegosArtificiales;
 
 public:
 	enum Generator { FUENTE, NUBE };
@@ -25,7 +21,23 @@ public:
 	~ParticleSystem();
 	void update(double t);
 	ParticleGenerator* getParticleGenerator(Generator name);
-	void generateFireworkSystem();
+
+};
+class FireworkSystem : ParticleSystem
+{
+private:
+	list<Firework*> _particles;
+	list<ParticleGenerator*> _particle_generators;
+	vector<Firework*> _fireworks_pool;
+	ParticleGenerator* _firework_gen;
+
+	std::vector<Firework*> particles;
+
+public:
+
+	FireworkSystem();
+	~FireworkSystem();
+	void update(double t);
 	void shootFirework();
 	void onParticleDeath();
 

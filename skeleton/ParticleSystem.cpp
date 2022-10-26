@@ -3,7 +3,7 @@
 UniformParticleGenerator* fuente;
 GaussianParticleGenerator* nube;
 
-UniformParticleGenerator* generadorFuegos;
+UniformFireworkGenerator* generadorFuegos;
 
 ParticleSystem::ParticleSystem()
 {
@@ -30,6 +30,7 @@ void ParticleSystem::update(double t)
 		}
 	}
 
+
 	/*auto fuenteGenerator = getParticleGenerator(ParticleSystem::FUENTE);
 	for (auto particula : fuenteGenerator->generateParticles())
 		particles.push_back(particula);
@@ -54,21 +55,33 @@ ParticleGenerator* ParticleSystem::getParticleGenerator(Generator name)
 	}
 }
 
-void ParticleSystem::generateFireworkSystem()
+FireworkSystem::FireworkSystem()
 {
-	generadorFuegos = new UniformParticleGenerator({ 0, 0, 0 }, { 0, 0, 0 }, 
-		{ 0, 0, 0 }, { 0, 0, 0 },{ 0, 10, 0 }, 1, Particle::WATER, 100);
+	_firework_gen = new UniformFireworkGenerator({ 0, 0, 0 }, { 0, 0, 0 },
+		{ 0, 0, 0 }, { 0, 0, 0 }, { 0, 10, 0 }, 1, Particle::WATER, 100);
 }
 
-void ParticleSystem::shootFirework()
-{
-	for (auto particula : generadorFuegos->generateFireworks())
-		particles.push_back(particula); 
+void FireworkSystem::update(double t) {
+	for (int i = 0; i < particles.size(); i++) {
+		particles[i]->integrate(t);
+		if (particles[i]->getLife() < 0) {
+			auto p = particles[i];
+			onParticleDeath();
+			delete p;
+			particles.erase(particles.begin() + i);
+			i--;
+		}
+	}
 }
 
-void ParticleSystem::onParticleDeath()
+void FireworkSystem::shootFirework()
 {
-	for (Firework* particula : fuegosArtificiales)
+	for (auto firework : generadorFuegos->generateFireworks())
+		particles.push_back(firework);
+}
+
+void FireworkSystem::onParticleDeath()
+{
+	for (Firework* particula : particles)
 		particula->explode();
 }
-

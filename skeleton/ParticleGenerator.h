@@ -26,8 +26,6 @@ public:
 };
 
 class GaussianParticleGenerator : public ParticleGenerator {
-private:
-
 public:
 	GaussianParticleGenerator(Vector3 pos, Vector3 offPos, Vector3 vel, Vector3 offVel, Vector3 acc, int num, Particle::ParticleType type, double propability = 100);
 	virtual list<Particle*> generateParticles();
@@ -35,11 +33,15 @@ public:
 
 
 class UniformParticleGenerator : public ParticleGenerator {
-private:
-	Vector3 _vel_width, _pos_width;
-
 public:
 	UniformParticleGenerator(Vector3 pos, Vector3 offPos, Vector3 vel, Vector3 offVel, Vector3 acc, int num, Particle::ParticleType type, double propability = 100);
+	virtual list<Particle*> generateParticles();
+};
+
+
+class UniformFireworkGenerator : public ParticleGenerator {
+public:
+	UniformFireworkGenerator(Vector3 pos, Vector3 offPos, Vector3 vel, Vector3 offVel, Vector3 acc, int num, Particle::ParticleType type, double propability = 100);
 	virtual list<Particle*> generateParticles();
 	list<Firework*> generateFireworks();
 };

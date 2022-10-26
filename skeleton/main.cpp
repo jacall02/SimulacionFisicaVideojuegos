@@ -34,7 +34,7 @@ ContactReportCallback gContactReportCallback;
 
 std::vector<Particle*> particles;
 ParticleSystem* sistemaParticulas;
-ParticleSystem* sistemaFuegosArtificiales;
+FireworkSystem* sistemaFuegosArtificiales;
 
 
 
@@ -63,8 +63,7 @@ void initPhysics(bool interactive)
 	gScene = gPhysics->createScene(sceneDesc);
 
 	sistemaParticulas = new ParticleSystem();
-	sistemaFuegosArtificiales = new ParticleSystem();
-	sistemaFuegosArtificiales->generateFireworkSystem();
+	sistemaFuegosArtificiales = new FireworkSystem();
 
 }
 

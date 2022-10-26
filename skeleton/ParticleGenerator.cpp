@@ -115,7 +115,7 @@ list<Particle*> UniformParticleGenerator::generateParticles()
     return lista;
 }
 																		
-list<Firework*> UniformParticleGenerator::generateFireworks()				
+list<Firework*> UniformFireworkGenerator::generateFireworks()				
 {																			
 	list<Firework*> lista;													
 																			
