@@ -3,8 +3,6 @@
 UniformParticleGenerator* fuente;
 GaussianParticleGenerator* nube;
 
-UniformFireworkGenerator* generadorFuegos;
-
 ParticleSystem::ParticleSystem()
 {
 	fuente = new UniformParticleGenerator({ 0, 0, 0 }, { 0, 0, 0 },
@@ -76,7 +74,7 @@ void FireworkSystem::update(double t) {
 
 void FireworkSystem::shootFirework()
 {
-	for (auto firework : generadorFuegos->generateFireworks())
+	for (auto firework : _firework_gen->generateFireworks())
 		particles.push_back(firework);
 }
 

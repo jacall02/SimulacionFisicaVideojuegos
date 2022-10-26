@@ -29,7 +29,7 @@ private:
 	list<Firework*> _particles;
 	list<ParticleGenerator*> _particle_generators;
 	vector<Firework*> _fireworks_pool;
-	ParticleGenerator* _firework_gen;
+	UniformFireworkGenerator* _firework_gen;
 
 	std::vector<Firework*> particles;
 
