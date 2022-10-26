@@ -7,8 +7,11 @@ UniformParticleGenerator* generadorFuegos;
 
 ParticleSystem::ParticleSystem()
 {
-    fuente = new UniformParticleGenerator();
-    nube = new GaussianParticleGenerator();
+	fuente = new UniformParticleGenerator({ 0, 0, 0 }, { 0, 0, 0 },
+		{ 0, 80, 0 }, { 10, 20, 10 }, { 0, -10, 0 }, 2, Particle::WATER, 95);
+
+	nube = new GaussianParticleGenerator({ 0, 0, 0 }, { 100, 100, 100 },
+		{ 0, 0, 0 }, { 2, 2, 2 }, { 0, 0, 0 }, 10, Particle::MIST, 80);
 }
 
 ParticleSystem::~ParticleSystem()
@@ -46,9 +49,6 @@ ParticleGenerator* ParticleSystem::getParticleGenerator(Generator name)
 	case ParticleSystem::NUBE:
 		return nube;
 		break;
-	case ParticleSystem::FUEGOS_ARTIFICIALES:
-		return generadorFuegos;
-		break;
 	default:
 		break;
 	}
@@ -56,13 +56,13 @@ ParticleGenerator* ParticleSystem::getParticleGenerator(Generator name)
 
 void ParticleSystem::generateFireworkSystem()
 {
-	generadorFuegos = new UniformParticleGenerator();
+	generadorFuegos = new UniformParticleGenerator({ 0, 0, 0 }, { 0, 0, 0 }, 
+		{ 0, 0, 0 }, { 0, 0, 0 },{ 0, 10, 0 }, 1, Particle::WATER, 100);
 }
 
 void ParticleSystem::shootFirework()
 {
-	auto fireworkGenerator = getParticleGenerator(ParticleSystem::FUEGOS_ARTIFICIALES);
-	for (auto particula : fireworkGenerator->generateParticles())
+	for (auto particula : generadorFuegos->generateFireworks())
 		particles.push_back(particula); 
 }
 

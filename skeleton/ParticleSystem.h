@@ -19,7 +19,7 @@ private:
 	std::vector<Firework*> fuegosArtificiales;
 
 public:
-	enum Generator { FUENTE, NUBE, FUEGOS_ARTIFICIALES };
+	enum Generator { FUENTE, NUBE };
 
 	ParticleSystem();
 	~ParticleSystem();

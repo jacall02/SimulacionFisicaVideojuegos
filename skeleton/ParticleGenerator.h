@@ -12,10 +12,10 @@ class ParticleGenerator
 {
 private:
 	string _name;
-	Vector3 _mean_pos, _mean_vel;
-	double _generation_probability;
-	Particle* _model;
 protected:
+	Vector3 pos_, offPos_, vel_, offVel_, acc_;
+	double _generation_probability;
+	Particle::ParticleType type_;
 	int _num_particles;
 
 public:
@@ -27,11 +27,9 @@ public:
 
 class GaussianParticleGenerator : public ParticleGenerator {
 private:
-	Vector3 std_dev_pos, std_dev_vel;
-	double std_dev_t;
 
 public:
-	GaussianParticleGenerator();
+	GaussianParticleGenerator(Vector3 pos, Vector3 offPos, Vector3 vel, Vector3 offVel, Vector3 acc, int num, Particle::ParticleType type, double propability = 100);
 	virtual list<Particle*> generateParticles();
 };
 
@@ -41,8 +39,8 @@ private:
 	Vector3 _vel_width, _pos_width;
 
 public:
-	UniformParticleGenerator();
+	UniformParticleGenerator(Vector3 pos, Vector3 offPos, Vector3 vel, Vector3 offVel, Vector3 acc, int num, Particle::ParticleType type, double propability = 100);
 	virtual list<Particle*> generateParticles();
-	list<Firework*> generateParticles1();
+	list<Firework*> generateFireworks();
 };
 

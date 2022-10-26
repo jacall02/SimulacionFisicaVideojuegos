@@ -63,6 +63,9 @@ void initPhysics(bool interactive)
 	gScene = gPhysics->createScene(sceneDesc);
 
 	sistemaParticulas = new ParticleSystem();
+	sistemaFuegosArtificiales = new ParticleSystem();
+	sistemaFuegosArtificiales->generateFireworkSystem();
+
 }
 
 
@@ -87,6 +90,7 @@ void stepPhysics(bool interactive, double t)
 	}
 
 	sistemaParticulas->update(t);
+	sistemaFuegosArtificiales->update(t);
 
 }
 
@@ -147,6 +151,11 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		Proyectile* particula = new Proyectile(Proyectile::LASER,
 			camera.p + GetCamera()->getDir() * 10, GetCamera()->getDir());
 		particles.push_back(particula);
+		break;					 
+	}								 
+	case 'F':
+	{
+		sistemaFuegosArtificiales->shootFirework();
 		break;					 
 	}							 
 	default:					 

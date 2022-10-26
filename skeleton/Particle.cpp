@@ -1,7 +1,7 @@
 #include "Particle.h"
 
-Particle::Particle(Vector3 pos, Vector3 vel, Vector3 ac, double damping, int life) :
-	vel(vel), ac(ac), damping(damping), life(life)
+Particle::Particle(Vector3 pos, Vector3 vel, Vector3 ac, double damping, ParticleType type, int life) :
+	vel(vel), ac(ac), damping(damping), type_(type), life(life)
 {
 	pose = physx::PxTransform(pos.x, pos.y, pos.z);
 	setParticle();
@@ -13,7 +13,20 @@ Particle::~Particle()
 }
 
 void Particle::setParticle() {
-	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(3)), &pose, Vector4(1, 0, 0, 1));
+	switch (type_)
+	{
+	case Particle::WATER:
+		renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(2)), &pose, Vector4(0, 0, 0.6, 1));
+		break;
+	case Particle::MIST:
+		renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(1)), &pose, Vector4(0.7, 0.7, 0.7, 1));
+		break;
+	case Particle::FIRE:
+		renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(3)), &pose, Vector4(1, 0.2, 0.2, 1));
+		break;
+	default:
+		break;
+	}
 }
 
 void Particle::integrate(double t)

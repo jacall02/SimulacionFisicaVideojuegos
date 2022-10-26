@@ -8,10 +8,10 @@ using namespace std;
 class Particle
 {
 public:
-	enum ParticleType { WATER, MIST };
+	enum ParticleType { WATER, MIST, FIRE, };
 
 	Particle() {};
-	Particle(Vector3 pos, Vector3 vel, Vector3 ac, double damp, int time = 10);
+	Particle(Vector3 pos, Vector3 vel, Vector3 ac, double damp, ParticleType type = WATER, int time = 10);
 	~Particle();
 
 	void setParticle();
@@ -42,6 +42,8 @@ protected:
 	RenderItem* renderItem;
 	physx::PxTransform pose; //A render item le pasaremos la dirección de esta pose, para que se actualice automáticamente
 	float life;
+
+	ParticleType type_;
 };
 
 class Proyectile : public Particle
