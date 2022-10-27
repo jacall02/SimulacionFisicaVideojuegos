@@ -154,7 +154,8 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	}								 
 	case 'F':
 	{
-		sistemaFuegosArtificiales->shootFirework();
+		sistemaFuegosArtificiales->shootFirework(Vector3(-100, -100, -100), 
+			Vector3(0, 1, 0), Vector3(0, 100, 0), 1.8);
 		break;					 
 	}							 
 	default:					 

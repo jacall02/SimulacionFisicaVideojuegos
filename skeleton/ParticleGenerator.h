@@ -10,19 +10,20 @@ using namespace std;
 
 class ParticleGenerator
 {
-private:
-	string _name;
 protected:
 	Vector3 pos_, offPos_, vel_, offVel_, acc_;
 	double _generation_probability;
 	Particle::ParticleType type_;
 	int _num_particles;
+	Particle* model_;
 
 public:
 	ParticleGenerator();
 	~ParticleGenerator();
 	void setParticle(Particle* model);
 	virtual list<Particle*> generateParticles() = 0;
+
+	void setPos(Vector3 pos) { pos_ = pos; };
 };
 
 class GaussianParticleGenerator : public ParticleGenerator {
@@ -39,9 +40,9 @@ public:
 };
 
 
-class UniformFireworkGenerator : public ParticleGenerator {
+class CircleParticleGenerator : public ParticleGenerator {
 public:
-	UniformFireworkGenerator(Vector3 pos, Vector3 offPos, Vector3 vel, Vector3 offVel, Vector3 acc, int num, Particle::ParticleType type, double propability = 100);
+	CircleParticleGenerator(Vector3 pos, Vector3 vel, int num, Particle::ParticleType type);
 	virtual list<Particle*> generateParticles();
 	list<Firework*> generateFireworks();
 };

@@ -1,7 +1,8 @@
 #include "Particle.h"
+#include "ParticleGenerator.h"
 
 Particle::Particle(Vector3 pos, Vector3 vel, Vector3 ac, double damping, ParticleType type, int life) :
-	vel(vel), ac(ac), damping(damping), type_(type), life(life)
+	vel_(vel), acc_(ac), damping_(damping), type_(type), life_(life)
 {
 	pose = physx::PxTransform(pos.x, pos.y, pos.z);
 	setParticle();
@@ -31,11 +32,11 @@ void Particle::setParticle() {
 
 void Particle::integrate(double t)
 {
-	pose = physx::PxTransform(pose.p.x + vel.x * t, pose.p.y + vel.y * t, pose.p.z + vel.z * t);
-	vel += ac * t;
-	vel *= powf(damping, t);
+	pose = physx::PxTransform(pose.p.x + vel_.x * t, pose.p.y + vel_.y * t, pose.p.z + vel_.z * t);
+	vel_ += acc_ * t;
+	vel_ *= powf(damping_, t);
 
-	life -= t;
+	life_ -= t;
 }
 
 Proyectile::Proyectile(ShotType currentShotType, Vector3 pos, Vector3 dir)
@@ -104,8 +105,15 @@ void Proyectile::setParticle() {
 	renderItem = new RenderItem(forma, &pose, color);
 }
 
-Firework::Firework(Vector3 pos, Vector3 vel, Vector3 ac, double damp, int time)
+Firework::Firework(Vector3 pos, Vector3 vel, Vector3 ac, double damp, float time) 
 {
+	vel_ = vel;
+	acc_ = ac;
+	damping_ = damp;
+	life_ = time;
+	pose = physx::PxTransform(pos.x, pos.y, pos.z);
+
+	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(2)), &pose, Vector4(0.6, 0.5, 0.0, 1));
 }
 
 int Firework::update(double t)
@@ -113,12 +121,22 @@ int Firework::update(double t)
 	return 0;
 }
 
-Particle* Firework::clone() const
+Particle* Firework::clone()
 {
-	return nullptr;
+	return new Firework(pose.p, vel_, acc_, damping_, life_);
 }
 
 list<Particle*> Firework::explode()
 {
-	return list<Particle*>();
+	list<Particle*> lista;
+
+	for (auto gen : _gens) {
+		gen->setPos(pose.p);
+
+		auto listaAux = gen->generateParticles();
+
+		lista.insert(lista.end(), listaAux.begin(), listaAux.end());
+	}
+
+	return lista;
 }

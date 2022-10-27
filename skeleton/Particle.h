@@ -2,8 +2,11 @@
 #include "core.hpp"
 #include "RenderUtils.hpp"
 #include <list>
+#include <memory>
 
 using namespace std;
+
+class ParticleGenerator;
 
 class Particle
 {
@@ -18,30 +21,30 @@ public:
 
 	void integrate(double t);
 
-	void setMass(double m) { inverse_mass = m; };
-	void setVelocity(Vector3 v) { vel = v; };
-	void setAcceleration(Vector3 a) { ac = a; };
-	void setDamping(double d) { damping = d; };
+	void setMass(double m) { inverse_mass_ = m; };
+	void setVelocity(Vector3 v) { vel_ = v; };
+	void setAcceleration(Vector3 a) { acc_ = a; };
+	void setDamping(double d) { damping_ = d; };
 	void setPosition(Vector3 p) { pose.p = p; };
 
-	double getMass() { return inverse_mass; };
-	Vector3 getVelocity() { return vel; };
-	Vector3 getAcceleration() { return ac; };
-	double getDamping() { return damping; };
+	virtual Particle* clone() { return nullptr; };
+
+	double getMass() { return inverse_mass_; };
+	Vector3 getVelocity() { return vel_; };
+	Vector3 getAcceleration() { return acc_; };
+	double getDamping() { return damping_; };
 	physx::PxTransform getPosition() { return pose; };
 
-	float getLife() { return life; };
-
-private: 
-	Vector3 vel;
-	Vector3 ac;
-	double damping;
-	double inverse_mass;
+	float getLife() { return life_; };
 
 protected:
+	Vector3 acc_;
+	double damping_;
+	double inverse_mass_;
+	Vector3 vel_;
 	RenderItem* renderItem;
 	physx::PxTransform pose; //A render item le pasaremos la dirección de esta pose, para que se actualice automáticamente
-	float life;
+	float life_;
 
 	ParticleType type_;
 };
@@ -60,11 +63,11 @@ class Firework : public Particle
 {
 public:
 	enum FireworkType { NORMAL };
-	Firework(Vector3 pos, Vector3 vel, Vector3 ac, double damp, int time = 10);
+	Firework(Vector3 pos, Vector3 vel, Vector3 ac, double damp, float time);
 	int update(double t);
-	virtual Particle* clone() const;
+	virtual Particle* clone() override;
 	list<Particle*> explode();
 
 private:
-	//list<shared_ptr Particle> _gens;
+	list<shared_ptr<ParticleGenerator>> _gens;
 };

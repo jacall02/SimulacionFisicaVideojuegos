@@ -10,8 +10,6 @@ using namespace std;
 class ParticleSystem
 {
 private:
-	list<Particle*> _particles;
-
 	std::vector<Particle*> particles;
 
 public:
@@ -26,19 +24,17 @@ public:
 class FireworkSystem : ParticleSystem
 {
 private:
-	list<Firework*> _particles;
 	list<ParticleGenerator*> _particle_generators;
 	vector<Firework*> _fireworks_pool;
-	UniformFireworkGenerator* _firework_gen;
 
-	std::vector<Firework*> particles;
+	vector<Firework*> fireworks;
 
 public:
 
 	FireworkSystem();
 	~FireworkSystem();
 	void update(double t);
-	void shootFirework();
+	void shootFirework(Vector3 pos, Vector3 vel, Vector3 acc, float time);
 	void onParticleDeath();
 
 };

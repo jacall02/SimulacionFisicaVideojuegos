@@ -55,31 +55,24 @@ ParticleGenerator* ParticleSystem::getParticleGenerator(Generator name)
 
 FireworkSystem::FireworkSystem()
 {
-	_firework_gen = new UniformFireworkGenerator({ 0, 0, 0 }, { 0, 0, 0 },
-		{ 0, 0, 0 }, { 0, 0, 0 }, { 0, 10, 0 }, 1, Particle::WATER, 100);
+
 }
 
 void FireworkSystem::update(double t) {
-	for (int i = 0; i < particles.size(); i++) {
-		particles[i]->integrate(t);
-		if (particles[i]->getLife() < 0) {
-			auto p = particles[i];
-			onParticleDeath();
-			delete p;
-			particles.erase(particles.begin() + i);
+	for (int i = 0; i < fireworks.size(); i++) {
+		fireworks[i]->integrate(t);
+		if (fireworks[i]->getLife() < 0) {
+			auto p = fireworks[i];
+			fireworks[i]->explode();
+			//delete p;
+			fireworks.erase(fireworks.begin() + i);
 			i--;
 		}
 	}
 }
 
-void FireworkSystem::shootFirework()
+void FireworkSystem::shootFirework(Vector3 pos, Vector3 vel, Vector3 acc, float time)
 {
-	for (auto firework : _firework_gen->generateFireworks())
-		particles.push_back(firework);
-}
-
-void FireworkSystem::onParticleDeath()
-{
-	for (Firework* particula : particles)
-		particula->explode();
+	Firework* particula = new Firework(pos, vel, acc, 0.99f, time);
+	fireworks.push_back(particula);
 }

@@ -11,6 +11,7 @@ ParticleGenerator::~ParticleGenerator()
 
 void ParticleGenerator::setParticle(Particle* model)
 {
+	model_ = model;
 }
 
 GaussianParticleGenerator::GaussianParticleGenerator(Vector3 pos, Vector3 offPos,
@@ -114,37 +115,29 @@ list<Particle*> UniformParticleGenerator::generateParticles()
 
     return lista;
 }
-																		
-list<Firework*> UniformFireworkGenerator::generateFireworks()				
-{																			
-	list<Firework*> lista;													
-																			
-	random_device rd;
-	mt19937 gen(rd());
 
-	uniform_real_distribution<> posX(pos_.x - offPos_.x, pos_.x + offPos_.x);
-	uniform_real_distribution<> posY(pos_.y - offPos_.y, pos_.y + offPos_.y);
-	uniform_real_distribution<> posZ(pos_.z - offPos_.z, pos_.z + offPos_.z);
+CircleParticleGenerator::CircleParticleGenerator(Vector3 pos, Vector3 vel, int num, Particle::ParticleType type)
+{
+	
+}
 
-	uniform_real_distribution<> velX(vel_.x - offVel_.x, vel_.x + offVel_.x);
-	uniform_real_distribution<> velY(vel_.y - offVel_.y, vel_.y + offVel_.y);
-	uniform_real_distribution<> velZ(vel_.z - offVel_.z, vel_.z + offVel_.z);
+list<Particle*> CircleParticleGenerator::generateParticles()
+{
+	list<Particle*> lista;
 
-	Vector3 pos, vel;
-																			
-	for (int i = 0; i < _num_particles; i++)								
-	{																		
-		pos.x = posX(gen);													
-		pos.y = posY(gen);													
-		pos.z = posZ(gen);													
-		vel.x = velX(gen);
-		vel.y = velY(gen);
-		vel.z = velZ(gen);
+	float angle = 0;
+	for (int i = 0; i < _num_particles; i++)
+	{
+		angle = 360 / _num_particles * i;
 
-		Firework* particula = new Firework(pos, vel, acc_, 0.99f);
-		lista.push_back(particula);
+		Vector3 vel = Vector3(cos(angle * (_Pi / 180)), sin(angle * (_Pi / 180)), 0);
+
+		Particle* particle;
+		particle = model_->clone();
+		particle->setPosition(pos_);
+		particle->setVelocity(vel_.getNormalized() * 25);
 	}
 
 
-    return lista;
+	return list<Particle*>();
 }
