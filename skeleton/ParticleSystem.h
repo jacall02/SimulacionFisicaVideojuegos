@@ -34,6 +34,5 @@ public:
 	~FireworkSystem();
 	void update(double t);
 	void shootFirework(Vector3 pos, Vector3 vel, Vector3 acc, float time);
-	void onParticleDeath();
 
 };

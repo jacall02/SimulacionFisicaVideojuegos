@@ -26,16 +26,18 @@ public:
 	void setAcceleration(Vector3 a) { acc_ = a; };
 	void setDamping(double d) { damping_ = d; };
 	void setPosition(Vector3 p) { pose.p = p; };
+	void setColor(Vector4 c) { color_ = c; };
 
 	double getMass() { return inverse_mass_; };
 	Vector3 getVelocity() { return vel_; };
 	Vector3 getAcceleration() { return acc_; };
 	double getDamping() { return damping_; };
 	physx::PxTransform getPosition() { return pose; };
-
 	float getLife() { return life_; };
+	Vector4 getColor() { return color_; };
 
 protected:
+	Vector4 color_;
 	Vector3 acc_;
 	double damping_;
 	double inverse_mass_;
@@ -64,7 +66,7 @@ public:
 	void setModel(Particle* model) { model_ = model; };
 	Particle* getModel() { return model_; };
 
-	Firework(Vector3 pos, Vector3 vel, Vector3 ac, double damp, float time);
+	Firework(Vector3 pos, Vector3 vel, Vector3 ac, double damp, float time, Vector4 color);
 	int update(double t);
 	Firework* clone();
 	list<Firework*> explode();

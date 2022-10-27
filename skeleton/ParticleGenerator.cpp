@@ -141,6 +141,12 @@ list<Firework*> CircleParticleGenerator::generateFireworks()
 		particle->setPosition(pos_);
 		particle->setVelocity(vel.getNormalized() * 25);
 
+		if (reps_ > 0) {
+			auto sistema = new CircleParticleGenerator(pos_, vel_, 10, particle);
+			sistema->reps_ = reps_ - 1;
+			particle->_gens.emplace_back(sistema);
+		}
+
 		lista.push_back(particle);
 	}
 

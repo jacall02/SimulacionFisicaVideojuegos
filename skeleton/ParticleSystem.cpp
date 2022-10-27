@@ -74,8 +74,10 @@ void FireworkSystem::update(double t) {
 
 void FireworkSystem::shootFirework(Vector3 pos, Vector3 vel, Vector3 acc, float time)
 {
-	Firework* particula = new Firework(pos, vel, acc, 0.99f, time);
+	Firework* particula = new Firework(pos, vel, acc, 0.99f, time,
+		Vector4((rand() % 10) / 10.0, (rand() % 10) / 10.0, (rand() % 10) / 10.0, 1));
 	fireworks.push_back(particula);
-	auto sistema = new CircleParticleGenerator(pos, vel, 10, particula);
+	auto sistema = new CircleParticleGenerator(pos, vel, rand() % 10 + 5, particula);
+	sistema->reps_ = rand() % 3;
 	particula->_gens.emplace_back(sistema);
 }

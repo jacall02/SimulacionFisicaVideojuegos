@@ -105,21 +105,23 @@ void Proyectile::setParticle() {
 	renderItem = new RenderItem(forma, &pose, color);
 }
 
-Firework::Firework(Vector3 pos, Vector3 vel, Vector3 ac, double damp, float time) 
+Firework::Firework(Vector3 pos, Vector3 vel, Vector3 ac, double damp, float time, Vector4 color) 
 {
 	vel_ = vel;
 	acc_ = ac;
 	damping_ = damp;
 	life_ = time;
 	pose = physx::PxTransform(pos.x, pos.y, pos.z);
+	color_ = color;
 
-
-	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(2)), &pose, Vector4(0.6, 0.5, 0.0, 1));
+	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(2)), &pose, color_);
 }
 
 Firework* Firework::clone()
 {
-	return new Firework(pose.p, vel_, Vector3(0, 0, 0), damping_, 0.5);
+	return new Firework(pose.p, vel_, Vector3(0, 0, 0), damping_,
+		(rand() % 3 - ((rand() % 20) /10)), 
+		Vector4((rand() % 10) / 10.0, (rand() % 10) / 10.0, (rand() % 10) / 10.0, 1));
 }
 
 list<Firework*> Firework::explode()

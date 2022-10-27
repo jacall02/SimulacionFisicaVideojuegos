@@ -46,5 +46,7 @@ public:
 	virtual list<Particle*> generateParticles();
 	virtual list<Firework*> generateFireworks();
 	void setParticle(Firework* model);
+
+	int reps_;
 };
 
