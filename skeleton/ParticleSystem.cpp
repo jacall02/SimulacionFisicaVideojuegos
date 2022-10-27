@@ -28,14 +28,17 @@ void ParticleSystem::update(double t)
 		}
 	}
 
+	if (getParticleGenerator(ParticleSystem::FUENTE)->getActive()) {
+		auto fuenteGenerator = getParticleGenerator(ParticleSystem::FUENTE);
+		for (auto particula : fuenteGenerator->generateParticles())
+			particles.push_back(particula);
+	}
 
-	/*auto fuenteGenerator = getParticleGenerator(ParticleSystem::FUENTE);
-	for (auto particula : fuenteGenerator->generateParticles())
-		particles.push_back(particula);
-
-	auto nubeGenerator = getParticleGenerator(ParticleSystem::NUBE);
-	for (auto particula : nubeGenerator->generateParticles())
-		particles.push_back(particula);*/
+	if (getParticleGenerator(ParticleSystem::NUBE)->getActive()) {
+		auto nubeGenerator = getParticleGenerator(ParticleSystem::NUBE);
+		for (auto particula : nubeGenerator->generateParticles())
+			particles.push_back(particula);
+	}
 }
 
 ParticleGenerator* ParticleSystem::getParticleGenerator(Generator name)
@@ -74,10 +77,14 @@ void FireworkSystem::update(double t) {
 
 void FireworkSystem::shootFirework(Vector3 pos, Vector3 vel, Vector3 acc, float time)
 {
+	pos.x = (pos.x - ((rand() % 200)));
+	pos.z = (pos.z - ((rand() % 200)));
+	pos.y = (pos.z - ((rand() % 100)));
+	acc.y *= ((rand() % 2) + 1);
 	Firework* particula = new Firework(pos, vel, acc, 0.99f, time,
 		Vector4((rand() % 10) / 10.0, (rand() % 10) / 10.0, (rand() % 10) / 10.0, 1));
 	fireworks.push_back(particula);
-	auto sistema = new CircleParticleGenerator(pos, vel, rand() % 10 + 5, particula);
-	sistema->reps_ = rand() % 3;
+	auto sistema = new CircleParticleGenerator(pos, vel, (rand() % 10) + 5, particula);
+	sistema->reps_ = (rand() % 3);
 	particula->_gens.emplace_back(sistema);
 }

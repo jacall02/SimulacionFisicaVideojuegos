@@ -20,7 +20,7 @@ void Particle::setParticle() {
 		renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(2)), &pose, Vector4(0, 0, 0.6, 1));
 		break;
 	case Particle::MIST:
-		renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(1)), &pose, Vector4(0.7, 0.7, 0.7, 1));
+		renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(1)), &pose, Vector4(0.7, 0.7, 0.7, 0.3));
 		break;
 	case Particle::FIRE:
 		renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(3)), &pose, Vector4(1, 0.2, 0.2, 1));
@@ -120,8 +120,8 @@ Firework::Firework(Vector3 pos, Vector3 vel, Vector3 ac, double damp, float time
 Firework* Firework::clone()
 {
 	return new Firework(pose.p, vel_, Vector3(0, 0, 0), damping_,
-		(rand() % 3 - ((rand() % 20) /10)), 
-		Vector4((rand() % 10) / 10.0, (rand() % 10) / 10.0, (rand() % 10) / 10.0, 1));
+		(rand() % 3 - ((rand() % 20) / 10)),
+		Vector4(color_.z, color_.x, color_.y, 1));
 }
 
 list<Firework*> Firework::explode()

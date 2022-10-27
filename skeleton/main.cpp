@@ -157,6 +157,18 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		sistemaFuegosArtificiales->shootFirework(Vector3(-100, -100, -100), 
 			Vector3(0, 1, 0), Vector3(0, 100, 0), 1.8);
 		break;					 
+	}										 
+	case 'N':
+	{
+		sistemaParticulas->getParticleGenerator(ParticleSystem::FUENTE)->setActive(
+			!sistemaParticulas->getParticleGenerator(ParticleSystem::FUENTE)->getActive());
+		break;					 
+	}							 			 
+	case 'M':
+	{
+		sistemaParticulas->getParticleGenerator(ParticleSystem::NUBE)->setActive(
+			!sistemaParticulas->getParticleGenerator(ParticleSystem::NUBE)->getActive());
+		break;					 
 	}							 
 	default:					 
 		break;					 

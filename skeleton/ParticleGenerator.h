@@ -15,11 +15,15 @@ protected:
 	double _generation_probability;
 	Particle::ParticleType type_;
 	int _num_particles;
+	bool active_;
 
 public:
 	ParticleGenerator();
 	~ParticleGenerator();
 	virtual list<Particle*> generateParticles() = 0;
+
+	void setActive(bool a) { active_ = a; };
+	bool getActive() { return active_; };
 
 	void setPos(Vector3 pos) { pos_ = pos; };
 };

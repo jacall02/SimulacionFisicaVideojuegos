@@ -21,6 +21,7 @@ GaussianParticleGenerator::GaussianParticleGenerator(Vector3 pos, Vector3 offPos
 	_num_particles = num;
 	type_ = type;
 	_generation_probability = propability;
+	active_ = false;
 } 
 
 list<Particle*> GaussianParticleGenerator::generateParticles()
@@ -73,6 +74,7 @@ UniformParticleGenerator::UniformParticleGenerator(Vector3 pos, Vector3 offPos,
 	_num_particles = num;
 	type_ = type;
 	_generation_probability = propability;
+	active_ = false;
 }
 
 list<Particle*> UniformParticleGenerator::generateParticles()
@@ -118,6 +120,7 @@ CircleParticleGenerator::CircleParticleGenerator(Vector3 pos, Vector3 vel, int n
 	vel_ = vel;
 	_num_particles = num;
 	model_ = model;
+	active_ = true;
 }
 
 list<Particle*> CircleParticleGenerator::generateParticles()
@@ -132,17 +135,16 @@ list<Firework*> CircleParticleGenerator::generateFireworks()
 	float angle = 0;
 	for (int i = 0; i < _num_particles; i++)
 	{
-		angle = 360 / _num_particles * i;
+		angle += ((360 / _num_particles) + (((rand() % 30))));
 
 		Vector3 vel = Vector3(cos(angle * (_Pi / 180)), sin(angle * (_Pi / 180)), 0);
 
-		Firework* particle;
-		particle = model_->clone();
+		Firework* particle = model_->clone();
 		particle->setPosition(pos_);
-		particle->setVelocity(vel.getNormalized() * 25);
+		particle->setVelocity(vel.getNormalized() * ((rand() % 20) + 20));
 
 		if (reps_ > 0) {
-			auto sistema = new CircleParticleGenerator(pos_, vel_, 10, particle);
+			auto sistema = new CircleParticleGenerator(pos_, vel_, ((rand() % 5) + 5), particle);
 			sistema->reps_ = reps_ - 1;
 			particle->_gens.emplace_back(sistema);
 		}
