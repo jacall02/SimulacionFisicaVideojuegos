@@ -15,12 +15,10 @@ protected:
 	double _generation_probability;
 	Particle::ParticleType type_;
 	int _num_particles;
-	Particle* model_;
 
 public:
 	ParticleGenerator();
 	~ParticleGenerator();
-	void setParticle(Particle* model);
 	virtual list<Particle*> generateParticles() = 0;
 
 	void setPos(Vector3 pos) { pos_ = pos; };
@@ -41,9 +39,12 @@ public:
 
 
 class CircleParticleGenerator : public ParticleGenerator {
+private:
+	Firework* model_;
 public:
-	CircleParticleGenerator(Vector3 pos, Vector3 vel, int num, Particle::ParticleType type);
+	CircleParticleGenerator(Vector3 pos, Vector3 vel, int num, Firework* model);
 	virtual list<Particle*> generateParticles();
-	list<Firework*> generateFireworks();
+	virtual list<Firework*> generateFireworks();
+	void setParticle(Firework* model);
 };
 

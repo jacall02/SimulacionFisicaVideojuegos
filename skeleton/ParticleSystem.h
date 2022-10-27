@@ -24,7 +24,6 @@ public:
 class FireworkSystem : ParticleSystem
 {
 private:
-	list<ParticleGenerator*> _particle_generators;
 	vector<Firework*> _fireworks_pool;
 
 	vector<Firework*> fireworks;

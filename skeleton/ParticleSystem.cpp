@@ -63,10 +63,11 @@ void FireworkSystem::update(double t) {
 		fireworks[i]->integrate(t);
 		if (fireworks[i]->getLife() < 0) {
 			auto p = fireworks[i];
-			fireworks[i]->explode();
-			//delete p;
+			auto listaAux = fireworks[i]->explode();
+			delete p;
 			fireworks.erase(fireworks.begin() + i);
 			i--;
+			fireworks.insert(fireworks.end(), listaAux.begin(), listaAux.end());
 		}
 	}
 }
@@ -75,4 +76,6 @@ void FireworkSystem::shootFirework(Vector3 pos, Vector3 vel, Vector3 acc, float 
 {
 	Firework* particula = new Firework(pos, vel, acc, 0.99f, time);
 	fireworks.push_back(particula);
+	auto sistema = new CircleParticleGenerator(pos, vel, 10, particula);
+	particula->_gens.emplace_back(sistema);
 }

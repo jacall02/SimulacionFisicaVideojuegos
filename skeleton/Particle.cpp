@@ -113,27 +113,23 @@ Firework::Firework(Vector3 pos, Vector3 vel, Vector3 ac, double damp, float time
 	life_ = time;
 	pose = physx::PxTransform(pos.x, pos.y, pos.z);
 
+
 	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(2)), &pose, Vector4(0.6, 0.5, 0.0, 1));
 }
 
-int Firework::update(double t)
+Firework* Firework::clone()
 {
-	return 0;
+	return new Firework(pose.p, vel_, Vector3(0, 0, 0), damping_, 0.5);
 }
 
-Particle* Firework::clone()
+list<Firework*> Firework::explode()
 {
-	return new Firework(pose.p, vel_, acc_, damping_, life_);
-}
-
-list<Particle*> Firework::explode()
-{
-	list<Particle*> lista;
+	list<Firework*> lista;
 
 	for (auto gen : _gens) {
 		gen->setPos(pose.p);
 
-		auto listaAux = gen->generateParticles();
+		auto listaAux = gen->generateFireworks();
 
 		lista.insert(lista.end(), listaAux.begin(), listaAux.end());
 	}

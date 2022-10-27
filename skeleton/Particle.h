@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class ParticleGenerator;
+class CircleParticleGenerator;
 
 class Particle
 {
@@ -26,8 +26,6 @@ public:
 	void setAcceleration(Vector3 a) { acc_ = a; };
 	void setDamping(double d) { damping_ = d; };
 	void setPosition(Vector3 p) { pose.p = p; };
-
-	virtual Particle* clone() { return nullptr; };
 
 	double getMass() { return inverse_mass_; };
 	Vector3 getVelocity() { return vel_; };
@@ -61,13 +59,16 @@ private:
 
 class Firework : public Particle
 {
+	Particle* model_;
 public:
-	enum FireworkType { NORMAL };
+	void setModel(Particle* model) { model_ = model; };
+	Particle* getModel() { return model_; };
+
 	Firework(Vector3 pos, Vector3 vel, Vector3 ac, double damp, float time);
 	int update(double t);
-	virtual Particle* clone() override;
-	list<Particle*> explode();
+	Firework* clone();
+	list<Firework*> explode();
 
+	list<shared_ptr<CircleParticleGenerator>> _gens;
 private:
-	list<shared_ptr<ParticleGenerator>> _gens;
 };

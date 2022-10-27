@@ -9,10 +9,6 @@ ParticleGenerator::~ParticleGenerator()
 {
 }
 
-void ParticleGenerator::setParticle(Particle* model)
-{
-	model_ = model;
-}
 
 GaussianParticleGenerator::GaussianParticleGenerator(Vector3 pos, Vector3 offPos,
 	Vector3 vel, Vector3 offVel, Vector3 acc, int num, Particle::ParticleType type, double propability) {
@@ -116,14 +112,22 @@ list<Particle*> UniformParticleGenerator::generateParticles()
     return lista;
 }
 
-CircleParticleGenerator::CircleParticleGenerator(Vector3 pos, Vector3 vel, int num, Particle::ParticleType type)
+CircleParticleGenerator::CircleParticleGenerator(Vector3 pos, Vector3 vel, int num, Firework* model)
 {
-	
+	pos_ = pos;
+	vel_ = vel;
+	_num_particles = num;
+	model_ = model;
 }
 
 list<Particle*> CircleParticleGenerator::generateParticles()
 {
-	list<Particle*> lista;
+	return list<Particle*>();
+}
+
+list<Firework*> CircleParticleGenerator::generateFireworks()
+{
+	list<Firework*> lista;
 
 	float angle = 0;
 	for (int i = 0; i < _num_particles; i++)
@@ -132,12 +136,18 @@ list<Particle*> CircleParticleGenerator::generateParticles()
 
 		Vector3 vel = Vector3(cos(angle * (_Pi / 180)), sin(angle * (_Pi / 180)), 0);
 
-		Particle* particle;
+		Firework* particle;
 		particle = model_->clone();
 		particle->setPosition(pos_);
-		particle->setVelocity(vel_.getNormalized() * 25);
+		particle->setVelocity(vel.getNormalized() * 25);
+
+		lista.push_back(particle);
 	}
 
+	return lista;
+}
 
-	return list<Particle*>();
+void CircleParticleGenerator::setParticle(Firework* model)
+{
+	model_ = model;
 }
