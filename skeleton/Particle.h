@@ -21,20 +21,25 @@ public:
 
 	void integrate(double t);
 
-	void setMass(double m) { inverse_mass_ = m; };
+	void setInverseMass(double m) { inverse_mass_ = m; };
 	void setVelocity(Vector3 v) { vel_ = v; };
 	void setAcceleration(Vector3 a) { acc_ = a; };
 	void setDamping(double d) { damping_ = d; };
 	void setPosition(Vector3 p) { pose.p = p; };
 	void setColor(Vector4 c) { color_ = c; };
 
-	double getMass() { return inverse_mass_; };
+	double getMass() { return inverse_mass_/1.0; };
+	double getInverseMass() { return inverse_mass_; };
 	Vector3 getVelocity() { return vel_; };
 	Vector3 getAcceleration() { return acc_; };
 	double getDamping() { return damping_; };
 	physx::PxTransform getPosition() { return pose; };
 	float getLife() { return life_; };
 	Vector4 getColor() { return color_; };
+
+	void clearForce();
+
+	void addForce(const Vector3& f);
 
 protected:
 	Vector4 color_;
@@ -45,8 +50,9 @@ protected:
 	RenderItem* renderItem;
 	physx::PxTransform pose; //A render item le pasaremos la dirección de esta pose, para que se actualice automáticamente
 	float life_;
-
 	ParticleType type_;
+
+	Vector3 force_;
 };
 
 class Proyectile : public Particle

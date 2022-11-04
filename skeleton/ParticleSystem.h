@@ -28,6 +28,7 @@ private:
 
 	vector<Firework*> fireworks;
 
+	
 public:
 
 	FireworkSystem();

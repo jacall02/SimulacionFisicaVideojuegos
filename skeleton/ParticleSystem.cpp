@@ -10,6 +10,8 @@ ParticleSystem::ParticleSystem()
 
 	nube = new GaussianParticleGenerator({ 0, 0, 0 }, { 100, 100, 100 },
 		{ 0, 0, 0 }, { 2, 2, 2 }, { 0, 0, 0 }, 10, Particle::MIST, 80);
+
+	
 }
 
 ParticleSystem::~ParticleSystem()

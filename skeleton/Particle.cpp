@@ -32,11 +32,30 @@ void Particle::setParticle() {
 
 void Particle::integrate(double t)
 {
-	pose = physx::PxTransform(pose.p.x + vel_.x * t, pose.p.y + vel_.y * t, pose.p.z + vel_.z * t);
-	vel_ += acc_ * t;
-	vel_ *= powf(damping_, t);
+	if (inverse_mass_ <= 0.0f) return;
 
-	life_ -= t;
+	pose = physx::PxTransform(pose.p.x + vel_.x * t, pose.p.y + vel_.y * t, pose.p.z + vel_.z * t);
+
+	Vector3 totalAcceleration = acc_;
+	totalAcceleration += force_ * inverse_mass_;	
+													
+	vel_ += totalAcceleration * t;					
+													
+	vel_ *= powf(damping_, t);						
+													
+	life_ -= t;										
+
+	clearForce();
+}
+
+void Particle::clearForce()
+{
+	force_ *= 0;
+}
+
+void Particle::addForce(const Vector3& f)
+{
+	force_ += f;
 }
 
 Proyectile::Proyectile(ShotType currentShotType, Vector3 pos, Vector3 dir)
@@ -47,28 +66,28 @@ Proyectile::Proyectile(ShotType currentShotType, Vector3 pos, Vector3 dir)
 	switch (currentShotType)
 	{
 	case PISTOL:
-		setMass(2.0f); // 2.0 Kg
+		setInverseMass(2.0f); // 2.0 Kg
 		vel = dir * 35;
 		setVelocity(vel);
 		setAcceleration({ 0.0f, -1.0f, 0.0f });
 		setDamping(0.99f);
 		break;
 	case ARTILLERY:
-		setMass(200.0f); // 200.0 Kg
+		setInverseMass(200.0f); // 200.0 Kg
 		vel = dir * 40;
 		setVelocity(vel); 
 		setAcceleration({ 0.0f, -20.0f, 0.0f });
 		setDamping(0.99f);
 		break;
 	case FIREBALL:
-		setMass(1.0f); // 1.0 Kg
+		setInverseMass(1.0f); // 1.0 Kg
 		vel = dir * 10;
 		setVelocity(vel);
 		setAcceleration({ 0.0f, 0.6f, 0.0f }); // floats
 		setDamping(0.9f);
 		break;
 	case LASER:
-		setMass(0.1f); // almost no weight
+		setInverseMass(0.1f); // almost no weight
 		vel = dir * 100;
 		setVelocity(vel);
 		setAcceleration({ 0.0f, 0.0f, 0.0f });
@@ -114,7 +133,7 @@ Firework::Firework(Vector3 pos, Vector3 vel, Vector3 ac, double damp, float time
 	pose = physx::PxTransform(pos.x, pos.y, pos.z);
 	color_ = color;
 
-	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(2)), &pose, color_);
+	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(0.5)), &pose, color_);
 }
 
 Firework* Firework::clone()
