@@ -1,10 +1,11 @@
 #include "Particle.h"
 #include "ParticleGenerator.h"
 
-Particle::Particle(Vector3 pos, Vector3 vel, Vector3 ac, double damping, ParticleType type, int life) :
-	vel_(vel), acc_(ac), damping_(damping), type_(type), life_(life)
+Particle::Particle(Vector3 pos, Vector3 vel, Vector3 ac, double damping, ParticleType type, int life, float inverse_mass) :
+	vel_(vel), acc_(ac), damping_(damping), type_(type), life_(life), inverse_mass_(inverse_mass)
 {
 	pose = physx::PxTransform(pos.x, pos.y, pos.z);
+	force_ = Vector3(0, 0, 0);
 	setParticle();
 }
 
@@ -37,7 +38,7 @@ void Particle::integrate(double t)
 	pose = physx::PxTransform(pose.p.x + vel_.x * t, pose.p.y + vel_.y * t, pose.p.z + vel_.z * t);
 
 	Vector3 totalAcceleration = acc_;
-	totalAcceleration += force_ * inverse_mass_;	
+	totalAcceleration += force_ * inverse_mass_;
 													
 	vel_ += totalAcceleration * t;					
 													
@@ -124,7 +125,7 @@ void Proyectile::setParticle() {
 	renderItem = new RenderItem(forma, &pose, color);
 }
 
-Firework::Firework(Vector3 pos, Vector3 vel, Vector3 ac, double damp, float time, Vector4 color) 
+Firework::Firework(Vector3 pos, Vector3 vel, Vector3 ac, double damp, float time, Vector4 color, float inverse_mass) 
 {
 	vel_ = vel;
 	acc_ = ac;
@@ -132,6 +133,8 @@ Firework::Firework(Vector3 pos, Vector3 vel, Vector3 ac, double damp, float time
 	life_ = time;
 	pose = physx::PxTransform(pos.x, pos.y, pos.z);
 	color_ = color;
+	inverse_mass_ = inverse_mass;
+	force_ = Vector3(0, 0, 0);
 
 	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(0.5)), &pose, color_);
 }

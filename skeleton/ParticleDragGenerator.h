@@ -15,4 +15,3 @@ protected:
 	float _k1; //Coef for velocity
 	float _k2; //Coef for square velocity
 };
-

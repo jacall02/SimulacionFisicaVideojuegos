@@ -1,9 +1,11 @@
 #pragma once
 #include "Particle.h"
 #include "ParticleGenerator.h"
+#include "ParticleForceRegistry.h"
 
 #include <list>
 #include <string>
+#include "GravityForceGenerator.h"
 
 using namespace std;
 
@@ -11,6 +13,8 @@ class ParticleSystem
 {
 private:
 	std::vector<Particle*> particles;
+	ParticleForceRegistry* forceRegistry_;
+	GravityForceGenerator* gravityForceGen_;
 
 public:
 	enum Generator { FUENTE, NUBE };

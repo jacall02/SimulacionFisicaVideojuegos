@@ -14,7 +14,7 @@ public:
 	enum ParticleType { WATER, MIST, FIRE, };
 
 	Particle() {};
-	Particle(Vector3 pos, Vector3 vel, Vector3 ac, double damp, ParticleType type = WATER, int time = 10);
+	Particle(Vector3 pos, Vector3 vel, Vector3 ac, double damp, ParticleType type = WATER, int time = 10, float inverse_mass = 1.0f);
 	~Particle();
 
 	void setParticle();
@@ -72,7 +72,7 @@ public:
 	void setModel(Particle* model) { model_ = model; };
 	Particle* getModel() { return model_; };
 
-	Firework(Vector3 pos, Vector3 vel, Vector3 ac, double damp, float time, Vector4 color);
+	Firework(Vector3 pos, Vector3 vel, Vector3 ac, double damp, float time, Vector4 color, float inverse_mass = 1.0f);
 	int update(double t);
 	Firework* clone();
 	list<Firework*> explode();

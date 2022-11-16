@@ -68,33 +68,33 @@ UniformParticleGenerator::UniformParticleGenerator(Vector3 pos, Vector3 offPos,
 {
 	pos_ = pos;
 	offPos_ = offPos;
-	vel_ = vel;
-	offVel_ = offVel;
-	acc_ = acc;
-	_num_particles = num;
-	type_ = type;
-	_generation_probability = propability;
-	active_ = false;
-}
-
-list<Particle*> UniformParticleGenerator::generateParticles()
-{																			
-	list<Particle*> lista;													
-																			
-	random_device rd;														
-	mt19937 gen(rd());														
+	vel_ = vel;														
+	offVel_ = offVel;												
+	acc_ = acc;														
+	_num_particles = num;											
+	type_ = type;													
+	_generation_probability = propability;							
+	active_ = false;												
+}																	
+																	
+list<Particle*> UniformParticleGenerator::generateParticles()		
+{																	
+	list<Particle*> lista;											
+																	
+	random_device rd;												
+	mt19937 gen(rd());												
 
 	uniform_real_distribution<> posX(pos_.x - offPos_.x, pos_.x + offPos_.x);
-	uniform_real_distribution<> posY(pos_.y - offPos_.y, pos_.y + offPos_.y);
-	uniform_real_distribution<> posZ(pos_.z - offPos_.z, pos_.z + offPos_.z);
-																				
-	uniform_real_distribution<> velX(vel_.x - offVel_.x, vel_.x + offVel_.x);								
-	uniform_real_distribution<> velY(vel_.y - offVel_.y, vel_.y + offVel_.y);								
-	uniform_real_distribution<> velZ(vel_.z - offVel_.z, vel_.z + offVel_.z);
-
-	Vector3 pos, vel;														
-																			
-	for (int i = 0; i < _num_particles; i++)
+	uniform_real_distribution<> posY(pos_.y - offPos_.y, pos_.y + offPos_.y);						
+	uniform_real_distribution<> posZ(pos_.z - offPos_.z, pos_.z + offPos_.z);						
+																									
+	uniform_real_distribution<> velX(vel_.x - offVel_.x, vel_.x + offVel_.x);						
+	uniform_real_distribution<> velY(vel_.y - offVel_.y, vel_.y + offVel_.y);						
+	uniform_real_distribution<> velZ(vel_.z - offVel_.z, vel_.z + offVel_.z);						
+																									
+	Vector3 pos, vel;																				
+																									
+	for (int i = 0; i < _num_particles; i++)														
 	{
 		if (((rand() % 100) < _generation_probability))
 		{

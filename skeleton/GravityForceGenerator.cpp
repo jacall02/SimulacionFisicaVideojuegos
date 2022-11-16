@@ -1,6 +1,12 @@
 #include "GravityForceGenerator.h"
 
-void GravityForceGenerator::updateForce(Particle* particle, double t){
+GravityForceGenerator::GravityForceGenerator(const Vector3& g)
+{
+	_gravity = g;
+}
+
+void GravityForceGenerator::updateForce(Particle* particle, double t)
+{
 	if (fabs(particle->getInverseMass()) < 1e-10)
 		return;
 

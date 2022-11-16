@@ -6,12 +6,14 @@ GaussianParticleGenerator* nube;
 ParticleSystem::ParticleSystem()
 {
 	fuente = new UniformParticleGenerator({ 0, 0, 0 }, { 0, 0, 0 },
-		{ 0, 80, 0 }, { 10, 20, 10 }, { 0, -10, 0 }, 2, Particle::WATER, 95);
+		{ 0, 80, 0 }, { 10, 20, 10 }, { 0, 0, 0 }, 2, Particle::WATER, 95);
 
 	nube = new GaussianParticleGenerator({ 0, 0, 0 }, { 100, 100, 100 },
 		{ 0, 0, 0 }, { 2, 2, 2 }, { 0, 0, 0 }, 10, Particle::MIST, 80);
 
-	
+
+	gravityForceGen_ = new GravityForceGenerator(Vector3(0, -9.8, 0));
+	forceRegistry_ = new ParticleForceRegistry();
 }
 
 ParticleSystem::~ParticleSystem()
@@ -20,10 +22,13 @@ ParticleSystem::~ParticleSystem()
 
 void ParticleSystem::update(double t)
 {
+	forceRegistry_->updateForces(t);
+
 	for (int i = 0; i < particles.size(); i++) {
 		particles[i]->integrate(t);
 		if (particles[i]->getLife() < 0) {
 			auto p = particles[i];
+			forceRegistry_->deleteParticleRegistry(p);
 			delete p;
 			particles.erase(particles.begin() + i);
 			i--;
@@ -32,14 +37,18 @@ void ParticleSystem::update(double t)
 
 	if (getParticleGenerator(ParticleSystem::FUENTE)->getActive()) {
 		auto fuenteGenerator = getParticleGenerator(ParticleSystem::FUENTE);
-		for (auto particula : fuenteGenerator->generateParticles())
+		for (auto particula : fuenteGenerator->generateParticles()) {
 			particles.push_back(particula);
+			forceRegistry_->addRegistry(gravityForceGen_, particula);
+		}
 	}
 
 	if (getParticleGenerator(ParticleSystem::NUBE)->getActive()) {
 		auto nubeGenerator = getParticleGenerator(ParticleSystem::NUBE);
-		for (auto particula : nubeGenerator->generateParticles())
+		for (auto particula : nubeGenerator->generateParticles()) {		
 			particles.push_back(particula);
+			forceRegistry_->addRegistry(gravityForceGen_, particula);
+		}
 	}
 }
 
