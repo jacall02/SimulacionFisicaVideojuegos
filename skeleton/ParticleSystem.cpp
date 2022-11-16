@@ -13,6 +13,8 @@ ParticleSystem::ParticleSystem()
 
 
 	gravityForceGen_ = new GravityForceGenerator(Vector3(0, -9.8, 0));
+	windForceGen_ = new WindForceGenerator(0.01, 0.01, Vector3(100, 0, 0));
+	whirlwindForceGen_ = new WhirlwindForceGenerator(0.01, 0.01, 1.0, 1.0, Vector3(0, 0, 0));
 	forceRegistry_ = new ParticleForceRegistry();
 }
 
@@ -48,6 +50,7 @@ void ParticleSystem::update(double t)
 		for (auto particula : nubeGenerator->generateParticles()) {		
 			particles.push_back(particula);
 			forceRegistry_->addRegistry(gravityForceGen_, particula);
+			forceRegistry_->addRegistry(whirlwindForceGen_, particula);
 		}
 	}
 }

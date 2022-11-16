@@ -6,6 +6,8 @@
 #include <list>
 #include <string>
 #include "GravityForceGenerator.h"
+#include "WindForceGenerator.h"
+#include "WhirlwindForceGenerator.h"
 
 using namespace std;
 
@@ -15,6 +17,8 @@ private:
 	std::vector<Particle*> particles;
 	ParticleForceRegistry* forceRegistry_;
 	GravityForceGenerator* gravityForceGen_;
+	WindForceGenerator* windForceGen_;
+	WhirlwindForceGenerator* whirlwindForceGen_;
 
 public:
 	enum Generator { FUENTE, NUBE };
