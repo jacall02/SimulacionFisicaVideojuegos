@@ -134,7 +134,7 @@ Firework::Firework(Vector3 pos, Vector3 vel, Vector3 ac, double damp, float time
 	pose = physx::PxTransform(pos.x, pos.y, pos.z);
 	color_ = color;
 	inverse_mass_ = inverse_mass;
-	force_ = Vector3(0, 0, 0);
+	force_ = Vector3(0, 0, 0);  
 
 	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(0.5)), &pose, color_);
 }

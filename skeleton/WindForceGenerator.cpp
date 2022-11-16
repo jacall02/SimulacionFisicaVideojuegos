@@ -1,15 +1,15 @@
-#include "ParticleDragGenerator.h"
+#include "WindForceGenerator.h"
 #include <iostream>
-	
-ParticleDragGenerator::ParticleDragGenerator()
+
+WindForceGenerator::WindForceGenerator()
 {
 }
 
-ParticleDragGenerator::ParticleDragGenerator(const float k1, const float k2)
+WindForceGenerator::WindForceGenerator(const float k1, const float k2)
 {
 }
 
-void ParticleDragGenerator::updateForce(Particle* particle, double t)
+void WindForceGenerator::updateForce(Particle* particle, double t)
 {
 	if (fabs(particle->getInverseMass()) < 1e-10)
 		return;

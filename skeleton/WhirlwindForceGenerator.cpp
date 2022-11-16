@@ -1,15 +1,15 @@
-#include "ParticleDragGenerator.h"
+#include "WhirlwindForceGenerator.h"
 #include <iostream>
-	
-ParticleDragGenerator::ParticleDragGenerator()
+
+WhirlwindForceGenerator::WhirlwindForceGenerator()
 {
 }
 
-ParticleDragGenerator::ParticleDragGenerator(const float k1, const float k2)
+WhirlwindForceGenerator::WhirlwindForceGenerator(const float k1, const float k2)
 {
 }
 
-void ParticleDragGenerator::updateForce(Particle* particle, double t)
+void WhirlwindForceGenerator::updateForce(Particle* particle, double t)
 {
 	if (fabs(particle->getInverseMass()) < 1e-10)
 		return;
