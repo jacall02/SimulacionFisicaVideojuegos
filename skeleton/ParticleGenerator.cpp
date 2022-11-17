@@ -11,7 +11,8 @@ ParticleGenerator::~ParticleGenerator()
 
 
 GaussianParticleGenerator::GaussianParticleGenerator(Vector3 pos, Vector3 offPos,
-	Vector3 vel, Vector3 offVel, Vector3 acc, int num, Particle::ParticleType type, double propability) {
+	Vector3 vel, Vector3 offVel, Vector3 acc, int num, int life, float inverse_mass,
+	float size, Vector4 color, double propability) {
 	
 	pos_ = pos;
 	offPos_ = offPos;
@@ -19,7 +20,10 @@ GaussianParticleGenerator::GaussianParticleGenerator(Vector3 pos, Vector3 offPos
 	offVel_ = offVel;
 	acc_ = acc;
 	_num_particles = num;
-	type_ = type;
+	life_ = life;
+	inverse_mass_ = inverse_mass;
+	size_ = size;
+	color_ = color;
 	_generation_probability = propability;
 	active_ = false;
 } 
@@ -54,7 +58,7 @@ list<Particle*> GaussianParticleGenerator::generateParticles()
 			vel.y = velY(gen);
 			vel.z = velZ(gen);
 																			
-			Particle* particula = new Particle(pos, vel, acc_, 0.99f, type_);	
+			Particle* particula = new Particle(pos, vel, acc_, 0.99f,life_,inverse_mass_,size_,color_);	
 			lista.push_back(particula);											
 		}
 	}																		
@@ -64,20 +68,24 @@ list<Particle*> GaussianParticleGenerator::generateParticles()
 }																																						
 																			
 UniformParticleGenerator::UniformParticleGenerator(Vector3 pos, Vector3 offPos,
-	Vector3 vel, Vector3 offVel, Vector3 acc, int num, Particle::ParticleType type, double propability)
+	Vector3 vel, Vector3 offVel, Vector3 acc, int num,
+	int life, float inverse_mass, float size, Vector4 color, double propability)
 {
 	pos_ = pos;
 	offPos_ = offPos;
 	vel_ = vel;														
 	offVel_ = offVel;												
 	acc_ = acc;														
-	_num_particles = num;											
-	type_ = type;													
+	_num_particles = num;
+	life_ = life;
+	inverse_mass_ = inverse_mass;
+	size_ = size;
+	color_ = color;
 	_generation_probability = propability;							
 	active_ = false;												
 }																	
-																	
-list<Particle*> UniformParticleGenerator::generateParticles()		
+
+list<Particle*> UniformParticleGenerator::generateParticles()
 {																	
 	list<Particle*> lista;											
 																	
@@ -105,7 +113,8 @@ list<Particle*> UniformParticleGenerator::generateParticles()
 			vel.y = velY(gen);
 			vel.z = velZ(gen);
 
-			Particle* particula = new Particle(pos, vel, acc_, 0.99f, type_);
+			Particle* particula = new Particle(pos, vel, acc_, 0.99f, life_, inverse_mass_, size_, 
+				Vector4(0.3, 0.3, 1.0, 1.0));
 			lista.push_back(particula);
 		}
 	}

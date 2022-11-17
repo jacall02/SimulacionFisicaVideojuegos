@@ -11,10 +11,8 @@ class CircleParticleGenerator;
 class Particle
 {
 public:
-	enum ParticleType { WATER, MIST, FIRE, };
-
 	Particle() {};
-	Particle(Vector3 pos, Vector3 vel, Vector3 ac, double damp, ParticleType type = WATER, int time = 10, float inverse_mass = 1.0f);
+	Particle(Vector3 pos, Vector3 vel, Vector3 ac, double damping, int life, float inverse_mass, float size, Vector4 color);
 	~Particle();
 
 	void setParticle();
@@ -43,6 +41,7 @@ public:
 
 protected:
 	Vector4 color_;
+	float size_;
 	Vector3 acc_;
 	double damping_;
 	double inverse_mass_;
@@ -50,7 +49,6 @@ protected:
 	RenderItem* renderItem;
 	physx::PxTransform pose; //A render item le pasaremos la dirección de esta pose, para que se actualice automáticamente
 	float life_;
-	ParticleType type_;
 
 	Vector3 force_;
 };

@@ -18,6 +18,7 @@ private:
 	ParticleForceRegistry* forceRegistry_;
 	GravityForceGenerator* gravityForceGen_;
 	WindForceGenerator* windForceGen_;
+	WindForceGenerator* windForceGen2_;
 	WhirlwindForceGenerator* whirlwindForceGen_;
 
 public:

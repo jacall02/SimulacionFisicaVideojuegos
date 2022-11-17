@@ -7,7 +7,7 @@ class WhirlwindForceGenerator : public WindForceGenerator {
 
 public:
 	WhirlwindForceGenerator();
-	WhirlwindForceGenerator(const float k1, const float k2, float k, float dragToCenterCoef, Vector3 origen);
+	WhirlwindForceGenerator(const float k1, const float k2, float k, float dragToCenterCoef, Vector3 origen, int radius);
 	virtual void updateForce(Particle* particle, double t) override;
 protected:
 	Vector3 origen_;

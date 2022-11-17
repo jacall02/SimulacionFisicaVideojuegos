@@ -13,9 +13,12 @@ class ParticleGenerator
 protected:
 	Vector3 pos_, offPos_, vel_, offVel_, acc_;
 	double _generation_probability;
-	Particle::ParticleType type_;
 	int _num_particles;
 	bool active_;
+	float size_;
+	int life_;
+	double inverse_mass_;
+	Vector4 color_;
 
 public:
 	ParticleGenerator();
@@ -30,14 +33,14 @@ public:
 
 class GaussianParticleGenerator : public ParticleGenerator {
 public:
-	GaussianParticleGenerator(Vector3 pos, Vector3 offPos, Vector3 vel, Vector3 offVel, Vector3 acc, int num, Particle::ParticleType type, double propability = 100);
+	GaussianParticleGenerator(Vector3 pos, Vector3 offPos, Vector3 vel, Vector3 offVel, Vector3 acc, int num, int life, float inverse_mass, float size, Vector4 color, double propability);
 	virtual list<Particle*> generateParticles();
 };
 
 
 class UniformParticleGenerator : public ParticleGenerator {
 public:
-	UniformParticleGenerator(Vector3 pos, Vector3 offPos, Vector3 vel, Vector3 offVel, Vector3 acc, int num, Particle::ParticleType type, double propability = 100);
+	UniformParticleGenerator(Vector3 pos, Vector3 offPos, Vector3 vel, Vector3 offVel, Vector3 acc, int num, int life, float inverse_mass, float size, Vector4 color, double propability);
 	virtual list<Particle*> generateParticles();
 };
 

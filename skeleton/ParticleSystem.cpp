@@ -6,15 +6,16 @@ GaussianParticleGenerator* nube;
 ParticleSystem::ParticleSystem()
 {
 	fuente = new UniformParticleGenerator({ 0, 0, 0 }, { 0, 0, 0 },
-		{ 0, 80, 0 }, { 10, 20, 10 }, { 0, 0, 0 }, 2, Particle::WATER, 95);
+		{ 0, 80, 0 }, { 10, 20, 10 }, { 0, 0, 0 }, 4, 20, 1.0, 1.0, { 0.2, 0.2, 1.0, 1.0 }, 95);
 
 	nube = new GaussianParticleGenerator({ 0, 0, 0 }, { 100, 100, 100 },
-		{ 0, 0, 0 }, { 2, 2, 2 }, { 0, 0, 0 }, 10, Particle::MIST, 80);
+		{ 0, 0, 0 }, { 2, 2, 2 }, { 0, 0, 0 }, 10, 10, 1.0, 1.0, { 0.8, 0.8, 0.8, 0.6 }, 80);
 
 
 	gravityForceGen_ = new GravityForceGenerator(Vector3(0, -9.8, 0));
-	windForceGen_ = new WindForceGenerator(0.01, 0.01, Vector3(100, 0, 0));
-	whirlwindForceGen_ = new WhirlwindForceGenerator(0.01, 0.01, 1.0, 1.0, Vector3(0, 0, 0));
+	windForceGen_ = new WindForceGenerator(1, 0, Vector3(100, 0, 0), Vector3(0,50,0), 20);
+	windForceGen2_ = new WindForceGenerator(1, 0, Vector3(-100, -10, 0), Vector3(100, 100, 0), 50);
+	whirlwindForceGen_ = new WhirlwindForceGenerator(1, 0, 1.0, 1.0, Vector3(0, 50, 0), 50);
 	forceRegistry_ = new ParticleForceRegistry();
 }
 
@@ -42,6 +43,9 @@ void ParticleSystem::update(double t)
 		for (auto particula : fuenteGenerator->generateParticles()) {
 			particles.push_back(particula);
 			forceRegistry_->addRegistry(gravityForceGen_, particula);
+			//forceRegistry_->addRegistry(windForceGen_, particula);
+			//forceRegistry_->addRegistry(windForceGen2_, particula);
+			forceRegistry_->addRegistry(whirlwindForceGen_, particula);
 		}
 	}
 
@@ -49,7 +53,7 @@ void ParticleSystem::update(double t)
 		auto nubeGenerator = getParticleGenerator(ParticleSystem::NUBE);
 		for (auto particula : nubeGenerator->generateParticles()) {		
 			particles.push_back(particula);
-			forceRegistry_->addRegistry(gravityForceGen_, particula);
+			//forceRegistry_->addRegistry(gravityForceGen_, particula);
 			forceRegistry_->addRegistry(whirlwindForceGen_, particula);
 		}
 	}
