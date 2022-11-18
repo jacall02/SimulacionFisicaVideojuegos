@@ -8,6 +8,7 @@
 #include "GravityForceGenerator.h"
 #include "WindForceGenerator.h"
 #include "WhirlwindForceGenerator.h"
+#include "ExplosionForceGenerator.h"
 
 using namespace std;
 
@@ -20,14 +21,18 @@ private:
 	WindForceGenerator* windForceGen_;
 	WindForceGenerator* windForceGen2_;
 	WhirlwindForceGenerator* whirlwindForceGen_;
+	ExplosionForceGenerator* explosionForceGen_;
 
 public:
-	enum Generator { FUENTE, NUBE };
+	enum Generator { FUENTE, NUBE, PRUEBAS, SUELO };
+	enum FGenerator { EXPLOSION, TORBELLINO };
 
 	ParticleSystem();
 	~ParticleSystem();
 	void update(double t);
+
 	ParticleGenerator* getParticleGenerator(Generator name);
+	ForceGenerator* getForceGenerator(FGenerator name);
 
 };
 class FireworkSystem : ParticleSystem

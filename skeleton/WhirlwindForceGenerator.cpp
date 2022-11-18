@@ -14,6 +14,7 @@ WhirlwindForceGenerator::WhirlwindForceGenerator(const float k1, const float k2,
 	origen_ = origen;
 	position_ = origen;
 	radius_ = radius;
+	isActive_ = false;
 
 	//new Particle(origen, { 0,0,0 }, { 0,0,0 }, 1.0, 0, 1.0, radius_, { 0.0, 1.0, 0.0, 0.1 });
 }

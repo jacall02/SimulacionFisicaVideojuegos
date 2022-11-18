@@ -2,20 +2,35 @@
 
 UniformParticleGenerator* fuente;
 GaussianParticleGenerator* nube;
+UniformParticleGenerator* pruebas;
+UniformParticleGenerator* suelo;
+ExplosionForceGenerator* explosion;
+WhirlwindForceGenerator* torbellino;
 
 ParticleSystem::ParticleSystem()
 {
 	fuente = new UniformParticleGenerator({ 0, 0, 0 }, { 0, 0, 0 },
 		{ 0, 80, 0 }, { 10, 20, 10 }, { 0, 0, 0 }, 4, 20, 1.0, 1.0, { 0.2, 0.2, 1.0, 1.0 }, 95);
 
-	nube = new GaussianParticleGenerator({ 0, 0, 0 }, { 100, 100, 100 },
+	nube = new GaussianParticleGenerator({ 100, 200, 100 }, { 100, 100, 100 },
 		{ 0, 0, 0 }, { 2, 2, 2 }, { 0, 0, 0 }, 10, 10, 1.0, 1.0, { 0.8, 0.8, 0.8, 0.6 }, 80);
 
+	pruebas = new UniformParticleGenerator({ -50, 0, -50 }, { 10, 10, 10 },
+		{ 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 20, 20, 1.0, 0.5, { 0.2, 1.0, 0.6 , 1.0 }, 100);
+	
+	suelo = new UniformParticleGenerator({ -100, 0, -100 }, { 100, 0, 100 },
+		{ 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 100, 20, 1.0, 0.2, { 0.8, 0.4, 0.4 , 1.0 }, 100);
 
 	gravityForceGen_ = new GravityForceGenerator(Vector3(0, -9.8, 0));
-	windForceGen_ = new WindForceGenerator(1, 0, Vector3(100, 0, 0), Vector3(0,50,0), 20);
+	windForceGen_ = new WindForceGenerator(1, 0, Vector3(100, 0, 0), Vector3(0, 50, 0), 20);
 	windForceGen2_ = new WindForceGenerator(1, 0, Vector3(-100, -10, 0), Vector3(100, 100, 0), 50);
 	whirlwindForceGen_ = new WhirlwindForceGenerator(1, 0, 1.0, 1.0, Vector3(0, 50, 0), 50);
+	whirlwindForceGen_->setActive(true);
+	explosionForceGen_ = new ExplosionForceGenerator(Vector3(0, 0, 0), 200000, 10, 2);
+
+	explosion = new ExplosionForceGenerator(Vector3(-100, -10, -100), 200, 10, 2);
+	torbellino = new WhirlwindForceGenerator(1, 0, 1.0, 1.0, Vector3(-100, 10, -100), 400);
+
 	forceRegistry_ = new ParticleForceRegistry();
 }
 
@@ -51,10 +66,28 @@ void ParticleSystem::update(double t)
 
 	if (getParticleGenerator(ParticleSystem::NUBE)->getActive()) {
 		auto nubeGenerator = getParticleGenerator(ParticleSystem::NUBE);
-		for (auto particula : nubeGenerator->generateParticles()) {		
+		for (auto particula : nubeGenerator->generateParticles()) {
 			particles.push_back(particula);
 			//forceRegistry_->addRegistry(gravityForceGen_, particula);
-			forceRegistry_->addRegistry(whirlwindForceGen_, particula);
+			//forceRegistry_->addRegistry(whirlwindForceGen_, particula);
+		}
+	}
+
+	if (getParticleGenerator(ParticleSystem::PRUEBAS)->getActive()) {
+		auto pruebasGenerator = getParticleGenerator(ParticleSystem::PRUEBAS);
+		for (auto particula : pruebasGenerator->generateParticles()) {
+			particles.push_back(particula);
+			forceRegistry_->addRegistry(explosion, particula);
+			forceRegistry_->addRegistry(torbellino, particula);
+		}
+	}
+
+	if (getParticleGenerator(ParticleSystem::SUELO)->getActive()) {
+		auto sueloGenerator = getParticleGenerator(ParticleSystem::SUELO);
+		for (auto particula : sueloGenerator->generateParticles()) {
+			particles.push_back(particula);
+			forceRegistry_->addRegistry(explosion, particula);
+			forceRegistry_->addRegistry(torbellino, particula);
 		}
 	}
 }
@@ -68,6 +101,26 @@ ParticleGenerator* ParticleSystem::getParticleGenerator(Generator name)
 		break;
 	case ParticleSystem::NUBE:
 		return nube;
+		break;
+	case ParticleSystem::PRUEBAS:
+		return pruebas;
+		break;
+	case ParticleSystem::SUELO:
+		return suelo;
+		break;
+	default:
+		break;
+	}
+}
+ForceGenerator* ParticleSystem::getForceGenerator(FGenerator name)
+{
+	switch (name)
+	{
+	case ParticleSystem::EXPLOSION:
+		return explosion;
+		break;
+	case ParticleSystem::TORBELLINO:
+		return torbellino;
 		break;
 	default:
 		break;

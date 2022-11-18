@@ -169,6 +169,30 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		sistemaParticulas->getParticleGenerator(ParticleSystem::NUBE)->setActive(
 			!sistemaParticulas->getParticleGenerator(ParticleSystem::NUBE)->getActive());
 		break;					 
+	}										 			 
+	case 'B':
+	{
+		sistemaParticulas->getParticleGenerator(ParticleSystem::PRUEBAS)->setActive(
+			!sistemaParticulas->getParticleGenerator(ParticleSystem::PRUEBAS)->getActive());
+		break;					 
+	}											 			 
+	case 'V':
+	{
+		sistemaParticulas->getParticleGenerator(ParticleSystem::SUELO)->setActive(
+			!sistemaParticulas->getParticleGenerator(ParticleSystem::SUELO)->getActive());
+		break;					 
+	}															 			 
+	case 'P':
+	{
+		sistemaParticulas->getForceGenerator(ParticleSystem::EXPLOSION)->setActive(
+			!sistemaParticulas->getForceGenerator(ParticleSystem::EXPLOSION)->getActive());
+		break;					 
+	}											 			 
+	case 'O':
+	{
+		sistemaParticulas->getForceGenerator(ParticleSystem::TORBELLINO)->setActive(
+			!sistemaParticulas->getForceGenerator(ParticleSystem::TORBELLINO)->getActive());
+		break;					 
 	}							 
 	default:					 
 		break;					 

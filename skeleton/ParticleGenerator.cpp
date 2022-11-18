@@ -113,8 +113,7 @@ list<Particle*> UniformParticleGenerator::generateParticles()
 			vel.y = velY(gen);
 			vel.z = velZ(gen);
 
-			Particle* particula = new Particle(pos, vel, acc_, 0.99f, life_, inverse_mass_, size_, 
-				Vector4(0.3, 0.3, 1.0, 1.0));
+			Particle* particula = new Particle(pos, vel, acc_, 0.99f, life_, inverse_mass_, size_, color_);
 			lista.push_back(particula);
 		}
 	}
