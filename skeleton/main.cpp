@@ -65,6 +65,7 @@ void initPhysics(bool interactive)
 	sistemaParticulas = new ParticleSystem();
 	sistemaFuegosArtificiales = new FireworkSystem();
 
+
 }
 
 

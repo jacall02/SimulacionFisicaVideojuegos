@@ -1,4 +1,5 @@
 #include "ParticleSystem.h"
+#include "SpringForceGenerator.h"
 
 UniformParticleGenerator* fuente;
 GaussianParticleGenerator* nube;
@@ -17,7 +18,7 @@ ParticleSystem::ParticleSystem()
 
 	pruebas = new UniformParticleGenerator({ -50, 0, -50 }, { 10, 10, 10 },
 		{ 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 20, 20, 1.0, 0.5, { 0.2, 1.0, 0.6 , 1.0 }, 100);
-	
+
 	suelo = new UniformParticleGenerator({ -100, 0, -100 }, { 100, 0, 100 },
 		{ 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 100, 20, 1.0, 0.2, { 0.8, 0.4, 0.4 , 1.0 }, 100);
 
@@ -32,6 +33,7 @@ ParticleSystem::ParticleSystem()
 	torbellino = new WhirlwindForceGenerator(1, 0, 1.0, 1.0, Vector3(-100, 10, -100), 400);
 
 	forceRegistry_ = new ParticleForceRegistry();
+	generateSpringDemo();
 }
 
 ParticleSystem::~ParticleSystem()
@@ -158,4 +160,18 @@ void FireworkSystem::shootFirework(Vector3 pos, Vector3 vel, Vector3 acc, float 
 	auto sistema = new CircleParticleGenerator(pos, vel, (rand() % 10) + 5, particula);
 	sistema->reps_ = (rand() % 3);
 	particula->_gens.emplace_back(sistema);
+}
+
+void ParticleSystem::generateSpringDemo() {
+	Particle* p1 = new Particle({ -10.0, 50.0, 0.0 }, { 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, 0.85, 60, 1, 2, { 1.0,1.0,0.2,1.0, });
+	Particle* p2 = new Particle({ 10.0, 10.0, 0.0 }, { 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, 0.85, 60, 1, 2, { 0.2,1.0,1.0,1.0, });
+	p2->setInverseMass(2.0);
+	SpringForceGenerator* f1 = new SpringForceGenerator(1, 10, p2);
+	forceRegistry_->addRegistry(f1, p1);
+	SpringForceGenerator* f2 = new SpringForceGenerator(1, 10, p1);
+	forceRegistry_->addRegistry(f2, p2);
+	particles.push_back(p1);
+	particles.push_back(p2);
+
+	//Particle* p3 = new AnchoredSpringForceGenerator
 }

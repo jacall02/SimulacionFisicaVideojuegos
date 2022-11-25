@@ -34,6 +34,8 @@ public:
 	ParticleGenerator* getParticleGenerator(Generator name);
 	ForceGenerator* getForceGenerator(FGenerator name);
 
+	void generateSpringDemo();
+
 };
 class FireworkSystem : ParticleSystem
 {

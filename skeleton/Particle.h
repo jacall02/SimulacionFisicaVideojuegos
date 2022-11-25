@@ -78,3 +78,13 @@ public:
 	list<shared_ptr<CircleParticleGenerator>> _gens;
 private:
 };
+
+class Cubo : public Particle
+{
+public:
+	Cubo(Vector3 pos, Vector3 vel, Vector3 ac, double damping, int life, float inverse_mass, float size, Vector4 color);
+	Cubo(Vector3 pos, float hX,float hY,float hZ, Vector4 color);
+	void setParticle();
+private:
+	float hX_, hY_, hZ_;
+};

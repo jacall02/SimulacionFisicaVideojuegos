@@ -5,11 +5,12 @@
 
 class AnchoredSpringForceGenerator : public SpringForceGenerator {
 public:
-	AnchoredSpringForceGenerator();
+	AnchoredSpringForceGenerator(double k, double resting, const Vector3& anchor_pos);
+	~AnchoredSpringForceGenerator();
 
 	virtual void updateForce(Particle* particle, double t);
 
 protected:
-	//Particle* _other; es fija
+	Particle* _other;
 };
 
