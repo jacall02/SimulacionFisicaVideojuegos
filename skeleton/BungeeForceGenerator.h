@@ -5,7 +5,7 @@
 
 class BungeeForceGenerator : public SpringForceGenerator {
 public:
-	BungeeForceGenerator();
+	BungeeForceGenerator(double k, double resting, Particle* other);
 
 	virtual void updateForce(Particle* particle, double t);
 

@@ -13,7 +13,12 @@ AnchoredSpringForceGenerator::~AnchoredSpringForceGenerator()
 
 void AnchoredSpringForceGenerator::updateForce(Particle* particle, double t)
 {
-	if (fabs(particle->getInverseMass()) < 1e-10)
-		return;
+	Vector3 force = _other->getPosition().p - particle->getPosition().p;
 
+	const float length = force.normalize();
+	const float delta_x = length - _rest_length;
+
+	force *= delta_x * _k;
+
+	particle->addForce(force);
 }

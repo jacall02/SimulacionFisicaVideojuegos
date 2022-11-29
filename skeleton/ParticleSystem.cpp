@@ -1,5 +1,7 @@
 #include "ParticleSystem.h"
 #include "SpringForceGenerator.h"
+#include "AnchoredSpringForceGenerator.h"
+#include "BungeeForceGenerator.h"
 
 UniformParticleGenerator* fuente;
 GaussianParticleGenerator* nube;
@@ -163,8 +165,8 @@ void FireworkSystem::shootFirework(Vector3 pos, Vector3 vel, Vector3 acc, float 
 }
 
 void ParticleSystem::generateSpringDemo() {
-	Particle* p1 = new Particle({ -10.0, 50.0, 0.0 }, { 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, 0.85, 60, 1, 2, { 1.0,1.0,0.2,1.0, });
-	Particle* p2 = new Particle({ 10.0, 10.0, 0.0 }, { 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, 0.85, 60, 1, 2, { 0.2,1.0,1.0,1.0, });
+	Particle* p1 = new Particle({ -10.0, 50.0, 0.0 }, { 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, 0.85, 60, 1, 2, { 1.0,1.0,0.2,1.0 });
+	Particle* p2 = new Particle({ 10.0, 10.0, 0.0 }, { 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, 0.85, 60, 1, 2, { 0.2,1.0,1.0,1.0 });
 	p2->setInverseMass(2.0);
 	SpringForceGenerator* f1 = new SpringForceGenerator(1, 10, p2);
 	forceRegistry_->addRegistry(f1, p1);
@@ -173,5 +175,23 @@ void ParticleSystem::generateSpringDemo() {
 	particles.push_back(p1);
 	particles.push_back(p2);
 
-	//Particle* p3 = new AnchoredSpringForceGenerator
+
+
+	Particle* p3 = new Particle({ 30.0, 30.0, 0.0 }, { 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, 0.85, 60, 1, 2, { 1.0, 0.5,0.2,1.0 });
+	AnchoredSpringForceGenerator* f3 = new AnchoredSpringForceGenerator(1, 10, { 30.0, 60.0, 0.0 });
+	forceRegistry_->addRegistry(f3, p3);
+	particles.push_back(p3);
+
+
+
+	Particle* p4 = new Particle({ 10.0, 60.0, -10.0 }, { 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, 0.85, 60, 1, 2, { 0.8,0.2,0.2,1.0 });
+	Particle* p5 = new Particle({ 10.0, 40.0, -10.0 }, { 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, 0.85, 60, 1, 2, { 0.8,1.0,1.0,1.0 });
+	BungeeForceGenerator* f4 = new BungeeForceGenerator(1, 20, p5);
+	forceRegistry_->addRegistry(f4, p4);
+	BungeeForceGenerator* f5 = new BungeeForceGenerator(1, 20, p4);
+	forceRegistry_->addRegistry(f5, p5);
+	//forceRegistry_->addRegistry(gravityForceGen_, p4);
+	particles.push_back(p4);
+	particles.push_back(p5);
+
 }
