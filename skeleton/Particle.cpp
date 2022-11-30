@@ -182,6 +182,22 @@ Cubo::Cubo(Vector3 pos, float hX, float hY, float hZ, Vector4 color)
 	force_ = Vector3(0, 0, 0);
 	setParticle();
 }
+Cubo::Cubo(Vector3 pos, float hX, float hY, float hZ, Vector4 color, float inverse_mass)
+{
+	vel_ = Vector3(0);
+	acc_ = Vector3(0);
+	damping_ = 0.9;
+	life_ = 10000;
+	inverse_mass_ = inverse_mass_;
+	hX_ = hX;
+	hY_ = hY;
+	hZ_ = hZ;
+	color_ = color;
+
+	pose = physx::PxTransform(pos.x, pos.y, pos.z);
+	force_ = Vector3(0, 0, 0);
+	setParticle();
+}
 
 void Cubo::setParticle() {
 	renderItem = new RenderItem(CreateShape(physx::PxBoxGeometry(hX_, hY_, hZ_)), &pose, color_);

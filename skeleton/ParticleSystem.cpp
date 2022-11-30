@@ -2,6 +2,7 @@
 #include "SpringForceGenerator.h"
 #include "AnchoredSpringForceGenerator.h"
 #include "BungeeForceGenerator.h"
+#include "BuoyancyForceGenerator.h"
 
 UniformParticleGenerator* fuente;
 GaussianParticleGenerator* nube;
@@ -35,7 +36,7 @@ ParticleSystem::ParticleSystem()
 	torbellino = new WhirlwindForceGenerator(1, 0, 1.0, 1.0, Vector3(-100, 10, -100), 400);
 
 	forceRegistry_ = new ParticleForceRegistry();
-	generateSpringDemo();
+
 }
 
 ParticleSystem::~ParticleSystem()
@@ -172,6 +173,9 @@ void ParticleSystem::generateSpringDemo() {
 	forceRegistry_->addRegistry(f1, p1);
 	SpringForceGenerator* f2 = new SpringForceGenerator(1, 10, p1);
 	forceRegistry_->addRegistry(f2, p2);
+
+	forceRegistry_->addRegistry(whirlwindForceGen_, p1);
+
 	particles.push_back(p1);
 	particles.push_back(p2);
 
@@ -180,6 +184,7 @@ void ParticleSystem::generateSpringDemo() {
 	Particle* p3 = new Particle({ 30.0, 30.0, 0.0 }, { 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, 0.85, 60, 1, 2, { 1.0, 0.5,0.2,1.0 });
 	AnchoredSpringForceGenerator* f3 = new AnchoredSpringForceGenerator(1, 10, { 30.0, 60.0, 0.0 });
 	forceRegistry_->addRegistry(f3, p3);
+
 	particles.push_back(p3);
 
 
@@ -190,8 +195,65 @@ void ParticleSystem::generateSpringDemo() {
 	forceRegistry_->addRegistry(f4, p4);
 	BungeeForceGenerator* f5 = new BungeeForceGenerator(1, 20, p4);
 	forceRegistry_->addRegistry(f5, p5);
-	//forceRegistry_->addRegistry(gravityForceGen_, p4);
+	forceRegistry_->addRegistry(gravityForceGen_, p4);
+
 	particles.push_back(p4);
 	particles.push_back(p5);
 
+
+
+
+
+	Particle* p6 = new Particle({ -50.0, 50.0, -30.0 }, { 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, 0.85, 60, 1, 2, { 0.1,0.0,1.0,1.0 });
+	AnchoredSpringForceGenerator* f6 = new AnchoredSpringForceGenerator(10, 10, { -50.0, 60.0, -30.0 });
+	forceRegistry_->addRegistry(f6, p6);
+	particles.push_back(p6);
+
+	Particle* p7 = new Particle({ -50.0, 40.0, -30.0 }, { 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, 0.85, 60, 1, 2, { 0.4,0.0,1.0,1.0 });
+	SpringForceGenerator* f7 = new SpringForceGenerator(1, 10, p6);
+	forceRegistry_->addRegistry(f7, p7);
+	particles.push_back(p7);
+
+	Particle* p8 = new Particle({ -50.0, 30.0, -30.0 }, { 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, 0.85, 60, 1, 2, { 0.7,0.0,1.0,1.0 });
+	SpringForceGenerator* f8 = new SpringForceGenerator(1, 10, p7);
+	forceRegistry_->addRegistry(f8, p8);
+	particles.push_back(p8);
+
+	Particle* p9 = new Particle({ -50.0, 20.0, -30.0 }, { 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, 0.85, 60, 1, 2, { 1.0,0.0,1.0,1.0 });
+	SpringForceGenerator* f9 = new SpringForceGenerator(1, 10, p8);
+	forceRegistry_->addRegistry(f9, p9);
+	particles.push_back(p9);
+
+	Particle* p10 = new Particle({ -50.0, 10.0, -30.0 }, { 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, 0.85, 60, 1, 2, { 1.0,0.0,0.7,1.0 });
+	SpringForceGenerator* f10 = new SpringForceGenerator(1, 10, p9);
+	forceRegistry_->addRegistry(f10, p10);
+	particles.push_back(p10);
+
+	Particle* p11 = new Particle({ -50.0, 0.0, -30.0 }, { 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, 0.85, 60, 1, 2, { 1.0,0.0,0.4,1.0 });
+	SpringForceGenerator* f11 = new SpringForceGenerator(1, 10, p10);
+	forceRegistry_->addRegistry(f11, p11);
+	particles.push_back(p11);
+
+	Particle* p12 = new Particle({ -50.0, -10.0, -30.0 }, { 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, 0.85, 60, 1, 2, { 1.0,0.0,0.1,1.0 });
+	SpringForceGenerator* f12 = new SpringForceGenerator(1, 5, p11);
+	forceRegistry_->addRegistry(f12, p12);
+	particles.push_back(p12);
+
+	forceRegistry_->addRegistry(gravityForceGen_, p6);
+	forceRegistry_->addRegistry(gravityForceGen_, p7);
+	forceRegistry_->addRegistry(gravityForceGen_, p8);
+	forceRegistry_->addRegistry(gravityForceGen_, p9);
+	forceRegistry_->addRegistry(gravityForceGen_, p10);
+	forceRegistry_->addRegistry(gravityForceGen_, p11);
+	forceRegistry_->addRegistry(gravityForceGen_, p12);
+
+
+
+	Particle* p13 = new Particle({ -10.0, 10.0, -30.0 }, { 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, 0.85, 60, 1, 2, { 1.0, 1.0,0.2,1.0 });
+	//Cubo* cubo = new Cubo({ -10.0, 100.0, -30.0 }, 10.0, 30.0, 5.0, { 1.0, 1.0,0.2,1.0 }, 10.0f);
+	BuoyancyForceGenerator* f13 = new BuoyancyForceGenerator(10.0, 10.0, 1.0);
+	forceRegistry_->addRegistry(f13, p13);
+	forceRegistry_->addRegistry(gravityForceGen_, p13);
+
+	particles.push_back(p13);
 }

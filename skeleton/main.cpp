@@ -63,6 +63,7 @@ void initPhysics(bool interactive)
 	gScene = gPhysics->createScene(sceneDesc);
 
 	sistemaParticulas = new ParticleSystem();
+	sistemaParticulas->generateSpringDemo();
 	sistemaFuegosArtificiales = new FireworkSystem();
 
 

@@ -37,7 +37,7 @@ public:
 	void generateSpringDemo();
 
 };
-class FireworkSystem : ParticleSystem
+class FireworkSystem : public ParticleSystem
 {
 private:
 	vector<Firework*> _fireworks_pool;
