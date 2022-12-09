@@ -51,7 +51,7 @@ void initPhysics(bool interactive)
 
 	gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, PxTolerancesScale(),true,gPvd);
 
-	gMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.6f);
+	gMaterial = gPhysics->createMaterial(0.9f, 0.5f, 0.7f);
 
 	// For Solid Rigids +++++++++++++++++++++++++++++++++++++
 	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
@@ -62,8 +62,24 @@ void initPhysics(bool interactive)
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 
+
+	// Suelo
+	PxRigidStatic* Suelo = gPhysics->createRigidStatic(PxTransform({ 0.0, 0.0, 0.0 }));
+	PxShape* shape_suelo = CreateShape(PxBoxGeometry(100, 0.1, 100));
+	Suelo->attachShape(*shape_suelo);
+	RenderItem* item = new RenderItem(shape_suelo, Suelo, { 0.8, 0.8, 0.8, 1 });
+	gScene->addActor(*Suelo);
+
+	// Pared
+	PxRigidStatic* Pared = gPhysics->createRigidStatic(PxTransform({ 10.0, 10.0, -30.0 }));
+	PxShape* shape_pared = CreateShape(PxBoxGeometry(40.0, 20.0, 5.0));
+	Pared->attachShape(*shape_pared);
+	item = new RenderItem(shape_pared, Pared, { 0.8, 0.8, 0.8, 1 });
+	gScene->addActor(*Pared);
+
+
 	sistemaParticulas = new ParticleSystem();
-	sistemaParticulas->generateSpringDemo();
+	//sistemaParticulas->generateSpringDemo();
 	sistemaFuegosArtificiales = new FireworkSystem();
 
 
