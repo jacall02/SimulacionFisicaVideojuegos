@@ -16,7 +16,7 @@ protected:
 	double _generation_probability;
 	int _num_particles;
 	bool active_;
-	float size_;
+	Vector3 size_;
 	int life_;
 	double inverse_mass_;
 	Vector4 color_;
@@ -25,7 +25,7 @@ protected:
 public:
 	RigidBodyGenerator();
 	~RigidBodyGenerator();
-	virtual list<PxRigidDynamic*> generateParticles() = 0;
+	virtual list<PxRigidDynamic*> generateParticles();
 
 	void setActive(bool a) { active_ = a; };
 	bool getActive() { return active_; };
@@ -36,7 +36,8 @@ public:
 
 class UniformRigidGenerator : public RigidBodyGenerator
 {
-	UniformRigidGenerator(Vector3 pos, Vector3 offPos, Vector3 vel, Vector3 offVel, Vector3 acc, int num, int life, float inverse_mass, float size, Vector4 color, double propability, PxPhysics* gPhysics);
+public:
+	UniformRigidGenerator(Vector3 pos, Vector3 offPos, Vector3 vel, Vector3 offVel, Vector3 acc, int num, int life, float inverse_mass, Vector3 size, Vector4 color, double propability, PxPhysics* gPhysics);
 	list<PxRigidDynamic*> uniformGenerator(Vector3 pos, Vector3 offPos, Vector3 vel, Vector3 offVel, Vector3 acc, int num, int life, float inverse_mass, Vector3 size, Vector4 color, double propability);
 };
 

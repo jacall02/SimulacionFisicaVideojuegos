@@ -3,8 +3,8 @@
 #include "ParticleGenerator.h"
 #include "ParticleForceRegistry.h"
 
-#include "WindForceGenerator.h"
-#include "ExplosionForceGenerator.h"
+#include "GravityForceGenerator.h"
+
 
 using namespace std;
 using namespace physx;
@@ -12,6 +12,8 @@ class RBSystem
 {
 private:
 	std::vector<PxRigidDynamic*> solidosRigidos_;
+	RigidForceRegistry* forceRegistry_;
+	GravityForceGenerator* gravityForceGen_;
 	PxScene* scene_;
 	PxPhysics* gPhysics_;
 
@@ -19,9 +21,4 @@ public:
 	RBSystem(PxScene *scene, PxPhysics *gPhysics);
 	~RBSystem();
 	void update(double t);
-
-	PxRigidDynamic* GenerateSolid(Vector3 pos, Vector3 vel, Vector3 acc, int life, float inverse_mass, Vector3 size, Vector4 color);
-
-	list<PxRigidDynamic*> uniformGenerator(Vector3 pos, Vector3 offPos, Vector3 vel, Vector3 offVel, Vector3 acc, int num, int life, float inverse_mass, Vector3 size, Vector4 color, double propability);
-	list<PxRigidDynamic*> setUniformGenerator(Vector3 pos, Vector3 offPos, Vector3 vel, Vector3 offVel, Vector3 acc, int num, int life, float inverse_mass, Vector3 size, Vector4 color, double propability);
 };

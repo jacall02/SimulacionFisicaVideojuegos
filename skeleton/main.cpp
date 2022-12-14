@@ -84,9 +84,7 @@ void initPhysics(bool interactive)
 	sistemaFuegosArtificiales = new FireworkSystem();
 
 	sistemaSolidos = new RBSystem(gScene, gPhysics);
-	sistemaSolidos->uniformGenerator({ 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, { 0.0,5.0,2.0 }, { 0.0,1.0,1.0 },
-		{ 0.0,0.0,0.0 }, 1, 40, 1, { 1.0,0.5,1.5 }, { 1.0,0.5,1.0,1.0 }, 1.0);
-}
+	}
 
 
 // Function to configure what happens in each step of physics

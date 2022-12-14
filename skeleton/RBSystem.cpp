@@ -3,44 +3,38 @@
 #include "AnchoredSpringForceGenerator.h"
 #include "BungeeForceGenerator.h"
 #include "BuoyancyForceGenerator.h"
+#include "RigidBodyGenerator.h"
+
+UniformRigidGenerator* fuente;
+
 
 RBSystem::RBSystem(PxScene* scene, PxPhysics* gPhysics) : scene_(scene), gPhysics_(gPhysics)
 {
+
+	fuente = new UniformRigidGenerator({ 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, { 0.0,5.0,2.0 }, { 0.0,1.0,1.0 },
+		{ 0.0,0.0,0.0 }, 1, 40, 1, { 1.0,0.5,1.5 }, { 1.0,0.5,1.0,1.0 }, 1.0, gPhysics_);
+
 }
 
 void RBSystem::update(double t)
 {
 	forceRegistry_->updateForces(t);
 
-	for (int i = 0; i < particles.size(); i++) {
-		particles[i]->integrate(t);
-		if (particles[i]->getLife() < 0) {
-			auto p = particles[i];
+	/*for (int i = 0; i < solidosRigidos_.size(); i++) {
+		if (solidosRigidos_[i]->getLife() < 0) {
+			auto p = solidosRigidos_[i];
 			forceRegistry_->deleteParticleRegistry(p);
 			delete p;
-			particles.erase(particles.begin() + i);
+			solidosRigidos_.erase(solidosRigidos_.begin() + i);
 			i--;
 		}
-	}
+	}*/
 
-	if (getParticleGenerator(ParticleSystem::FUENTE)->getActive()) {
-		auto fuenteGenerator = getParticleGenerator(ParticleSystem::FUENTE);
-		for (auto particula : fuenteGenerator->generateParticles()) {
-			particles.push_back(particula);
-			forceRegistry_->addRegistry(gravityForceGen_, particula);
-			//forceRegistry_->addRegistry(windForceGen_, particula);
-			//forceRegistry_->addRegistry(windForceGen2_, particula);
-			forceRegistry_->addRegistry(whirlwindForceGen_, particula);
+	if (fuente->getActive()) {
+		for (auto solido : fuente->generateParticles()) {
+			solidosRigidos_.push_back(solido);
+			forceRegistry_->addRegistry(gravityForceGen_, solido);
 		}
 	}
-
-}
-
-
-
-
-list<PxRigidDynamic*> RBSystem::setUniformGenerator(Vector3 pos, Vector3 offPos,
-	Vector3 vel, Vector3 offVel, Vector3 acc, int num,
-	int life, float inverse_mass, Vector3 size, Vector4 color, double propability) {
 
 }

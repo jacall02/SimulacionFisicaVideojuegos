@@ -1,5 +1,6 @@
 #include "RigidBodyGenerator.h"
-#include "RenderUtils.cpp"
+
+
 
 RigidBodyGenerator::RigidBodyGenerator() {
 
@@ -25,7 +26,7 @@ PxRigidDynamic* RigidBodyGenerator::GenerateSolid(Vector3 pos, Vector3 vel, Vect
 
 UniformRigidGenerator::UniformRigidGenerator(Vector3 pos, Vector3 offPos,
 	Vector3 vel, Vector3 offVel, Vector3 acc, int num,
-	int life, float inverse_mass, float size, Vector4 color, double propability, PxPhysics* gPhysics)
+	int life, float inverse_mass, Vector3 size, Vector4 color, double propability, PxPhysics* gPhysics)
 {
 	pos_ = pos;
 	offPos_ = offPos;
