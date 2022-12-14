@@ -12,6 +12,7 @@
 #include "ParticleSystem.h"
 
 #include <iostream>
+#include "RBSystem.h"
 
 
 
@@ -20,22 +21,22 @@ using namespace physx;
 PxDefaultAllocator		gAllocator;
 PxDefaultErrorCallback	gErrorCallback;
 
-PxFoundation*			gFoundation = NULL;
-PxPhysics*				gPhysics	= NULL;
+PxFoundation* gFoundation = NULL;
+PxPhysics* gPhysics = NULL;
 
 
-PxMaterial*				gMaterial	= NULL;
+PxMaterial* gMaterial = NULL;
 
-PxPvd*                  gPvd        = NULL;
+PxPvd* gPvd = NULL;
 
-PxDefaultCpuDispatcher*	gDispatcher = NULL;
-PxScene*				gScene      = NULL;
+PxDefaultCpuDispatcher* gDispatcher = NULL;
+PxScene* gScene = NULL;
 ContactReportCallback gContactReportCallback;
 
 std::vector<Particle*> particles;
 ParticleSystem* sistemaParticulas;
 FireworkSystem* sistemaFuegosArtificiales;
-
+RBSystem* sistemaSolidos;
 
 
 // Initialize physics engine
@@ -47,9 +48,9 @@ void initPhysics(bool interactive)
 
 	gPvd = PxCreatePvd(*gFoundation);
 	PxPvdTransport* transport = PxDefaultPvdSocketTransportCreate(PVD_HOST, 5425, 10);
-	gPvd->connect(*transport,PxPvdInstrumentationFlag::eALL);
+	gPvd->connect(*transport, PxPvdInstrumentationFlag::eALL);
 
-	gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, PxTolerancesScale(),true,gPvd);
+	gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, PxTolerancesScale(), true, gPvd);
 
 	gMaterial = gPhysics->createMaterial(0.9f, 0.5f, 0.7f);
 
@@ -82,7 +83,9 @@ void initPhysics(bool interactive)
 	//sistemaParticulas->generateSpringDemo();
 	sistemaFuegosArtificiales = new FireworkSystem();
 
-
+	sistemaSolidos = new RBSystem(gScene, gPhysics);
+	sistemaSolidos->uniformGenerator({ 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, { 0.0,5.0,2.0 }, { 0.0,1.0,1.0 },
+		{ 0.0,0.0,0.0 }, 1, 40, 1, { 1.0,0.5,1.5 }, { 1.0,0.5,1.0,1.0 }, 1.0);
 }
 
 
@@ -98,7 +101,7 @@ void stepPhysics(bool interactive, double t)
 
 	for (int i = 0; i < particles.size(); i++) {
 		particles[i]->integrate(t);
-		if(particles[i]->getLife() < 0){
+		if (particles[i]->getLife() < 0) {
 			auto p = particles[i];
 			delete p;
 			particles.erase(particles.begin() + i);
@@ -108,7 +111,7 @@ void stepPhysics(bool interactive, double t)
 
 	sistemaParticulas->update(t);
 	sistemaFuegosArtificiales->update(t);
-
+	sistemaSolidos->update(t);
 }
 
 // Function to clean data
@@ -138,84 +141,84 @@ void keyPress(unsigned char key, const PxTransform& camera)
 {
 	PX_UNUSED(camera);
 
-	switch(toupper(key))
+	switch (toupper(key))
 	{
-	//case 'B': break;
-	//case ' ':	break;
+		//case 'B': break;
+		//case ' ':	break;
 	case '1':
 	{
-		Proyectile* particula = new Proyectile(Proyectile::PISTOL, 
+		Proyectile* particula = new Proyectile(Proyectile::PISTOL,
 			camera.p + GetCamera()->getDir() * 10, GetCamera()->getDir());
 		particles.push_back(particula);
-		break;					 
-	}							 
+		break;
+	}
 	case '2':
 	{
-		Proyectile* particula = new Proyectile(Proyectile::ARTILLERY, 
+		Proyectile* particula = new Proyectile(Proyectile::ARTILLERY,
 			camera.p + GetCamera()->getDir() * 10, GetCamera()->getDir());
 		particles.push_back(particula);
-		break;					 
-	}							 
+		break;
+	}
 	case '3':
 	{
-		Proyectile* particula = new Proyectile(Proyectile::FIREBALL, 
+		Proyectile* particula = new Proyectile(Proyectile::FIREBALL,
 			camera.p + GetCamera()->getDir() * 10, GetCamera()->getDir());
 		particles.push_back(particula);
-		break;					 
-	}							 
+		break;
+	}
 	case '4':
 	{
 		Proyectile* particula = new Proyectile(Proyectile::LASER,
 			camera.p + GetCamera()->getDir() * 10, GetCamera()->getDir());
 		particles.push_back(particula);
-		break;					 
-	}								 
+		break;
+	}
 	case 'F':
 	{
-		sistemaFuegosArtificiales->shootFirework(Vector3(-100, -100, -100), 
+		sistemaFuegosArtificiales->shootFirework(Vector3(-100, -100, -100),
 			Vector3(0, 1, 0), Vector3(0, 100, 0), 1.8);
-		break;					 
-	}										 
+		break;
+	}
 	case 'N':
 	{
 		sistemaParticulas->getParticleGenerator(ParticleSystem::FUENTE)->setActive(
 			!sistemaParticulas->getParticleGenerator(ParticleSystem::FUENTE)->getActive());
-		break;					 
-	}							 			 
+		break;
+	}
 	case 'M':
 	{
 		sistemaParticulas->getParticleGenerator(ParticleSystem::NUBE)->setActive(
 			!sistemaParticulas->getParticleGenerator(ParticleSystem::NUBE)->getActive());
-		break;					 
-	}										 			 
+		break;
+	}
 	case 'B':
 	{
 		sistemaParticulas->getParticleGenerator(ParticleSystem::PRUEBAS)->setActive(
 			!sistemaParticulas->getParticleGenerator(ParticleSystem::PRUEBAS)->getActive());
-		break;					 
-	}											 			 
+		break;
+	}
 	case 'V':
 	{
 		sistemaParticulas->getParticleGenerator(ParticleSystem::SUELO)->setActive(
 			!sistemaParticulas->getParticleGenerator(ParticleSystem::SUELO)->getActive());
-		break;					 
-	}															 			 
+		break;
+	}
 	case 'P':
 	{
 		sistemaParticulas->getForceGenerator(ParticleSystem::EXPLOSION)->setActive(
 			!sistemaParticulas->getForceGenerator(ParticleSystem::EXPLOSION)->getActive());
-		break;					 
-	}											 			 
+		break;
+	}
 	case 'O':
 	{
 		sistemaParticulas->getForceGenerator(ParticleSystem::TORBELLINO)->setActive(
 			!sistemaParticulas->getForceGenerator(ParticleSystem::TORBELLINO)->getActive());
-		break;					 
-	}							 
-	default:					 
-		break;					 
-	}							 
-}								 
+		break;
+	}
+	default:
+		break;
+	}
+}
 
 void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 {
@@ -224,7 +227,7 @@ void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 }
 
 
-int main(int, const char*const*)
+int main(int, const char* const*)
 {
 #ifndef OFFLINE_EXECUTION 
 	extern void renderLoop();
@@ -232,7 +235,7 @@ int main(int, const char*const*)
 #else
 	static const PxU32 frameCount = 100;
 	initPhysics(false);
-	for(PxU32 i=0; i<frameCount; i++)
+	for (PxU32 i = 0; i < frameCount; i++)
 		stepPhysics(false);
 	cleanupPhysics(false);
 #endif

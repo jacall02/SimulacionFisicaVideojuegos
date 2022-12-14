@@ -24,6 +24,7 @@
     <ClCompile Include="BungeeForceGenerator.cpp" />
     <ClCompile Include="ExplosionForceGenerator.cpp" />
     <ClCompile Include="RBSystem.cpp" />
+    <ClCompile Include="RigidBodyGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -50,6 +51,7 @@
     <ClInclude Include="BungeeForceGenerator.h" />
     <ClInclude Include="ExplosionForceGenerator.h" />
     <ClInclude Include="RBSystem.h" />
+    <ClInclude Include="RigidBodyGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

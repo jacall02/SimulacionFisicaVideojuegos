@@ -86,7 +86,7 @@ UniformParticleGenerator::UniformParticleGenerator(Vector3 pos, Vector3 offPos,
 }																	
 
 list<Particle*> UniformParticleGenerator::generateParticles()
-{																	
+{
 	list<Particle*> lista;											
 																	
 	random_device rd;												
