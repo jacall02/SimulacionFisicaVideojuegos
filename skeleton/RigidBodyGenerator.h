@@ -8,6 +8,8 @@
 using namespace std;
 using namespace physx;
 
+class RBParticle;
+
 class RigidBodyGenerator
 {
 
@@ -25,19 +27,18 @@ protected:
 public:
 	RigidBodyGenerator();
 	~RigidBodyGenerator();
-	virtual list<PxRigidDynamic*> generateParticles();
 
 	void setActive(bool a) { active_ = a; };
 	bool getActive() { return active_; };
 
 	void setPos(Vector3 pos) { pos_ = pos; };
-	PxRigidDynamic* GenerateSolid(Vector3 pos, Vector3 vel, Vector3 acc, int life, float inverse_mass, Vector3 size, Vector4 color);
+	RBParticle* GenerateSolid(Vector3 pos, Vector3 vel, Vector3 acc, int life, float inverse_mass, Vector3 size, Vector4 color);
 };
 
 class UniformRigidGenerator : public RigidBodyGenerator
 {
 public:
 	UniformRigidGenerator(Vector3 pos, Vector3 offPos, Vector3 vel, Vector3 offVel, Vector3 acc, int num, int life, float inverse_mass, Vector3 size, Vector4 color, double propability, PxPhysics* gPhysics);
-	list<PxRigidDynamic*> uniformGenerator(Vector3 pos, Vector3 offPos, Vector3 vel, Vector3 offVel, Vector3 acc, int num, int life, float inverse_mass, Vector3 size, Vector4 color, double propability);
+	list<RBParticle*> uniformGenerator();
 };
 

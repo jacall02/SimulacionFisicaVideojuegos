@@ -1,4 +1,5 @@
 #include "RigidBodyGenerator.h"
+#include "RBParticle.h"
 
 
 
@@ -10,17 +11,10 @@ RigidBodyGenerator::~RigidBodyGenerator() {
 
 }
 
-PxRigidDynamic* RigidBodyGenerator::GenerateSolid(Vector3 pos, Vector3 vel, Vector3 acc,
+RBParticle* RigidBodyGenerator::GenerateSolid(Vector3 pos, Vector3 vel, Vector3 acc,
 	int life, float inverse_mass, Vector3 size, Vector4 color)
 {
-	PxRigidDynamic* rigido = gPhysics_->createRigidDynamic(PxTransform(pos));
-	rigido->setLinearVelocity(vel);
-	rigido->setAngularVelocity({ 1.0,0.0,0.0 });
-	PxShape* shape = CreateShape(PxBoxGeometry(size.x / 2.0, size.y / 2.0, size.z / 2.0));
-	rigido->attachShape(*shape);
-	Vector3 inertia = { size.y * size.y + size.z * size.z,
-						size.y * size.y + size.z * size.z,
-						size.y * size.y + size.z * size.z };
+	RBParticle* rigido = new RBParticle(pos, vel, acc, 0.95, life, inverse_mass, size, color, gPhysics_);
 	return rigido;
 }
 
@@ -45,28 +39,26 @@ UniformRigidGenerator::UniformRigidGenerator(Vector3 pos, Vector3 offPos,
 
 
 
-list<PxRigidDynamic*> UniformRigidGenerator::uniformGenerator(Vector3 pos, Vector3 offPos,
-	Vector3 vel, Vector3 offVel, Vector3 acc, int num,
-	int life, float inverse_mass, Vector3 size, Vector4 color, double propability)
+list<RBParticle*> UniformRigidGenerator::uniformGenerator()
 {
-	list<PxRigidDynamic*> lista;
+	list<RBParticle*> lista;
 
 	random_device rd;
 	mt19937 gen(rd());
 
-	uniform_real_distribution<> posX(pos.x - offPos.x, pos.x + offPos.x);
-	uniform_real_distribution<> posY(pos.y - offPos.y, pos.y + offPos.y);
-	uniform_real_distribution<> posZ(pos.z - offPos.z, pos.z + offPos.z);
+	uniform_real_distribution<> posX(pos_.x - offPos_.x, pos_.x + offPos_.x);
+	uniform_real_distribution<> posY(pos_.y - offPos_.y, pos_.y + offPos_.y);
+	uniform_real_distribution<> posZ(pos_.z - offPos_.z, pos_.z + offPos_.z);
 
-	uniform_real_distribution<> velX(vel.x - offVel.x, vel.x + offVel.x);
-	uniform_real_distribution<> velY(vel.y - offVel.y, vel.y + offVel.y);
-	uniform_real_distribution<> velZ(vel.z - offVel.z, vel.z + offVel.z);
+	uniform_real_distribution<>velX(vel_.x - offVel_.x, vel_.x + offVel_.x);
+	uniform_real_distribution<> velY(vel_.y - offVel_.y, vel_.y + offVel_.y);
+	uniform_real_distribution<> velZ(vel_.z - offVel_.z, vel_.z + offVel_.z);
 
 	Vector3 newPos, newVel;
 
-	for (int i = 0; i < num; i++)
+	for (int i = 0; i < _num_particles; i++)
 	{
-		if (((rand() % 100) < propability))
+		if (((rand() % 100) < _generation_probability))
 		{
 			newPos.x = posX(gen);
 			newPos.y = posY(gen);
@@ -75,7 +67,7 @@ list<PxRigidDynamic*> UniformRigidGenerator::uniformGenerator(Vector3 pos, Vecto
 			newVel.y = velY(gen);
 			newVel.z = velZ(gen);
 
-			PxRigidDynamic* rigido = GenerateSolid(newPos, newVel, acc, life, inverse_mass, size, color);
+			RBParticle* rigido = GenerateSolid(newPos, newVel, acc_, life_, inverse_mass_, size_, color_);
 			lista.push_back(rigido);
 		}
 	}

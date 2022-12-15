@@ -30,7 +30,7 @@ public:
 	}
 };
 
-class RigidForceRegistry : public std::multimap<ForceGenerator*, PxRigidDynamic*>
+class RigidForceRegistry : public std::multimap<ForceGenerator*, RBParticle*>
 {
 public:
 	void updateForces(double duration) {
@@ -40,12 +40,12 @@ public:
 		}
 	}
 
-	void addRegistry(ForceGenerator* fg, PxRigidDynamic* p) {
+	void addRegistry(ForceGenerator* fg, RBParticle* p) {
 		insert({ fg, p });
 	}
 
 
-	void deleteParticleRegistry(PxRigidDynamic* p) {
+	void deleteParticleRegistry(RBParticle* p) {
 		for (auto it = begin(); it != end(); ) {
 			if (it->second == p) {
 				it = erase(it);

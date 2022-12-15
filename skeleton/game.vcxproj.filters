@@ -25,6 +25,7 @@
     <ClCompile Include="ExplosionForceGenerator.cpp" />
     <ClCompile Include="RBSystem.cpp" />
     <ClCompile Include="RigidBodyGenerator.cpp" />
+    <ClCompile Include="RBParticle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -52,6 +53,7 @@
     <ClInclude Include="ExplosionForceGenerator.h" />
     <ClInclude Include="RBSystem.h" />
     <ClInclude Include="RigidBodyGenerator.h" />
+    <ClInclude Include="RBParticle.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

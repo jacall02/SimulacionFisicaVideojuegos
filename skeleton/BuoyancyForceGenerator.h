@@ -3,12 +3,15 @@
 #include "ForceGenerator.h"
 #include "core.hpp"
 
+class RBParticle;
+
 class BuoyancyForceGenerator : public ForceGenerator {
 public:
 	BuoyancyForceGenerator(float h, float v, float d);
 	~BuoyancyForceGenerator();
 	
 	virtual void updateForce(Particle* particle, double t);
+	virtual void updateForce(RBParticle* particle, double t);
 
 protected:
 	float _height;

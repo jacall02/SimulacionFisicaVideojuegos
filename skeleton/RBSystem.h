@@ -8,10 +8,13 @@
 
 using namespace std;
 using namespace physx;
+
+class RBParticle;
+
 class RBSystem
 {
 private:
-	std::vector<PxRigidDynamic*> solidosRigidos_;
+	std::vector<RBParticle*> solidosRigidos_;
 	RigidForceRegistry* forceRegistry_;
 	GravityForceGenerator* gravityForceGen_;
 	PxScene* scene_;

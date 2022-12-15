@@ -8,6 +8,7 @@ public:
 	SpringForceGenerator(double k, double resting_length, Particle* other);
 
 	virtual void updateForce(Particle* particle, double t);
+	virtual void updateForce(RBParticle* particle, double t);
 
 protected:
 	float _k;

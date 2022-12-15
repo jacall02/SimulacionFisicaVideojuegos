@@ -31,7 +31,7 @@ void RBSystem::update(double t)
 	}*/
 
 	if (fuente->getActive()) {
-		for (auto solido : fuente->generateParticles()) {
+		for (auto solido : fuente->uniformGenerator()) {
 			solidosRigidos_.push_back(solido);
 			forceRegistry_->addRegistry(gravityForceGen_, solido);
 		}

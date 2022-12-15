@@ -6,12 +6,14 @@
 
 using namespace physx;
 
+class RBParticle;
+
 class ForceGenerator {
 protected:
 	bool isActive_ = true;
 public:
 	virtual void updateForce(Particle* particle, double duration) = 0;
-	virtual void updateForce(PxRigidDynamic* rigido, double duration);
+	virtual void updateForce(RBParticle* rigido, double duration) = 0;
 	std::string _name;
 	double t = -1e10;
 
