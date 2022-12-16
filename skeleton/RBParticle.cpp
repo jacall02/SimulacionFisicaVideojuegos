@@ -38,7 +38,7 @@ void RBParticle::addForce(const Vector3& f)
 	rigido_->addForce(f);
 }
 
-RBCubo::RBCubo(Vector3 pos, Vector3 vel, Vector3 ac, double damping, int life, float inverse_mass, Vector3 size, Vector4 color)
+RBCubo::RBCubo(Vector3 pos, Vector3 vel, Vector3 ac, double damping, int life, float inverse_mass, Vector3 size, Vector4 color, PxPhysics* gPhysics, PxScene* scene)
 {
 	vel_ = vel;
 	acc_ = ac;
@@ -47,9 +47,10 @@ RBCubo::RBCubo(Vector3 pos, Vector3 vel, Vector3 ac, double damping, int life, f
 	inverse_mass_ = inverse_mass;
 	size_ = size;
 	color_ = color;
-
 	pose = physx::PxTransform(pos.x, pos.y, pos.z);
 	force_ = Vector3(0, 0, 0);
+	scene_ = scene;
+	gPhysics_ = gPhysics;
 	setRBParticle();
 }
 

@@ -14,7 +14,7 @@ RigidBodyGenerator::~RigidBodyGenerator() {
 RBParticle* RigidBodyGenerator::GenerateSolid(Vector3 pos, Vector3 vel, Vector3 acc,
 	int life, float inverse_mass, Vector3 size, Vector4 color)
 {
-	RBParticle* rigido = new RBParticle(pos, vel, acc, 0.95, life, inverse_mass, size, color, gPhysics_, scene_);
+	RBParticle* rigido = new RBCubo(pos, vel, acc, 0.95, life, inverse_mass, size, color, gPhysics_, scene_);
 	return rigido;
 }
 

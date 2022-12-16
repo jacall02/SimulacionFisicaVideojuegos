@@ -205,6 +205,8 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	{
 		sistemaParticulas->getForceGenerator(ParticleSystem::EXPLOSION)->setActive(
 			!sistemaParticulas->getForceGenerator(ParticleSystem::EXPLOSION)->getActive());
+		sistemaSolidos->getForceGenerator(RBSystem::EXPLOSION)->setActive(
+			!sistemaSolidos->getForceGenerator(RBSystem::EXPLOSION)->getActive());
 		break;
 	}
 	case 'O':
