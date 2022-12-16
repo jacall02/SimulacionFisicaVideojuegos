@@ -3,25 +3,29 @@
 #include "ParticleGenerator.h"
 #include "ParticleForceRegistry.h"
 
-#include "GravityForceGenerator.h"
+#include "RBParticle.h"
+#include "RigidBodyGenerator.h"
+#include "WhirlwindForceGenerator.h"
 
 
 using namespace std;
 using namespace physx;
-
-class RBParticle;
 
 class RBSystem
 {
 private:
 	std::vector<RBParticle*> solidosRigidos_;
 	RigidForceRegistry* forceRegistry_;
-	GravityForceGenerator* gravityForceGen_;
+	WhirlwindForceGenerator* whirlwindForceGen_;
+	WindForceGenerator* windForceGen_;
 	PxScene* scene_;
 	PxPhysics* gPhysics_;
 
 public:
+	enum Generator { FUENTE };
+
 	RBSystem(PxScene *scene, PxPhysics *gPhysics);
-	~RBSystem();
+	~RBSystem() {};
 	void update(double t);
+	UniformRigidGenerator* getParticleGenerator(Generator name);
 };

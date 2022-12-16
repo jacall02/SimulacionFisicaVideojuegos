@@ -22,14 +22,15 @@ void Particle::integrate(double t)
 {
 	if (inverse_mass_ <= 0.0f) return;
 
-	pose = physx::PxTransform(pose.p.x + vel_.x * t, pose.p.y + vel_.y * t, pose.p.z + vel_.z * t);
-
 	Vector3 totalAcceleration = acc_;
 	totalAcceleration += force_ * inverse_mass_;
 
 	vel_ += totalAcceleration * t;
 
 	vel_ *= powf(damping_, t);
+
+	pose = physx::PxTransform(pose.p.x + vel_.x * t, pose.p.y + vel_.y * t, pose.p.z + vel_.z * t);
+
 
 	life_ -= t;
 

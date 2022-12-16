@@ -3,10 +3,10 @@
 #include "Particle.h"
 #include <list>
 #include <random>
+#include "RBParticle.h";
 
 using namespace physx;
 
-class RBParticle;
 
 class ForceGenerator {
 protected:

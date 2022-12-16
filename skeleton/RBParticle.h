@@ -13,10 +13,10 @@ class RBParticle
 {
 public:
 	RBParticle() {};
-	RBParticle(Vector3 pos, Vector3 vel, Vector3 ac, double damping, int life, float inverse_mass, Vector3 size, Vector4 color, PxPhysics* gPhysics);
+	RBParticle(Vector3 pos, Vector3 vel, Vector3 ac, double damping, int life, float inverse_mass, Vector3 size, Vector4 color, PxPhysics* gPhysics, PxScene* scene);
 	~RBParticle();
 
-	void setRBParticle();
+	virtual void setRBParticle();
 
 	void integrate(double t);
 
@@ -53,15 +53,15 @@ protected:
 
 	Vector3 force_;
 
+	PxScene* scene_;
 	PxPhysics* gPhysics_;
+	PxRigidDynamic* rigido_;
 };
 
 class RBCubo : public RBParticle
 {
 public:
 	RBCubo(Vector3 pos, Vector3 vel, Vector3 ac, double damping, int life, float inverse_mass, Vector3 size, Vector4 color);
-	void setRBParticle();
-private:
-	float hX_, hY_, hZ_;
+	virtual void setRBParticle();
 };
 

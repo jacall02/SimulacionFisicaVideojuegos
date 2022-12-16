@@ -23,6 +23,7 @@ protected:
 	double inverse_mass_;
 	Vector4 color_;
 	PxPhysics* gPhysics_;
+	PxScene* scene_;
 
 public:
 	RigidBodyGenerator();
@@ -38,7 +39,7 @@ public:
 class UniformRigidGenerator : public RigidBodyGenerator
 {
 public:
-	UniformRigidGenerator(Vector3 pos, Vector3 offPos, Vector3 vel, Vector3 offVel, Vector3 acc, int num, int life, float inverse_mass, Vector3 size, Vector4 color, double propability, PxPhysics* gPhysics);
+	UniformRigidGenerator(Vector3 pos, Vector3 offPos, Vector3 vel, Vector3 offVel, Vector3 acc, int num, int life, float inverse_mass, Vector3 size, Vector4 color, double propability, PxPhysics* gPhysics, PxScene* scene);
 	list<RBParticle*> uniformGenerator();
 };
 

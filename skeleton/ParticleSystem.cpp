@@ -117,6 +117,7 @@ ParticleGenerator* ParticleSystem::getParticleGenerator(Generator name)
 		break;
 	}
 }
+
 ForceGenerator* ParticleSystem::getForceGenerator(FGenerator name)
 {
 	switch (name)

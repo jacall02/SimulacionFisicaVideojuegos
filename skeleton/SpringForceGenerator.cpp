@@ -18,3 +18,15 @@ void SpringForceGenerator::updateForce(Particle* particle, double t)
 
 	particle->addForce(force);
 }
+
+void SpringForceGenerator::updateForce(RBParticle* particle, double t)
+{
+	Vector3 force = _other->getPosition().p - particle->getPosition().p;
+
+	const float length = force.normalize();
+	const float delta_x = length - _rest_length;
+
+	force *= delta_x * _k;
+
+	particle->addForce(force);
+}

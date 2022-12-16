@@ -213,6 +213,12 @@ void keyPress(unsigned char key, const PxTransform& camera)
 			!sistemaParticulas->getForceGenerator(ParticleSystem::TORBELLINO)->getActive());
 		break;
 	}
+	case 'Q':
+	{
+		sistemaSolidos->getParticleGenerator(RBSystem::FUENTE)->setActive(
+			!sistemaSolidos->getParticleGenerator(RBSystem::FUENTE)->getActive());
+		break;
+	}
 	default:
 		break;
 	}

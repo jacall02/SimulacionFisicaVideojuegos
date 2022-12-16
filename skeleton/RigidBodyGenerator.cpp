@@ -14,13 +14,13 @@ RigidBodyGenerator::~RigidBodyGenerator() {
 RBParticle* RigidBodyGenerator::GenerateSolid(Vector3 pos, Vector3 vel, Vector3 acc,
 	int life, float inverse_mass, Vector3 size, Vector4 color)
 {
-	RBParticle* rigido = new RBParticle(pos, vel, acc, 0.95, life, inverse_mass, size, color, gPhysics_);
+	RBParticle* rigido = new RBParticle(pos, vel, acc, 0.95, life, inverse_mass, size, color, gPhysics_, scene_);
 	return rigido;
 }
 
 UniformRigidGenerator::UniformRigidGenerator(Vector3 pos, Vector3 offPos,
 	Vector3 vel, Vector3 offVel, Vector3 acc, int num,
-	int life, float inverse_mass, Vector3 size, Vector4 color, double propability, PxPhysics* gPhysics)
+	int life, float inverse_mass, Vector3 size, Vector4 color, double propability, PxPhysics* gPhysics, PxScene* scene)
 {
 	pos_ = pos;
 	offPos_ = offPos;
@@ -35,6 +35,7 @@ UniformRigidGenerator::UniformRigidGenerator(Vector3 pos, Vector3 offPos,
 	_generation_probability = propability;
 	active_ = false;
 	gPhysics_ = gPhysics;
+	scene_ = scene;
 }
 
 

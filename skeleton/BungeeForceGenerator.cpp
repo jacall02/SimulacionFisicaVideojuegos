@@ -16,3 +16,16 @@ void BungeeForceGenerator::updateForce(Particle* particle, double t)
 	f *= -(length * _k);
 	particle->addForce(f);
 }
+
+void BungeeForceGenerator::updateForce(RBParticle* particle, double t)
+{
+	Vector3 f = particle->getPosition().p;
+	f -= _other->getPosition().p;
+
+	float length = f.normalize();
+	length = (length - _rest_length);
+	if (length <= 0.0f) return;
+
+	f *= -(length * _k);
+	particle->addForce(f);
+}
