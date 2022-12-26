@@ -17,7 +17,7 @@ RBSystem::RBSystem(PxScene* scene, PxPhysics* gPhysics) : scene_(scene), gPhysic
 	windForceGen_ = new WindForceGenerator(1, 0, Vector3(100, 0, 0), Vector3(0, 50, 0), 20);
 	whirlwindForceGen_ = new WhirlwindForceGenerator(1, 0, 1.0, 1.0, Vector3(0, 50, 0), 50);
 	whirlwindForceGen_->setActive(true);
-
+	explosion = new ExplosionForceGenerator(Vector3(0, -10, 0), 200000, 10, 2);
 }
 
 void RBSystem::update(double t)
@@ -37,7 +37,8 @@ void RBSystem::update(double t)
 	if (fuente->getActive()) {
 		for (auto solido : fuente->uniformGenerator()) {
 			solidosRigidos_.push_back(solido);
-			forceRegistry_->addRegistry(whirlwindForceGen_, solido);
+			forceRegistry_->addRegistry(explosion, solido);
+			//forceRegistry_->addRegistry(whirlwindForceGen_, solido);
 		}
 	}
 

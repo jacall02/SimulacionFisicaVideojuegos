@@ -37,7 +37,7 @@ std::vector<Particle*> particles;
 ParticleSystem* sistemaParticulas;
 FireworkSystem* sistemaFuegosArtificiales;
 RBSystem* sistemaSolidos;
-
+double explosionTime = 0.0;
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -66,17 +66,17 @@ void initPhysics(bool interactive)
 
 	// Suelo
 	PxRigidStatic* Suelo = gPhysics->createRigidStatic(PxTransform({ 0.0, 0.0, 0.0 }));
-	PxShape* shape_suelo = CreateShape(PxBoxGeometry(100, 0.1, 100));
+	PxShape* shape_suelo = CreateShape(PxBoxGeometry(1000, 0.1, 1000));
 	Suelo->attachShape(*shape_suelo);
 	RenderItem* item = new RenderItem(shape_suelo, Suelo, { 0.8, 0.8, 0.8, 1 });
 	gScene->addActor(*Suelo);
 
-	// Pared
-	PxRigidStatic* Pared = gPhysics->createRigidStatic(PxTransform({ 10.0, 10.0, -30.0 }));
-	PxShape* shape_pared = CreateShape(PxBoxGeometry(40.0, 20.0, 5.0));
-	Pared->attachShape(*shape_pared);
-	item = new RenderItem(shape_pared, Pared, { 0.8, 0.8, 0.8, 1 });
-	gScene->addActor(*Pared);
+	//// Pared
+	//PxRigidStatic* Pared = gPhysics->createRigidStatic(PxTransform({ 10.0, 10.0, -30.0 }));
+	//PxShape* shape_pared = CreateShape(PxBoxGeometry(40.0, 20.0, 5.0));
+	//Pared->attachShape(*shape_pared);
+	//item = new RenderItem(shape_pared, Pared, { 0.8, 0.8, 0.8, 1 });
+	//gScene->addActor(*Pared);
 
 
 	sistemaParticulas = new ParticleSystem();
@@ -105,6 +105,14 @@ void stepPhysics(bool interactive, double t)
 			particles.erase(particles.begin() + i);
 			i--;
 		}
+	}
+	
+
+	if(sistemaParticulas->getForceGenerator(ParticleSystem::EXPLOSION)->getActive() &&
+		glutGet(GLUT_ELAPSED_TIME) > explosionTime){
+		sistemaParticulas->getForceGenerator(ParticleSystem::EXPLOSION)->setActive(false);
+		sistemaSolidos->getForceGenerator(RBSystem::EXPLOSION)->setActive(false);
+		cout << "para!\n";
 	}
 
 	sistemaParticulas->update(t);
@@ -143,7 +151,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	{
 		//case 'B': break;
 		//case ' ':	break;
-	case '1':
+	/*case '1':
 	{
 		Proyectile* particula = new Proyectile(Proyectile::PISTOL,
 			camera.p + GetCamera()->getDir() * 10, GetCamera()->getDir());
@@ -220,7 +228,18 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		sistemaSolidos->getParticleGenerator(RBSystem::FUENTE)->setActive(
 			!sistemaSolidos->getParticleGenerator(RBSystem::FUENTE)->getActive());
 		break;
+	}*/
+		//********* PROYECTO FINAL *********
+	case ' ':
+	{
+		sistemaParticulas->getForceGenerator(ParticleSystem::EXPLOSION)->setActive(true);
+		sistemaSolidos->getForceGenerator(RBSystem::EXPLOSION)->setActive(true);
+		explosionTime = glutGet(GLUT_ELAPSED_TIME) + 1000;
+		break;
 	}
+	case '1':
+		sistemaParticulas->generateSueloArena();
+		break;		
 	default:
 		break;
 	}
@@ -231,7 +250,6 @@ void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 	PX_UNUSED(actor1);
 	PX_UNUSED(actor2);
 }
-
 
 int main(int, const char* const*)
 {

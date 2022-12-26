@@ -36,6 +36,9 @@ public:
 
 	void generateSpringDemo();
 
+	// PROYECTO FINAL
+	void generateSueloArena();
+
 };
 class FireworkSystem : public ParticleSystem
 {

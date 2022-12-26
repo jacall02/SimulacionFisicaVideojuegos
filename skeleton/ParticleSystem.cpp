@@ -32,7 +32,7 @@ ParticleSystem::ParticleSystem()
 	whirlwindForceGen_->setActive(true);
 	explosionForceGen_ = new ExplosionForceGenerator(Vector3(0, 0, 0), 200000, 10, 2);
 
-	explosion = new ExplosionForceGenerator(Vector3(-100, -10, -100), 200, 10, 2);
+	explosion = new ExplosionForceGenerator(Vector3(-100, -10, -100), 200000, 10, 2);
 	torbellino = new WhirlwindForceGenerator(1, 0, 1.0, 1.0, Vector3(-100, 10, -100), 400);
 
 	forceRegistry_ = new ParticleForceRegistry();
@@ -257,4 +257,9 @@ void ParticleSystem::generateSpringDemo() {
 	forceRegistry_->addRegistry(gravityForceGen_, p13);
 
 	particles.push_back(p13);
+}
+
+void ParticleSystem::generateSueloArena()
+{
+
 }
