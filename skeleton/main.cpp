@@ -68,7 +68,7 @@ void initPhysics(bool interactive)
 	PxRigidStatic* Suelo = gPhysics->createRigidStatic(PxTransform({ 0.0, 0.0, 0.0 }));
 	PxShape* shape_suelo = CreateShape(PxBoxGeometry(1000, 0.1, 1000));
 	Suelo->attachShape(*shape_suelo);
-	RenderItem* item = new RenderItem(shape_suelo, Suelo, { 0.8, 0.8, 0.8, 1 });
+	RenderItem* item = new RenderItem(shape_suelo, Suelo, { 0.8, 0.4, 0.4, 1 });
 	gScene->addActor(*Suelo);
 
 	//// Pared
@@ -238,6 +238,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		break;
 	}
 	case '1':
+		sistemaSolidos->generateSueloArena();
 		sistemaParticulas->generateSueloArena();
 		break;		
 	default:

@@ -17,10 +17,16 @@ RBParticle* RigidBodyGenerator::GenerateSolid(Vector3 pos, Vector3 vel, Vector3 
 	RBParticle* rigido = new RBCubo(pos, vel, acc, 0.95, life, inverse_mass, size, color, gPhysics_, scene_);
 	return rigido;
 }
+RBParticle* RigidBodyGenerator::GenerateSolidSphere(Vector3 pos, Vector3 vel, Vector3 acc,
+	int life, float inverse_mass, Vector3 size, Vector4 color)
+{
+	RBParticle* rigido = new RBParticle(pos, vel, acc, 0.95, life, inverse_mass, size, color, gPhysics_, scene_);
+	return rigido;
+}
 
 UniformRigidGenerator::UniformRigidGenerator(Vector3 pos, Vector3 offPos,
 	Vector3 vel, Vector3 offVel, Vector3 acc, int num,
-	int life, float inverse_mass, Vector3 size, Vector4 color, double propability, PxPhysics* gPhysics, PxScene* scene)
+	int life, float inverse_mass, Vector3 size, Vector4 color, double propability, PxPhysics* gPhysics, PxScene* scene, bool cuadrado)
 {
 	pos_ = pos;
 	offPos_ = offPos;
@@ -36,6 +42,7 @@ UniformRigidGenerator::UniformRigidGenerator(Vector3 pos, Vector3 offPos,
 	active_ = false;
 	gPhysics_ = gPhysics;
 	scene_ = scene;
+	cuadrado_ = cuadrado;
 }
 
 
@@ -68,7 +75,13 @@ list<RBParticle*> UniformRigidGenerator::uniformGenerator()
 			newVel.y = velY(gen);
 			newVel.z = velZ(gen);
 
-			RBParticle* rigido = GenerateSolid(newPos, newVel, acc_, life_, inverse_mass_, size_, color_);
+
+			RBParticle* rigido;
+			if(cuadrado_)
+				rigido = GenerateSolid(newPos, newVel, acc_, life_, inverse_mass_, size_, color_);
+			else
+				rigido = GenerateSolidSphere(newPos, newVel, acc_, life_, inverse_mass_, size_, color_);
+
 			lista.push_back(rigido);
 		}
 	}

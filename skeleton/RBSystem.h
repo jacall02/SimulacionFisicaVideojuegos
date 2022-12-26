@@ -32,4 +32,7 @@ public:
 	void update(double t);
 	UniformRigidGenerator* getParticleGenerator(Generator name);
 	ForceGenerator* getForceGenerator(FGenerator name);
+
+	// PROYECTO FINAL
+	void generateSueloArena();
 };

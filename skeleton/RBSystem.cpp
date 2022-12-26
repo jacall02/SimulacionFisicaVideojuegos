@@ -17,7 +17,7 @@ RBSystem::RBSystem(PxScene* scene, PxPhysics* gPhysics) : scene_(scene), gPhysic
 	windForceGen_ = new WindForceGenerator(1, 0, Vector3(100, 0, 0), Vector3(0, 50, 0), 20);
 	whirlwindForceGen_ = new WhirlwindForceGenerator(1, 0, 1.0, 1.0, Vector3(0, 50, 0), 50);
 	whirlwindForceGen_->setActive(true);
-	explosion = new ExplosionForceGenerator(Vector3(0, -10, 0), 200000, 10, 2);
+	explosion = new ExplosionForceGenerator(Vector3(0, -20, 0), 200000, 10, 2);
 }
 
 void RBSystem::update(double t)
@@ -65,5 +65,18 @@ ForceGenerator* RBSystem::getForceGenerator(FGenerator name)
 		break;
 	default:
 		break;
+	}
+}
+
+
+// PROYECTO FINAL
+void RBSystem::generateSueloArena()
+{
+	UniformRigidGenerator* gen = new UniformRigidGenerator({0, 10, 0}, {30, 1, 30},
+		{ 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 40, 100, 1.0, { 1.0,1.0,1.0 },
+		{ 0.8, 0.4, 0.4,1.0 }, 100, gPhysics_, scene_);
+	for (auto particula : gen->uniformGenerator()) {
+		solidosRigidos_.push_back(particula);
+		forceRegistry_->addRegistry(explosion, particula);
 	}
 }
