@@ -25,7 +25,7 @@ private:
 
 public:
 	enum Generator { FUENTE, NUBE, PRUEBAS, SUELO };
-	enum FGenerator { EXPLOSION, TORBELLINO };
+	enum FGenerator { EXPLOSION, TORBELLINO, VIENTO };
 
 	ParticleSystem();
 	~ParticleSystem();
@@ -37,8 +37,16 @@ public:
 	void generateSpringDemo();
 
 	// PROYECTO FINAL
+	void clearScene();
+	
 	void generateSueloArena();
+	void generateSueloPiedra();
+	void generateSueloNieve();
 
+	void generateBloqueArena(float x, float z);
+
+	void generateArbol(float x, float z);
+	void generateEstructura(float x, float z);
 };
 class FireworkSystem : public ParticleSystem
 {
@@ -55,4 +63,11 @@ public:
 	void update(double t);
 	void shootFirework(Vector3 pos, Vector3 vel, Vector3 acc, float time);
 
+
+	// PROYECTO FINAL
+	void generateHumo();
+	void generateFuego();
+	void generatePolvoArena();
+	void generatePolvoPiedra();
+	void generatePolvoNieve();
 };

@@ -68,8 +68,8 @@ list<Particle*> GaussianParticleGenerator::generateParticles()
 }																																						
 																			
 UniformParticleGenerator::UniformParticleGenerator(Vector3 pos, Vector3 offPos,
-	Vector3 vel, Vector3 offVel, Vector3 acc, int num,
-	int life, float inverse_mass, float size, Vector4 color, double propability)
+	Vector3 vel, Vector3 offVel, Vector3 acc, int num, int life, 
+	float inverse_mass, float size, Vector4 color, double propability, bool cubo)
 {
 	pos_ = pos;
 	offPos_ = offPos;
@@ -82,7 +82,8 @@ UniformParticleGenerator::UniformParticleGenerator(Vector3 pos, Vector3 offPos,
 	size_ = size;
 	color_ = color;
 	_generation_probability = propability;							
-	active_ = false;												
+	active_ = false;
+	cubo_ = cubo;
 }																	
 
 list<Particle*> UniformParticleGenerator::generateParticles()
@@ -113,8 +114,16 @@ list<Particle*> UniformParticleGenerator::generateParticles()
 			vel.y = velY(gen);
 			vel.z = velZ(gen);
 
-			Particle* particula = new Particle(pos, vel, acc_, 0.99f, life_, inverse_mass_, size_, color_);
-			lista.push_back(particula);
+			if (cubo_) {
+				Cubo* particula = new Cubo(pos, vel, acc_, 0.99f, life_, inverse_mass_, size_, color_);
+				lista.push_back(particula);
+			}
+			else
+			{
+				Particle* particula = new Particle(pos, vel, acc_, 0.99f, life_, inverse_mass_, size_, color_);
+				lista.push_back(particula);
+			}
+			
 		}
 	}
 

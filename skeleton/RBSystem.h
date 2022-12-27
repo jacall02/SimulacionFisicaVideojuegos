@@ -25,7 +25,7 @@ private:
 
 public:
 	enum Generator { FUENTE };
-	enum FGenerator { EXPLOSION };
+	enum FGenerator { EXPLOSION, TORBELLINO, VIENTO };
 
 	RBSystem(PxScene *scene, PxPhysics *gPhysics);
 	~RBSystem() {};
@@ -34,5 +34,22 @@ public:
 	ForceGenerator* getForceGenerator(FGenerator name);
 
 	// PROYECTO FINAL
+	void clearScene();
+
 	void generateSueloArena();
+	void generateSueloPiedra();
+	void generateSueloNieve();
+	void generateSueloBaldosas();
+
+	void generateBloqueArena(float x, float z);
+	void generateBloquePiedra(float x, float z);
+	void generateBloqueHielo(float x, float z);
+
+	void generateArbol(float x, float z);
+	void generateEstructura(float x, float z);
+	void generateGelatina(float x, float z);
+
+	void generateJaulaS();
+	void generateJaulaM();
+	void generateJaulaL();
 };

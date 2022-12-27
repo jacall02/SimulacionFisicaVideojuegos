@@ -19,6 +19,7 @@ protected:
 	int life_;
 	double inverse_mass_;
 	Vector4 color_;
+	bool cubo_;
 
 public:
 	ParticleGenerator();
@@ -40,7 +41,7 @@ public:
 
 class UniformParticleGenerator : public ParticleGenerator {
 public:
-	UniformParticleGenerator(Vector3 pos, Vector3 offPos, Vector3 vel, Vector3 offVel, Vector3 acc, int num, int life, float inverse_mass, float size, Vector4 color, double propability);
+	UniformParticleGenerator(Vector3 pos, Vector3 offPos, Vector3 vel, Vector3 offVel, Vector3 acc, int num, int life, float inverse_mass, float size, Vector4 color, double propability, bool cubo = false);
 	virtual list<Particle*> generateParticles();
 };
 

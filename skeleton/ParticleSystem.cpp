@@ -10,6 +10,7 @@ UniformParticleGenerator* pruebas;
 UniformParticleGenerator* suelo;
 ExplosionForceGenerator* explosion;
 WhirlwindForceGenerator* torbellino;
+WindForceGenerator* viento;
 
 ParticleSystem::ParticleSystem()
 {
@@ -32,7 +33,7 @@ ParticleSystem::ParticleSystem()
 	whirlwindForceGen_->setActive(true);
 	explosionForceGen_ = new ExplosionForceGenerator(Vector3(0, 0, 0), 200000, 10, 2);
 
-	explosion = new ExplosionForceGenerator(Vector3(0, -20, 0), 200000, 10, 2);
+	explosion = new ExplosionForceGenerator(Vector3(0, -10, 0), 200000, 10, 2);
 	torbellino = new WhirlwindForceGenerator(1, 0, 1.0, 1.0, Vector3(-100, 10, -100), 400);
 
 	forceRegistry_ = new ParticleForceRegistry();
@@ -49,7 +50,9 @@ void ParticleSystem::update(double t)
 
 	for (int i = 0; i < particles.size(); i++) {
 		particles[i]->integrate(t);
-		if (particles[i]->getLife() < 0) {
+		auto pos = particles[i]->getPosition().p;
+		if (particles[i]->getLife() < 0 ||
+			pos.x < -2000 || pos.x > 2000 || pos.z < -2000 || pos.z > 2000) {
 			auto p = particles[i];
 			forceRegistry_->deleteParticleRegistry(p);
 			delete p;
@@ -127,6 +130,9 @@ ForceGenerator* ParticleSystem::getForceGenerator(FGenerator name)
 		break;
 	case ParticleSystem::TORBELLINO:
 		return torbellino;
+		break;
+	case ParticleSystem::VIENTO:
+		return viento;
 		break;
 	default:
 		break;
@@ -261,12 +267,86 @@ void ParticleSystem::generateSpringDemo() {
 
 
 // PROYECTO FINAL
+void ParticleSystem::clearScene()
+{
+	for (int i = 0; i < particles.size(); i++) {
+		auto p = particles[i];
+		forceRegistry_->deleteParticleRegistry(p);
+		delete p;
+		particles.erase(particles.begin() + i);
+		i--;
+	}
+}
+
 void ParticleSystem::generateSueloArena()
 {
 	UniformParticleGenerator* gen = new UniformParticleGenerator({ 0, 5, 0 }, { 50, 5, 50 },
-		{ 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 2000, 100, 1.0, 0.5, { 0.8, 0.4, 0.4 , 1.0 }, 100);
+		{ 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 2000, 100, 1.0, 0.5, { 0.8, 0.4, 0.4 , 1.0 }, 100,
+		false);
 	for (auto particula : gen->generateParticles()) {
 		particles.push_back(particula);
 		forceRegistry_->addRegistry(explosion, particula);
-	}	
+	}
+}
+
+void ParticleSystem::generateSueloPiedra()
+{
+	UniformParticleGenerator* gen = new UniformParticleGenerator({ 0, 5, 0 }, { 50, 5, 50 },
+		{ 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 800, 100, 4.0, 1.0, { 0.5, 0.5, 0.5 , 1.0 }, 100,
+		true);
+	for (auto particula : gen->generateParticles()) {
+		particles.push_back(particula);
+		forceRegistry_->addRegistry(explosion, particula);
+	}
+}
+
+void ParticleSystem::generateSueloNieve()
+{
+	UniformParticleGenerator* gen = new UniformParticleGenerator({ 0, 5, 0 }, { 50, 5, 50 },
+		{ 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 2000, 100, 0.5, 0.3, { 0.9, 0.9, 0.9 , 1.0 }, 100,
+		false);
+	for (auto particula : gen->generateParticles()) {
+		particles.push_back(particula);
+		forceRegistry_->addRegistry(explosion, particula);
+	}
+}
+
+void ParticleSystem::generateBloqueArena(float x, float z)
+{
+	UniformParticleGenerator* gen = new UniformParticleGenerator({ x, 10, z }, { 5, (float)(rand() % 5) + 5, 5 },
+		{ 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 200, 100, 1.0, 0.5, { 0.8, 0.4, 0.4 , 1.0 }, 100,
+		false);
+	for (auto particula : gen->generateParticles()) {
+		particles.push_back(particula);
+		forceRegistry_->addRegistry(explosion, particula);
+	}
+}
+
+void ParticleSystem::generateArbol(float x, float z)
+{
+}
+
+void ParticleSystem::generateEstructura(float x, float z)
+{
+}
+
+
+void FireworkSystem::generateHumo()
+{
+}
+
+void FireworkSystem::generateFuego()
+{
+}
+
+void FireworkSystem::generatePolvoArena()
+{
+}
+
+void FireworkSystem::generatePolvoPiedra()
+{
+}
+
+void FireworkSystem::generatePolvoNieve()
+{
 }
