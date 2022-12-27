@@ -47,7 +47,7 @@ protected:
 	double damping_;
 	double inverse_mass_;
 	Vector3 vel_;
-	RenderItem* renderItem;
+	RenderItem* renderItem_;
 	physx::PxTransform pose; //A render item le pasaremos la dirección de esta pose, para que se actualice automáticamente
 	float life_;
 
@@ -56,6 +56,7 @@ protected:
 	PxScene* scene_;
 	PxPhysics* gPhysics_;
 	PxRigidDynamic* rigido_;
+	PxShape* shape_;
 };
 
 class RBCubo : public RBParticle

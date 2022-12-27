@@ -17,7 +17,10 @@ RBSystem::RBSystem(PxScene* scene, PxPhysics* gPhysics) : scene_(scene), gPhysic
 	windForceGen_ = new WindForceGenerator(1, 0, Vector3(100, 0, 0), Vector3(0, 50, 0), 20);
 	whirlwindForceGen_ = new WhirlwindForceGenerator(1, 0, 1.0, 1.0, Vector3(0, 50, 0), 50);
 	whirlwindForceGen_->setActive(true);
+
 	explosion = new ExplosionForceGenerator(Vector3(0, 10, 0), 200000, 10, 2);
+	torbellino = new WhirlwindForceGenerator(1, 0, 1.0, 1.0, Vector3(-100, 10, -100), 400);
+	viento = new WindForceGenerator(1, 0, Vector3(10, 0, -10), Vector3(0, 200, 0), 80);
 }
 
 void RBSystem::update(double t)
@@ -65,6 +68,12 @@ ForceGenerator* RBSystem::getForceGenerator(FGenerator name)
 	case RBSystem::EXPLOSION:
 		return explosion;
 		break;
+	case RBSystem::VIENTO:
+		return viento;
+		break;
+	case RBSystem::TORBELLINO:
+		return torbellino;
+		break;
 	default:
 		break;
 	}
@@ -85,41 +94,89 @@ void RBSystem::clearScene()
 
 void RBSystem::generateSueloArena()
 {
-	UniformRigidGenerator* gen = new UniformRigidGenerator({ 0, 10, 0 }, { 30, 1, 30 },
-		{ 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 40, 100, 1.0, { 1.0,1.0,1.0 },
-		{ 0.8, 0.4, 0.4,1.0 }, 100, gPhysics_, scene_);
+	UniformRigidGenerator* gen = new UniformRigidGenerator({ 0, 15, 0 }, { 30, 10, 30 },
+		{ 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 100, 100, 1.5, { 2.0,2.0,2.0 },
+		{ 0.8, 0.4, 0.4, 1.0 }, 1000, gPhysics_, scene_, false);
 	for (auto particula : gen->uniformGenerator()) {
 		solidosRigidos_.push_back(particula);
 		forceRegistry_->addRegistry(explosion, particula);
+		forceRegistry_->addRegistry(torbellino, particula);
+		forceRegistry_->addRegistry(viento, particula);
 	}
 }
 
 void RBSystem::generateSueloPiedra()
 {
+	UniformRigidGenerator* gen = new UniformRigidGenerator({ 0, 15, 0 }, { 40, 10, 40 },
+		{ 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 100, 100, 4.0, { 3.0,3.0,3.0 },
+		{ 0.5, 0.5, 0.5 , 1.0 }, 100, gPhysics_, scene_, true);
+	for (auto particula : gen->uniformGenerator()) {
+		solidosRigidos_.push_back(particula);
+		forceRegistry_->addRegistry(explosion, particula);
+		forceRegistry_->addRegistry(torbellino, particula);
+		forceRegistry_->addRegistry(viento, particula);
+	}
 }
 
 void RBSystem::generateSueloNieve()
 {
+	UniformRigidGenerator* gen = new UniformRigidGenerator({ 0, 15, 0 }, { 30, 10, 30 },
+		{ 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 100, 100, 1.0, { 4.0,4.0,4.0 },
+		{ 0.9, 0.9, 0.9 , 0.9 }, 100, gPhysics_, scene_, false);
+	for (auto particula : gen->uniformGenerator()) {
+		solidosRigidos_.push_back(particula);
+		forceRegistry_->addRegistry(explosion, particula);
+		forceRegistry_->addRegistry(torbellino, particula);
+		forceRegistry_->addRegistry(viento, particula);
+	}
 }
 
 void RBSystem::generateSueloBaldosas()
 {
 }
 
-void RBSystem::generateBloqueArena(float x, float z)
-{
-}
-
 void RBSystem::generateBloquePiedra(float x, float z)
 {
+	UniformRigidGenerator* gen = new UniformRigidGenerator({ x, 6, z }, { 0, 0, 0 },
+		{ 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 1, 100, 8.0, { (float)(rand() % 5) + 5,
+		(float)(rand() % 10) + 5, (float)(rand() % 5) + 5 },
+		{ 0.5, 0.5, 0.5, 1.0 }, 1000, gPhysics_, scene_, true);
+	for (auto particula : gen->uniformGenerator()) {
+		solidosRigidos_.push_back(particula);
+		forceRegistry_->addRegistry(explosion, particula);
+		forceRegistry_->addRegistry(torbellino, particula);
+		forceRegistry_->addRegistry(viento, particula);
+	}
+
 }
 
 void RBSystem::generateBloqueHielo(float x, float z)
 {
+	UniformRigidGenerator* gen = new UniformRigidGenerator({ x, 6, z }, { 0, 0, 0 },
+		{ 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 1, 100, 6.0, { (float)(rand() % 5) + 5,
+		(float)(rand() % 10) + 5, (float)(rand() % 5) + 5 },
+		{ 0.8, 0.8, 1.0, 1.0 }, 1000, gPhysics_, scene_, true);
+	for (auto particula : gen->uniformGenerator()) {
+		solidosRigidos_.push_back(particula);
+		forceRegistry_->addRegistry(explosion, particula);
+		forceRegistry_->addRegistry(torbellino, particula);
+		forceRegistry_->addRegistry(viento, particula);
+	}
+
 }
 
 void RBSystem::generateArbol(float x, float z)
 {
+	UniformRigidGenerator* gen = new UniformRigidGenerator({ x, 6, z }, { 0, 0, 0 },
+		{ 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 1, 100, 20.0, { 6.0, 12.0, 6.0 },
+		{ 0.8, 0.4, 0.4, 1.0 }, 1000, gPhysics_, scene_, true);
+	for (auto particula : gen->uniformGenerator()) {
+		solidosRigidos_.push_back(particula);
+		forceRegistry_->addRegistry(explosion, particula);
+		forceRegistry_->addRegistry(torbellino, particula);
+		forceRegistry_->addRegistry(viento, particula);
+	}
+
 }
 
 void RBSystem::generateEstructura(float x, float z)
@@ -140,4 +197,26 @@ void RBSystem::generateJaulaM()
 
 void RBSystem::generateJaulaL()
 {
+}
+
+void RBSystem::generateExplosion() {
+	UniformRigidGenerator* gen = new UniformRigidGenerator({ 0, 10, 0 }, { 10, (float)(rand() % 5) + 5,10 },
+		{ 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 50, 100, 0.5, { 10.0,12.0,5.0 },
+		{ 0.4, 0.4, 0.4, 0.9 }, 1000, gPhysics_, scene_, false);
+	for (auto particula : gen->uniformGenerator()) {
+		solidosRigidos_.push_back(particula);
+		//forceRegistry_->addRegistry(explosion, particula);
+		forceRegistry_->addRegistry(torbellino, particula);
+		forceRegistry_->addRegistry(viento, particula);
+	}
+
+	UniformRigidGenerator* gen2 = new UniformRigidGenerator({ 0, 10, 0 }, { 0, (float)(rand() % 5) + 5, 0 },
+		{ 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 50, 100, 0.5, { 5.0,12.0,5.0 },
+		{ 0.4, 0.4, 0.4, 0.9 }, 1000, gPhysics_, scene_, false);
+	for (auto particula : gen2->uniformGenerator()) {
+		solidosRigidos_.push_back(particula);
+		//forceRegistry_->addRegistry(explosion, particula);
+		forceRegistry_->addRegistry(torbellino, particula);
+		forceRegistry_->addRegistry(viento, particula);
+	}
 }

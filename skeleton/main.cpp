@@ -85,7 +85,7 @@ void initPhysics(bool interactive)
 	sistemaFuegosArtificiales = new FireworkSystem();
 
 	sistemaSolidos = new RBSystem(gScene, gPhysics);
-	}
+}
 
 
 // Function to configure what happens in each step of physics
@@ -107,10 +107,10 @@ void stepPhysics(bool interactive, double t)
 			i--;
 		}
 	}
-	
 
-	if(sistemaParticulas->getForceGenerator(ParticleSystem::EXPLOSION)->getActive() &&
-		glutGet(GLUT_ELAPSED_TIME) > explosionTime){
+
+	if (sistemaParticulas->getForceGenerator(ParticleSystem::EXPLOSION)->getActive() &&
+		glutGet(GLUT_ELAPSED_TIME) > explosionTime) {
 		sistemaParticulas->getForceGenerator(ParticleSystem::EXPLOSION)->setActive(false);
 		sistemaFuegosArtificiales->getForceGenerator(ParticleSystem::EXPLOSION)->setActive(false);
 		sistemaSolidos->getForceGenerator(RBSystem::EXPLOSION)->setActive(false);
@@ -230,38 +230,36 @@ void keyPress(unsigned char key, const PxTransform& camera)
 			!sistemaSolidos->getParticleGenerator(RBSystem::FUENTE)->getActive());
 		break;
 	}*/
-		//********* PROYECTO FINAL *********
+	//********* PROYECTO FINAL *********
 	case ' ':
-	{
 		sistemaParticulas->getForceGenerator(ParticleSystem::EXPLOSION)->setActive(true);
 		sistemaFuegosArtificiales->getForceGenerator(ParticleSystem::EXPLOSION)->setActive(true);
 		sistemaSolidos->getForceGenerator(RBSystem::EXPLOSION)->setActive(true);
 		explosionTime = glutGet(GLUT_ELAPSED_TIME) + 200;
+
+		//sistemaSolidos->generateExplosion();
 		break;
-	}
 	case '0':
-	{
 		sistemaParticulas->clearScene();
 		sistemaFuegosArtificiales->clearScene();
 		sistemaSolidos->clearScene();
 		break;
-	}
 	case 'P':
-	{
-		bool activo = !sistemaParticulas->getForceGenerator(ParticleSystem::VIENTO)->getActive();
-		sistemaParticulas->getForceGenerator(ParticleSystem::VIENTO)->setActive(activo);
-		sistemaFuegosArtificiales->getForceGenerator(ParticleSystem::VIENTO)->setActive(activo);
-		sistemaSolidos->getForceGenerator(RBSystem::VIENTO)->setActive(activo);
+		sistemaParticulas->getForceGenerator(ParticleSystem::VIENTO)->setActive(
+			!sistemaParticulas->getForceGenerator(ParticleSystem::VIENTO)->getActive());
+		sistemaFuegosArtificiales->getForceGenerator(ParticleSystem::VIENTO)->setActive(
+			!sistemaFuegosArtificiales->getForceGenerator(ParticleSystem::VIENTO)->getActive());
+		sistemaSolidos->getForceGenerator(RBSystem::VIENTO)->setActive(
+			!sistemaSolidos->getForceGenerator(RBSystem::VIENTO)->getActive());
 		break;
-	}
 	case 'O':
-	{
-		bool activo = !sistemaParticulas->getForceGenerator(ParticleSystem::TORBELLINO)->getActive();
-		sistemaParticulas->getForceGenerator(ParticleSystem::TORBELLINO)->setActive(activo);
-		sistemaFuegosArtificiales->getForceGenerator(ParticleSystem::TORBELLINO)->setActive(activo);
-		sistemaSolidos->getForceGenerator(RBSystem::TORBELLINO)->setActive(activo);
+		sistemaParticulas->getForceGenerator(ParticleSystem::TORBELLINO)->setActive(
+			!sistemaParticulas->getForceGenerator(ParticleSystem::TORBELLINO)->getActive());
+		sistemaFuegosArtificiales->getForceGenerator(ParticleSystem::TORBELLINO)->setActive(
+			!sistemaFuegosArtificiales->getForceGenerator(ParticleSystem::TORBELLINO)->getActive());
+		sistemaSolidos->getForceGenerator(RBSystem::TORBELLINO)->setActive(
+			!sistemaSolidos->getForceGenerator(RBSystem::TORBELLINO)->getActive());
 		break;
-	}
 	case '1':
 		sistemaParticulas->generateSueloArena();
 		sistemaSolidos->generateSueloArena();
@@ -280,7 +278,6 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	case 'Q':
 		x = (rand() % 80) - 40, z = (rand() % 80) - 40;
 		sistemaParticulas->generateBloqueArena(x, z);
-		sistemaSolidos->generateBloqueArena(x, z);
 		break;
 	case 'E':
 		x = (rand() % 80) - 40, z = (rand() % 80) - 40;
@@ -291,27 +288,27 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		sistemaSolidos->generateBloqueHielo(x, z);
 		break;
 	case 'F':
+		sistemaSolidos->generateJaulaS();
+		break;
+	case 'G':
+		sistemaSolidos->generateJaulaM();
+		break;
+	case 'H':
+		sistemaSolidos->generateJaulaL();
+		break;
+	case 'Z':
 		x = (rand() % 80) - 40, z = (rand() % 80) - 40;
 		sistemaParticulas->generateArbol(x, z);
 		sistemaSolidos->generateArbol(x, z);
 		break;
-	case 'G':
+	case 'X':
 		x = (rand() % 80) - 40, z = (rand() % 80) - 40;
 		sistemaParticulas->generateEstructura(x, z);
 		sistemaSolidos->generateEstructura(x, z);
 		break;
-	case 'H':
+	case 'C':
 		x = (rand() % 80) - 40, z = (rand() % 80) - 40;
 		sistemaSolidos->generateGelatina(x, z);
-		break;
-	case 'Z':
-		sistemaSolidos->generateJaulaS();
-		break;
-	case 'X':
-		sistemaSolidos->generateJaulaM();
-		break;
-	case 'C':
-		sistemaSolidos->generateJaulaL();
 		break;
 	default:
 		break;

@@ -12,7 +12,7 @@ WindForceGenerator::WindForceGenerator(const float k1, const float k2, Vector3 w
 	windVelocity_ = windVelocity;
 	position_ = pos;
 	radius_ = radius;
-	isActive_ = true;
+	isActive_ = false;
 
 	//new Particle(pos, { 0,0,0 }, { 0,0,0 }, 1.0, 0, 1.0, radius_, { 1.0, 0.0, 0.0, 0.1 });
 }

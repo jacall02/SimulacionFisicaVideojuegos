@@ -12,19 +12,23 @@ RBParticle::RBParticle(Vector3 pos, Vector3 vel, Vector3 ac, double damping, int
 
 RBParticle::~RBParticle()
 {
+	DeregisterRenderItem(renderItem_);
+	delete renderItem_;
+	scene_->removeActor(*rigido_);
+	rigido_->release();
 }
 
 void RBParticle::setRBParticle() {
 	rigido_ = gPhysics_->createRigidDynamic(PxTransform(pose));
 	rigido_->setLinearVelocity(vel_);
 	rigido_->setAngularVelocity({ 1.0,0.0,0.0 });
-	PxShape* shape = CreateShape(PxSphereGeometry(size_.x / 2.0));
-	rigido_->attachShape(*shape);
+	shape_ = CreateShape(PxSphereGeometry(size_.x / 2.0));
+	rigido_->attachShape(*shape_);
 	Vector3 inertia = { size_.y * size_.y + size_.z * size_.z,
 						size_.y * size_.y + size_.z * size_.z,
 						size_.y * size_.y + size_.z * size_.z };
 	rigido_->setMassSpaceInertiaTensor(inertia);
-	auto item = new RenderItem(shape, rigido_, color_);
+	renderItem_ = new RenderItem(shape_, rigido_, color_);
 	scene_->addActor(*rigido_);
 }
 
@@ -64,6 +68,6 @@ void RBCubo::setRBParticle() {
 						size_.y * size_.y + size_.z * size_.z,
 						size_.y * size_.y + size_.z * size_.z };
 	rigido_->setMassSpaceInertiaTensor(inertia);
-	auto item = new RenderItem(shape, rigido_, color_);
+	renderItem_ = new RenderItem(shape, rigido_, color_);
 	scene_->addActor(*rigido_);
 }

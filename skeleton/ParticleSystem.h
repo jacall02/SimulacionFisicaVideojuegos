@@ -23,6 +23,9 @@ private:
 	WhirlwindForceGenerator* whirlwindForceGen_;
 	ExplosionForceGenerator* explosionForceGen_;
 
+	ExplosionForceGenerator* explosion;
+	WhirlwindForceGenerator* torbellino;
+	WindForceGenerator* viento;
 public:
 	enum Generator { FUENTE, NUBE, PRUEBAS, SUELO };
 	enum FGenerator { EXPLOSION, TORBELLINO, VIENTO };

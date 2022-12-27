@@ -19,7 +19,10 @@ private:
 	RigidForceRegistry* forceRegistry_;
 	WhirlwindForceGenerator* whirlwindForceGen_;
 	WindForceGenerator* windForceGen_;
+
 	ExplosionForceGenerator* explosion;
+	WhirlwindForceGenerator* torbellino;
+	WindForceGenerator* viento;
 	PxScene* scene_;
 	PxPhysics* gPhysics_;
 
@@ -41,7 +44,6 @@ public:
 	void generateSueloNieve();
 	void generateSueloBaldosas();
 
-	void generateBloqueArena(float x, float z);
 	void generateBloquePiedra(float x, float z);
 	void generateBloqueHielo(float x, float z);
 
@@ -52,4 +54,6 @@ public:
 	void generateJaulaS();
 	void generateJaulaM();
 	void generateJaulaL();
+
+	void generateExplosion();
 };
