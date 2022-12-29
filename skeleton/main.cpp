@@ -275,6 +275,10 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		sistemaSolidos->generateSueloNieve();
 		sistemaFuegosArtificiales->generatePolvoNieve();
 		break;
+	case '4':
+		sistemaSolidos->generateSueloBaldosas();
+		sistemaFuegosArtificiales->generatePolvoPiedra();
+		break;
 	case 'Q':
 		x = (rand() % 80) - 40, z = (rand() % 80) - 40;
 		sistemaParticulas->generateBloqueArena(x, z);

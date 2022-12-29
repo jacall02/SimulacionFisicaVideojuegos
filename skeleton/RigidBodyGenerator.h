@@ -36,6 +36,7 @@ public:
 	void setPos(Vector3 pos) { pos_ = pos; };
 	RBParticle* GenerateSolid(Vector3 pos, Vector3 vel, Vector3 acc, int life, float inverse_mass, Vector3 size, Vector4 color);
 	RBParticle* GenerateSolidSphere(Vector3 pos, Vector3 vel, Vector3 acc, int life, float inverse_mass, Vector3 size, Vector4 color);
+	RBParticle* GenerateStatic(Vector3 pos, Vector3 vel, Vector3 acc, int life, float inverse_mass, Vector3 size, Vector4 color);
 };
 
 class UniformRigidGenerator : public RigidBodyGenerator
@@ -43,5 +44,6 @@ class UniformRigidGenerator : public RigidBodyGenerator
 public:
 	UniformRigidGenerator(Vector3 pos, Vector3 offPos, Vector3 vel, Vector3 offVel, Vector3 acc, int num, int life, float inverse_mass, Vector3 size, Vector4 color, double propability, PxPhysics* gPhysics, PxScene* scene, bool cuadrado = false);
 	list<RBParticle*> uniformGenerator();
+	list<RBParticle*> staticGenerator();
 };
 

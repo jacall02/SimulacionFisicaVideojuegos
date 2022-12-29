@@ -186,8 +186,9 @@ void ParticleSystem::generateSpringDemo() {
 
 
 
+	Particle* pAux = new Particle({ 30.0, 60.0, 0.0 }, { 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, 0.85, 60, 1, 2, { 1.0, 0.5,0.2,1.0 });
 	Particle* p3 = new Particle({ 30.0, 30.0, 0.0 }, { 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, 0.85, 60, 1, 2, { 1.0, 0.5,0.2,1.0 });
-	AnchoredSpringForceGenerator* f3 = new AnchoredSpringForceGenerator(1, 10, { 30.0, 60.0, 0.0 });
+	AnchoredSpringForceGenerator* f3 = new AnchoredSpringForceGenerator(1, 10, { 30.0, 60.0, 0.0 }, pAux);
 	forceRegistry_->addRegistry(f3, p3);
 
 	particles.push_back(p3);
@@ -209,8 +210,9 @@ void ParticleSystem::generateSpringDemo() {
 
 
 
+	Particle* pAux2 = new Particle({ -50.0, 60.0, -30.0 }, { 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, 0.85, 60, 1, 2, { 0.1,0.0,1.0,1.0 });
+	AnchoredSpringForceGenerator* f6 = new AnchoredSpringForceGenerator(10, 10, { -50.0, 60.0, -30.0 }, pAux2);
 	Particle* p6 = new Particle({ -50.0, 50.0, -30.0 }, { 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, 0.85, 60, 1, 2, { 0.1,0.0,1.0,1.0 });
-	AnchoredSpringForceGenerator* f6 = new AnchoredSpringForceGenerator(10, 10, { -50.0, 60.0, -30.0 });
 	forceRegistry_->addRegistry(f6, p6);
 	particles.push_back(p6);
 
@@ -343,6 +345,15 @@ void ParticleSystem::generateArbol(float x, float z)
 
 void ParticleSystem::generateEstructura(float x, float z)
 {
+	UniformParticleGenerator* gen = new UniformParticleGenerator({ x, 20, z }, { 10, 15, 10 },
+		{ 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 20, 100, 2.0, 4.0, { 1.0, 0.5, 0.2, 1.0 }, 100,
+		true);
+	for (auto particula : gen->generateParticles()) {
+		particles.push_back(particula);
+		forceRegistry_->addRegistry(explosion, particula);
+		forceRegistry_->addRegistry(torbellino, particula);
+		forceRegistry_->addRegistry(viento, particula);
+	}
 }
 
 

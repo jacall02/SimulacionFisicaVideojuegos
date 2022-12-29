@@ -7,7 +7,8 @@ class RBParticle;
 
 class AnchoredSpringForceGenerator : public SpringForceGenerator {
 public:
-	AnchoredSpringForceGenerator(double k, double resting, const Vector3& anchor_pos);
+	AnchoredSpringForceGenerator(double k, double resting, const Vector3& anchor_pos, Particle* other);
+	AnchoredSpringForceGenerator(double k, double resting, const Vector3& anchor_pos, RBParticle* other);
 	~AnchoredSpringForceGenerator();
 
 	virtual void updateForce(Particle* particle, double t);

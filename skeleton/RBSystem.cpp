@@ -133,6 +133,15 @@ void RBSystem::generateSueloNieve()
 
 void RBSystem::generateSueloBaldosas()
 {
+	UniformRigidGenerator* gen = new UniformRigidGenerator({ 0, 10, 0 }, { 45, 5, 45 },
+		{ 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 100, 100, 10.0, { 10.0,0.5,10.0 },
+		{ 0.6, 0.2, 0.9 , 0.9 }, 100, gPhysics_, scene_, true);
+	for (auto particula : gen->uniformGenerator()) {
+		solidosRigidos_.push_back(particula);
+		forceRegistry_->addRegistry(explosion, particula);
+		forceRegistry_->addRegistry(torbellino, particula);
+		forceRegistry_->addRegistry(viento, particula);
+	}
 }
 
 void RBSystem::generateBloquePiedra(float x, float z)
@@ -181,14 +190,50 @@ void RBSystem::generateArbol(float x, float z)
 
 void RBSystem::generateEstructura(float x, float z)
 {
+	UniformRigidGenerator* gen = new UniformRigidGenerator({ x, 30, z }, { 10, 25, 10 },
+		{ 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 30, 100, 5.0, { 12.0, 2.0, 8.0 },
+		{ 1.0, 0.5, 0.2, 1.0 }, 1000, gPhysics_, scene_, true);
+	for (auto particula : gen->uniformGenerator()) {
+		solidosRigidos_.push_back(particula);
+		forceRegistry_->addRegistry(explosion, particula);
+		forceRegistry_->addRegistry(torbellino, particula);
+		forceRegistry_->addRegistry(viento, particula);
+	}
 }
 
 void RBSystem::generateGelatina(float x, float z)
 {
+
+	/*RBCubo* p5 = new RBCubo({ x, 6, z }, { 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, 0.85, 60, 5.0, {5.0, 5.0, 5.0 }, {0.1,0.0,1.0,1.0}, gPhysics_, scene_);
+	AnchoredSpringForceGenerator* f6 = new AnchoredSpringForceGenerator(10, 10, { -50.0, 60.0, -30.0 }, p5);
+	RBCubo* p6 = new RBCubo({ x, 12, z }, { 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, 0.85, 60, 5.0, {5.0, 5.0, 5.0 }, {0.1,0.0,1.0,1.0}, gPhysics_, scene_);
+	forceRegistry_->addRegistry(f6, p6);
+	solidosRigidos_.push_back(p6);
+
+	RBCubo* p7 = new RBCubo({ x, 18, z }, { 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, 0.85, 60, 5.0, { 5.0, 5.0, 5.0 }, { 0.1,0.0,1.0,1.0 }, gPhysics_, scene_);
+	SpringForceGenerator* f7 = new SpringForceGenerator(1, 10, p6);
+	forceRegistry_->addRegistry(f7, p7);
+	solidosRigidos_.push_back(p7);
+
+	RBCubo* p8 = new RBCubo({ x, 24, z }, { 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, 0.85, 60, 5.0, { 5.0, 5.0, 5.0 }, { 0.1,0.0,1.0,1.0 }, gPhysics_, scene_);
+	SpringForceGenerator* f8 = new SpringForceGenerator(1, 10, p7);
+	forceRegistry_->addRegistry(f8, p8);
+	solidosRigidos_.push_back(p8);
+
+	RBCubo* p9 = new RBCubo({ x, 25, z }, { 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, 0.85, 60, 5.0, { 5.0, 5.0, 5.0 }, { 0.1,0.0,1.0,1.0 }, gPhysics_, scene_);
+	SpringForceGenerator* f9 = new SpringForceGenerator(1, 10, p8);
+	forceRegistry_->addRegistry(f9, p9);
+	solidosRigidos_.push_back(p9);*/
 }
 
 void RBSystem::generateJaulaS()
 {
+	UniformRigidGenerator* gen = new UniformRigidGenerator({ 50, 30, 50 }, { 10, 25, 10 },
+		{ 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 1, 100, 5.0, { 100, 100, 10.0 },
+		{ 1.0, 1.0, 1.0, 0.1 }, 1000, gPhysics_, scene_, true);
+	for (auto particula : gen->staticGenerator()) {
+		solidosRigidos_.push_back(particula);
+	}
 }
 
 void RBSystem::generateJaulaM()

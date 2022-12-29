@@ -42,6 +42,10 @@ void RBParticle::addForce(const Vector3& f)
 	rigido_->addForce(f);
 }
 
+RBCubo::RBCubo()
+{
+}
+
 RBCubo::RBCubo(Vector3 pos, Vector3 vel, Vector3 ac, double damping, int life, float inverse_mass, Vector3 size, Vector4 color, PxPhysics* gPhysics, PxScene* scene)
 {
 	vel_ = vel;
@@ -70,4 +74,28 @@ void RBCubo::setRBParticle() {
 	rigido_->setMassSpaceInertiaTensor(inertia);
 	renderItem_ = new RenderItem(shape, rigido_, color_);
 	scene_->addActor(*rigido_);
+}
+
+RBStatic::RBStatic(Vector3 pos, Vector3 vel, Vector3 ac, double damping, int life, float inverse_mass, Vector3 size, Vector4 color, PxPhysics* gPhysics, PxScene* scene)
+{	
+	vel_ = vel;
+	acc_ = ac;
+	damping_ = damping;
+	life_ = life;
+	inverse_mass_ = inverse_mass;
+	size_ = size;
+	color_ = color;
+	pose = physx::PxTransform(pos.x, pos.y, pos.z);
+	force_ = Vector3(0, 0, 0);
+	scene_ = scene;
+	gPhysics_ = gPhysics;
+	setRBParticle();
+}
+
+void RBStatic::setRBParticle() {
+	rigidoEstatico_ = gPhysics_->createRigidStatic(pose);
+	PxShape* shape = CreateShape(PxBoxGeometry(size_.x / 2.0, size_.y / 2.0, size_.z / 2.0));
+	rigidoEstatico_->attachShape(*shape);
+	renderItem_ = new RenderItem(shape, rigido_, color_);
+	scene_->addActor(*rigidoEstatico_);
 }

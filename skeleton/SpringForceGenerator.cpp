@@ -7,6 +7,13 @@ SpringForceGenerator::SpringForceGenerator(double k, double resting_length, Part
 	_other = other;
 }
 
+SpringForceGenerator::SpringForceGenerator(double k, double resting_length, RBParticle* other)
+{
+	_k = k;
+	_rest_length = resting_length;
+	_other_RB = other;
+}
+
 void SpringForceGenerator::updateForce(Particle* particle, double t)
 {
 	Vector3 force = _other->getPosition().p - particle->getPosition().p;
@@ -21,7 +28,7 @@ void SpringForceGenerator::updateForce(Particle* particle, double t)
 
 void SpringForceGenerator::updateForce(RBParticle* particle, double t)
 {
-	Vector3 force = _other->getPosition().p - particle->getPosition().p;
+	Vector3 force = _other_RB->getPosition().p - particle->getPosition().p;
 
 	const float length = force.normalize();
 	const float delta_x = length - _rest_length;

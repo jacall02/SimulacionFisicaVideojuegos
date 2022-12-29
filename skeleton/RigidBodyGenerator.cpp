@@ -23,6 +23,12 @@ RBParticle* RigidBodyGenerator::GenerateSolidSphere(Vector3 pos, Vector3 vel, Ve
 	RBParticle* rigido = new RBParticle(pos, vel, acc, 0.95, life, inverse_mass, size, color, gPhysics_, scene_);
 	return rigido;
 }
+RBParticle* RigidBodyGenerator::GenerateStatic(Vector3 pos, Vector3 vel, Vector3 acc,
+	int life, float inverse_mass, Vector3 size, Vector4 color)
+{
+	RBParticle* rigido = new RBStatic(pos, vel, acc, 0.95, life, inverse_mass, size, color, gPhysics_, scene_);
+	return rigido;
+}
 
 UniformRigidGenerator::UniformRigidGenerator(Vector3 pos, Vector3 offPos,
 	Vector3 vel, Vector3 offVel, Vector3 acc, int num,
@@ -82,6 +88,25 @@ list<RBParticle*> UniformRigidGenerator::uniformGenerator()
 			else
 				rigido = GenerateSolidSphere(newPos, newVel, acc_, life_, inverse_mass_, size_, color_);
 
+			lista.push_back(rigido);
+		}
+	}
+
+
+	return lista;
+}
+
+list<RBParticle*> UniformRigidGenerator::staticGenerator()
+{
+	list<RBParticle*> lista;
+
+	for (int i = 0; i < _num_particles; i++)
+	{
+		if (((rand() % 100) < _generation_probability))
+		{
+			RBParticle* rigido;
+			rigido = GenerateStatic(pos_, vel_, acc_, life_, inverse_mass_, size_, color_);
+			
 			lista.push_back(rigido);
 		}
 	}

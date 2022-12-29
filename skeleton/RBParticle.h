@@ -32,7 +32,7 @@ public:
 	Vector3 getVelocity() { return vel_; };
 	Vector3 getAcceleration() { return acc_; };
 	double getDamping() { return damping_; };
-	physx::PxTransform getPosition() { return rigido_->getGlobalPose(); };
+	virtual physx::PxTransform getPosition() { return rigido_->getGlobalPose(); };
 	float getLife() { return life_; };
 	Vector4 getColor() { return color_; };
 
@@ -62,7 +62,19 @@ protected:
 class RBCubo : public RBParticle
 {
 public:
+	RBCubo();
 	RBCubo(Vector3 pos, Vector3 vel, Vector3 ac, double damping, int life, float inverse_mass, Vector3 size, Vector4 color, PxPhysics* gPhysics, PxScene* scene);
 	virtual void setRBParticle();
+};
+
+class RBStatic : public RBCubo
+{
+	PxRigidStatic* rigidoEstatico_;
+
+public:
+	RBStatic(Vector3 pos, Vector3 vel, Vector3 ac, double damping, int life, float inverse_mass, Vector3 size, Vector4 color, PxPhysics* gPhysics, PxScene* scene);
+	virtual void setRBParticle();
+
+	virtual physx::PxTransform getPosition() { return rigidoEstatico_->getGlobalPose(); }; 
 };
 

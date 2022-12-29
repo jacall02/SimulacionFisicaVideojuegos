@@ -1,14 +1,20 @@
 #include "AnchoredSpringForceGenerator.h"
 
-AnchoredSpringForceGenerator::AnchoredSpringForceGenerator(double k, double resting, const Vector3& anchor_pos) : 
-	SpringForceGenerator(k, resting, nullptr) {
-	_other = new Cubo(anchor_pos, 10, 2, 10, { 0.4, 1.0, 0.2, 1.0 });
+AnchoredSpringForceGenerator::AnchoredSpringForceGenerator(double k, double resting, const Vector3& anchor_pos, Particle* other) : 
+	SpringForceGenerator(k, resting, other) {
+
+}
+AnchoredSpringForceGenerator::AnchoredSpringForceGenerator(double k, double resting, const Vector3& anchor_pos, RBParticle* other) : 
+	SpringForceGenerator(k, resting, other) {
 
 }
 
 AnchoredSpringForceGenerator::~AnchoredSpringForceGenerator()
 {
-	delete _other;
+	if (_other != nullptr)
+		delete _other;
+	else
+		delete _other_RB;
 }
 
 void AnchoredSpringForceGenerator::updateForce(Particle* particle, double t)
