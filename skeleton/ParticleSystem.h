@@ -68,8 +68,8 @@ public:
 
 
 	// PROYECTO FINAL
-	void generateHumo();
-	void generateFuego();
+	void generateHumo(float x, float z);
+	void generateFuego(float x, float z);
 	void generatePolvoArena();
 	void generatePolvoPiedra();
 	void generatePolvoNieve();

@@ -356,12 +356,11 @@ void ParticleSystem::generateEstructura(float x, float z)
 	}
 }
 
-
-void FireworkSystem::generateHumo()
+void FireworkSystem::generateHumo(float x, float z)
 {
 }
 
-void FireworkSystem::generateFuego()
+void FireworkSystem::generateFuego(float x, float z)
 {
 }
 

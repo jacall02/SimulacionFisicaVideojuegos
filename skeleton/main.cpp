@@ -237,7 +237,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		sistemaSolidos->getForceGenerator(RBSystem::EXPLOSION)->setActive(true);
 		explosionTime = glutGet(GLUT_ELAPSED_TIME) + 200;
 
-		//sistemaSolidos->generateExplosion();
+		sistemaSolidos->generateExplosion();
 		break;
 	case '0':
 		sistemaParticulas->clearScene();
@@ -292,13 +292,13 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		sistemaSolidos->generateBloqueHielo(x, z);
 		break;
 	case 'F':
-		sistemaSolidos->generateJaulaS();
+		sistemaSolidos->generateJaula(50.0);
 		break;
 	case 'G':
-		sistemaSolidos->generateJaulaM();
+		sistemaSolidos->generateJaula(100.0);
 		break;
 	case 'H':
-		sistemaSolidos->generateJaulaL();
+		sistemaSolidos->generateJaula(200.0);
 		break;
 	case 'Z':
 		x = (rand() % 80) - 40, z = (rand() % 80) - 40;

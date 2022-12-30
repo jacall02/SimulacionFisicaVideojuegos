@@ -51,9 +51,7 @@ public:
 	void generateEstructura(float x, float z);
 	void generateGelatina(float x, float z);
 
-	void generateJaulaS();
-	void generateJaulaM();
-	void generateJaulaL();
+	void generateJaula(float r);
 
 	void generateExplosion();
 };

@@ -47,7 +47,7 @@ protected:
 	double damping_;
 	double inverse_mass_;
 	Vector3 vel_;
-	RenderItem* renderItem_;
+	RenderItem* renderItem_ = nullptr;
 	physx::PxTransform pose; //A render item le pasaremos la dirección de esta pose, para que se actualice automáticamente
 	float life_;
 
@@ -73,6 +73,7 @@ class RBStatic : public RBCubo
 
 public:
 	RBStatic(Vector3 pos, Vector3 vel, Vector3 ac, double damping, int life, float inverse_mass, Vector3 size, Vector4 color, PxPhysics* gPhysics, PxScene* scene);
+	~RBStatic();
 	virtual void setRBParticle();
 
 	virtual physx::PxTransform getPosition() { return rigidoEstatico_->getGlobalPose(); }; 

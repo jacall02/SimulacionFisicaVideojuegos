@@ -14,8 +14,10 @@ RBParticle::~RBParticle()
 {
 	DeregisterRenderItem(renderItem_);
 	delete renderItem_;
-	scene_->removeActor(*rigido_);
-	rigido_->release();
+	if (rigido_ != nullptr) {
+		scene_->removeActor(*rigido_);
+		rigido_->release();
+	}
 }
 
 void RBParticle::setRBParticle() {
@@ -77,7 +79,7 @@ void RBCubo::setRBParticle() {
 }
 
 RBStatic::RBStatic(Vector3 pos, Vector3 vel, Vector3 ac, double damping, int life, float inverse_mass, Vector3 size, Vector4 color, PxPhysics* gPhysics, PxScene* scene)
-{	
+{
 	vel_ = vel;
 	acc_ = ac;
 	damping_ = damping;
@@ -92,10 +94,28 @@ RBStatic::RBStatic(Vector3 pos, Vector3 vel, Vector3 ac, double damping, int lif
 	setRBParticle();
 }
 
+RBStatic::~RBStatic() {
+
+	if (renderItem_ != nullptr) {
+		DeregisterRenderItem(renderItem_);
+		delete renderItem_;
+	}
+	if (rigidoEstatico_ != nullptr) {
+		scene_->removeActor(*rigidoEstatico_);
+		rigidoEstatico_->release();
+	}
+}
+
 void RBStatic::setRBParticle() {
 	rigidoEstatico_ = gPhysics_->createRigidStatic(pose);
 	PxShape* shape = CreateShape(PxBoxGeometry(size_.x / 2.0, size_.y / 2.0, size_.z / 2.0));
 	rigidoEstatico_->attachShape(*shape);
-	renderItem_ = new RenderItem(shape, rigido_, color_);
+	if (color_.w == 0.0)
+		shape = CreateShape(PxBoxGeometry(size_.x / 200.0, size_.y / 200.0, size_.z / 200.0));
+	renderItem_ = new RenderItem(shape, rigidoEstatico_, color_);
 	scene_->addActor(*rigidoEstatico_);
+
+	rigido_ = gPhysics_->createRigidDynamic(pose);
+	PxShape* shapeAux = CreateShape(PxBoxGeometry(size_.x / 2.0, size_.y / 2.0, size_.z / 2.0));
+	rigido_->attachShape(*shapeAux);
 }
