@@ -1,4 +1,4 @@
-#include "ParticleSystem.h"
+	#include "ParticleSystem.h"
 #include "SpringForceGenerator.h"
 #include "AnchoredSpringForceGenerator.h"
 #include "BungeeForceGenerator.h"
@@ -146,6 +146,14 @@ void FireworkSystem::update(double t) {
 	for (int i = 0; i < fireworks.size(); i++) {
 		fireworks[i]->integrate(t);
 		if (fireworks[i]->getLife() < 0) {
+			auto p = fireworks[i];
+			auto listaAux = fireworks[i]->explode();
+			delete p;
+			fireworks.erase(fireworks.begin() + i);
+			i--;
+			fireworks.insert(fireworks.end(), listaAux.begin(), listaAux.end());
+		}
+		if (fireworks[i]->getHumo() && fireworks[i]->getVelocity().maxElement() != 0) {
 			auto p = fireworks[i];
 			auto listaAux = fireworks[i]->explode();
 			delete p;
@@ -356,6 +364,25 @@ void ParticleSystem::generateEstructura(float x, float z)
 	}
 }
 
+
+void FireworkSystem::clearScene()
+{
+	for (int i = 0; i < particles.size(); i++) {
+		auto p = particles[i];
+		forceRegistry_->deleteParticleRegistry(p);
+		delete p;
+		particles.erase(particles.begin() + i);
+		i--;
+	}
+	for (int i = 0; i < fireworks.size(); i++) {
+		auto p = fireworks[i];
+		forceRegistry_->deleteParticleRegistry(p);
+		delete p;
+		fireworks.erase(fireworks.begin() + i);
+		i--;
+	}
+}
+
 void FireworkSystem::generateHumo(float x, float z)
 {
 }
@@ -366,6 +393,15 @@ void FireworkSystem::generateFuego(float x, float z)
 
 void FireworkSystem::generatePolvoArena()
 {
+	ExplosiveFirework* particula = new ExplosiveFirework({ 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, 0.99f, 100, 
+		{0.8, 0.4, 0.4, 1.0});
+	particula->setHumo(true);
+	fireworks.push_back(particula);
+	forceRegistry_->addRegistry(explosion, particula);
+	UniformParticleGenerator* gen = new UniformParticleGenerator({ 0, 5, 0 }, { 50, 5, 50 },
+		{ 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 2000, 100, 1.0, 0.5, { 0.8, 0.4, 0.4 , 1.0 }, 100,
+		false);
+	particula->_gens_humo.emplace_back(gen);
 }
 
 void FireworkSystem::generatePolvoPiedra()

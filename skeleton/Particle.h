@@ -7,6 +7,7 @@
 using namespace std;
 
 class CircleParticleGenerator;
+class UniformParticleGenerator;
 
 class Particle
 {
@@ -53,6 +54,17 @@ protected:
 	Vector3 force_;
 };
 
+class Cubo : public Particle
+{
+public:
+	Cubo(Vector3 pos, Vector3 vel, Vector3 ac, double damping, int life, float inverse_mass, float size, Vector4 color);
+	Cubo(Vector3 pos, float hX,float hY,float hZ, Vector4 color);
+	Cubo(Vector3 pos, float hX, float hY, float hZ, Vector4 color, float inverse_mass);
+	void setParticle();
+private:
+	float hX_, hY_, hZ_;
+};
+
 class Proyectile : public Particle
 {
 public:
@@ -70,22 +82,29 @@ public:
 	void setModel(Particle* model) { model_ = model; };
 	Particle* getModel() { return model_; };
 
+	Firework() {};
 	Firework(Vector3 pos, Vector3 vel, Vector3 ac, double damp, float time, Vector4 color, float inverse_mass = 1.0f);
 	int update(double t);
 	Firework* clone();
 	list<Firework*> explode();
 
 	list<shared_ptr<CircleParticleGenerator>> _gens;
+
+
+	bool getHumo() { return humo; };
+	void setHumo(bool h) { humo = h; };
 private:
+	bool humo = false;
 };
 
-class Cubo : public Particle
+
+class ExplosiveFirework : public Firework
 {
 public:
-	Cubo(Vector3 pos, Vector3 vel, Vector3 ac, double damping, int life, float inverse_mass, float size, Vector4 color);
-	Cubo(Vector3 pos, float hX,float hY,float hZ, Vector4 color);
-	Cubo(Vector3 pos, float hX, float hY, float hZ, Vector4 color, float inverse_mass);
-	void setParticle();
-private:
-	float hX_, hY_, hZ_;
+	ExplosiveFirework(Vector3 pos, Vector3 vel, Vector3 ac, double damp, float time, Vector4 color, float inverse_mass = 1.0f);
+	int update(double t);
+	Firework* clone();
+	list<Firework*> explode();
+
+	list<UniformParticleGenerator*> _gens_humo;
 };

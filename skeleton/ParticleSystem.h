@@ -14,7 +14,7 @@ using namespace std;
 
 class ParticleSystem
 {
-private:
+protected:
 	std::vector<Particle*> particles;
 	ParticleForceRegistry* forceRegistry_;
 	GravityForceGenerator* gravityForceGen_;
@@ -68,6 +68,8 @@ public:
 
 
 	// PROYECTO FINAL
+	void clearScene();
+
 	void generateHumo(float x, float z);
 	void generateFuego(float x, float z);
 	void generatePolvoArena();

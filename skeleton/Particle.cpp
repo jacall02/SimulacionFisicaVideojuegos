@@ -131,7 +131,7 @@ Firework* Firework::clone()
 {
 	return new Firework(pose.p, vel_, Vector3(0, 0, 0), damping_,
 		(rand() % 3 - ((rand() % 20) / 10)),
-		Vector4(color_.z, color_.x, color_.y, 1));
+		Vector4(color_.x, color_.y, color_.z, 1));
 }
 
 list<Firework*> Firework::explode()
@@ -202,4 +202,20 @@ Cubo::Cubo(Vector3 pos, float hX, float hY, float hZ, Vector4 color, float inver
 
 void Cubo::setParticle() {
 	renderItem = new RenderItem(CreateShape(physx::PxBoxGeometry(hX_, hY_, hZ_)), &pose, color_);
+}
+
+
+
+ExplosiveFirework::ExplosiveFirework(Vector3 pos, Vector3 vel, Vector3 ac, double damp, float time, Vector4 color, float inverse_mass)
+{
+	vel_ = vel;
+	acc_ = ac;
+	damping_ = damp;
+	life_ = time;
+	pose = physx::PxTransform(pos.x, pos.y, pos.z);
+	color_ = color;
+	inverse_mass_ = inverse_mass;
+	force_ = Vector3(0, 0, 0);
+
+	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(0.5)), &pose, color_);
 }
