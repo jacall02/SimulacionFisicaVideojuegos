@@ -9,6 +9,7 @@ Carpetas bin y common https://ucomplutense-my.sharepoint.com/:u:/g/personal/dava
 
 
 Manual de usuario.
+
 Podemos desplazarnos por el espacio 3D con el ratón y las teclas WASD.
 
 Tecla “Espacio” para realizar la explosión.
