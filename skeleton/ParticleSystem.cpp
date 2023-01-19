@@ -1,4 +1,4 @@
-	#include "ParticleSystem.h"
+#include "ParticleSystem.h"
 #include "SpringForceGenerator.h"
 #include "AnchoredSpringForceGenerator.h"
 #include "BungeeForceGenerator.h"
@@ -146,14 +146,6 @@ void FireworkSystem::update(double t) {
 	for (int i = 0; i < fireworks.size(); i++) {
 		fireworks[i]->integrate(t);
 		if (fireworks[i]->getLife() < 0) {
-			auto p = fireworks[i];
-			auto listaAux = fireworks[i]->explode();
-			delete p;
-			fireworks.erase(fireworks.begin() + i);
-			i--;
-			fireworks.insert(fireworks.end(), listaAux.begin(), listaAux.end());
-		}
-		if (fireworks[i]->getHumo() && fireworks[i]->getVelocity().maxElement() != 0) {
 			auto p = fireworks[i];
 			auto listaAux = fireworks[i]->explode();
 			delete p;
@@ -385,29 +377,24 @@ void FireworkSystem::clearScene()
 
 void FireworkSystem::generateHumo(float x, float z)
 {
+	Vector3 pos({ x, 0, z }), vel, acc;
+	vel.y = 1;
+	acc.y *= ((rand() % 5) + 10);
+	Firework* particula = new Firework(pos, vel, acc, 0.99f, 0.1, Vector4(0.3, 0.3, 0.3, 0.5));
+	fireworks.push_back(particula);
+	auto sistema = new CircleParticleGenerator(pos, vel, 4, particula);
+	sistema->reps_ = 3;
+	particula->_gens.emplace_back(sistema);
 }
 
 void FireworkSystem::generateFuego(float x, float z)
 {
-}
+	Vector3 pos({ x, -10, z }), vel, acc;
 
-void FireworkSystem::generatePolvoArena()
-{
-	ExplosiveFirework* particula = new ExplosiveFirework({ 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, { 0.0,0.0,0.0 }, 0.99f, 100, 
-		{0.8, 0.4, 0.4, 1.0});
-	particula->setHumo(true);
+	acc.y *= ((rand() % 1) + 1);
+	Firework* particula = new Firework(pos, vel, acc, 0.99f, 0.1, Vector4(1.0, 0.3, 0.0, 0.5));
 	fireworks.push_back(particula);
-	forceRegistry_->addRegistry(explosion, particula);
-	UniformParticleGenerator* gen = new UniformParticleGenerator({ 0, 5, 0 }, { 50, 5, 50 },
-		{ 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, 2000, 100, 1.0, 0.5, { 0.8, 0.4, 0.4 , 1.0 }, 100,
-		false);
-	particula->_gens_humo.emplace_back(gen);
-}
-
-void FireworkSystem::generatePolvoPiedra()
-{
-}
-
-void FireworkSystem::generatePolvoNieve()
-{
+	auto sistema = new CircleParticleGenerator(pos, vel, 20, particula);
+	sistema->reps_ = 2;
+	particula->_gens.emplace_back(sistema);
 }

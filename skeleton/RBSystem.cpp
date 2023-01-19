@@ -18,7 +18,7 @@ RBSystem::RBSystem(PxScene* scene, PxPhysics* gPhysics) : scene_(scene), gPhysic
 	whirlwindForceGen_ = new WhirlwindForceGenerator(1, 0, 1.0, 1.0, Vector3(0, 50, 0), 50);
 	whirlwindForceGen_->setActive(true);
 
-	explosion = new ExplosionForceGenerator(Vector3(0, 10, 0), 200000, 10, 2);
+	explosion = new ExplosionForceGenerator(Vector3(0, -20, 0), 200000, 10, 2);
 	torbellino = new WhirlwindForceGenerator(1, 0, 1.0, 1.0, Vector3(-100, 10, -100), 400);
 	viento = new WindForceGenerator(1, 0, Vector3(10, 0, -10), Vector3(0, 200, 0), 80);
 }

@@ -53,7 +53,7 @@ void initPhysics(bool interactive)
 
 	gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, PxTolerancesScale(), true, gPvd);
 
-	gMaterial = gPhysics->createMaterial(0.9f, 0.5f, 0.7f);
+	gMaterial = gPhysics->createMaterial(0.9f, 0.5f, 0.0f);
 
 	// For Solid Rigids +++++++++++++++++++++++++++++++++++++
 	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
@@ -127,6 +127,10 @@ void cleanupPhysics(bool interactive)
 {
 	PX_UNUSED(interactive);
 
+	sistemaParticulas->clearScene();
+	sistemaFuegosArtificiales->clearScene();
+	sistemaSolidos->clearScene();
+
 	// Rigid Body ++++++++++++++++++++++++++++++++++++++++++
 	gScene->release();
 	gDispatcher->release();
@@ -137,10 +141,6 @@ void cleanupPhysics(bool interactive)
 	transport->release();
 
 	gFoundation->release();
-
-	for (int i = 0; i < particles.size(); i++) {
-		delete particles[i];
-	}
 }
 
 // Function called when a key is pressed
@@ -233,11 +233,12 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	//********* PROYECTO FINAL *********
 	case ' ':
 		sistemaParticulas->getForceGenerator(ParticleSystem::EXPLOSION)->setActive(true);
-		sistemaFuegosArtificiales->getForceGenerator(ParticleSystem::EXPLOSION)->setActive(true);
 		sistemaSolidos->getForceGenerator(RBSystem::EXPLOSION)->setActive(true);
 		explosionTime = glutGet(GLUT_ELAPSED_TIME) + 200;
 
 		sistemaSolidos->generateExplosion();
+		sistemaFuegosArtificiales->generateFuego(0, 0);
+		sistemaFuegosArtificiales->generateHumo(0, 0);
 		break;
 	case '0':
 		sistemaParticulas->clearScene();
@@ -263,21 +264,17 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	case '1':
 		sistemaParticulas->generateSueloArena();
 		sistemaSolidos->generateSueloArena();
-		sistemaFuegosArtificiales->generatePolvoArena();
 		break;
 	case '2':
 		sistemaParticulas->generateSueloPiedra();
 		sistemaSolidos->generateSueloPiedra();
-		sistemaFuegosArtificiales->generatePolvoPiedra();
 		break;
 	case '3':
 		sistemaParticulas->generateSueloNieve();
 		sistemaSolidos->generateSueloNieve();
-		sistemaFuegosArtificiales->generatePolvoNieve();
 		break;
 	case '4':
 		sistemaSolidos->generateSueloBaldosas();
-		sistemaFuegosArtificiales->generatePolvoPiedra();
 		break;
 	case 'Q':
 		x = (rand() % 80) - 40, z = (rand() % 80) - 40;

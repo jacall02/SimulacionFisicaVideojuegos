@@ -73,7 +73,7 @@ void RBCubo::setRBParticle() {
 	Vector3 inertia = { size_.y * size_.y + size_.z * size_.z,
 						size_.y * size_.y + size_.z * size_.z,
 						size_.y * size_.y + size_.z * size_.z };
-	rigido_->setMassSpaceInertiaTensor(inertia);
+	rigido_->setMassSpaceInertiaTensor(inertia * rigido_->getMass() / 12.0);
 	renderItem_ = new RenderItem(shape, rigido_, color_);
 	scene_->addActor(*rigido_);
 }
