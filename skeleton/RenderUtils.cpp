@@ -5,6 +5,9 @@
 #include "core.hpp"
 #include "RenderUtils.hpp"
 
+// 1 = normal;
+// 10 = slomo;
+#define VELOCIDA 1
 
 using namespace physx;
 
@@ -38,7 +41,7 @@ double GetCounter()
 {
 	LARGE_INTEGER li;
 	QueryPerformanceCounter(&li);
-	double t = double(li.QuadPart - CounterLast) / PCFreq;
+	double t = double(li.QuadPart - CounterLast) / (PCFreq * VELOCIDA);
 	CounterLast = li.QuadPart;
 	return t;
 }

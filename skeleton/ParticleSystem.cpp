@@ -380,7 +380,7 @@ void FireworkSystem::generateHumo(float x, float z)
 	Vector3 pos({ x, 0, z }), vel, acc;
 	vel.y = 1;
 	acc.y *= ((rand() % 5) + 10);
-	Firework* particula = new Firework(pos, vel, acc, 0.99f, 0.1, Vector4(0.3, 0.3, 0.3, 0.5));
+	Firework* particula = new Firework(pos, vel, acc, 0.99f, 0.15, Vector4(0.3, 0.3, 0.3, 0.5));
 	fireworks.push_back(particula);
 	auto sistema = new CircleParticleGenerator(pos, vel, 4, particula);
 	sistema->reps_ = 3;
